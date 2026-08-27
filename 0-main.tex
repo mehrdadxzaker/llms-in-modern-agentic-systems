@@ -24,6 +24,14 @@
 
 % Figures, tables, and layout
 \usepackage{graphicx}
+\IfFileExists{fontawesome5.sty}{
+  \usepackage{fontawesome5}
+  \newcommand{\githubicon}{\faGithub}
+  \newcommand{\projectpageicon}{\faGlobe}
+}{
+  \newcommand{\githubicon}{\textbf{GH}}
+  \newcommand{\projectpageicon}{\textbf{WWW}}
+}
 \usepackage{geometry}
 \usepackage{float}
 \usepackage{caption}
@@ -144,9 +152,9 @@
 A Systems Survey}
 \author{Anonymous Author(s)\\[3pt]
 \small
-\href{\githuburl}{\textcolor{deepblue}{\texttt{[GitHub repository]}}}
-\quad\textbar\quad
-\href{\projectpageurl}{\textcolor{deepblue}{\texttt{[Project page]}}}}
+\href{\githuburl}{\textcolor{surveyNavy}{\githubicon\enspace LLMs in Modern Agentic Systems}}
+\hspace{1.8em}
+\href{\projectpageurl}{\textcolor{surveyNavy}{\projectpageicon\enspace Project Page}}}
 \date{}
 \maketitle
 

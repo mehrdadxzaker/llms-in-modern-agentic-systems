@@ -2,6 +2,12 @@
 
 **A Systems Survey**
 
+<p align="center">
+  <a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems"><img src="docs/assets/github-link-icon.png" width="20" alt="GitHub"> <strong>LLMs in Modern Agentic Systems</strong></a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://xpounder-com.github.io/llms-in-modern-agentic-systems/"><img src="docs/assets/project-link-icon.png" width="20" alt="Project page"> <strong>Project Page</strong></a>
+</p>
+
 [![Project page](https://img.shields.io/badge/Project-page-002060)](https://xpounder-com.github.io/llms-in-modern-agentic-systems/)
 [![Paper PDF](https://img.shields.io/badge/Paper-PDF-ed7d31)](https://xpounder-com.github.io/llms-in-modern-agentic-systems/llms-in-modern-agentic-systems.pdf)
 [![Cited sources](https://img.shields.io/badge/Cited_sources-222-55718f)](#literature-atlas)
@@ -12,7 +18,7 @@ This repository accompanies **LLMs in Modern Agentic Systems: A Systems Survey**
 
 The paper uses **LLM-centered agentic systems** as an umbrella term while keeping five operational forms distinct: LLM applications, retrieval-augmented generation, developer-authored workflows, bounded agents, and multi-agent systems.
 
-[Project website](https://xpounder-com.github.io/llms-in-modern-agentic-systems/) · [Read the paper](https://xpounder-com.github.io/llms-in-modern-agentic-systems/llms-in-modern-agentic-systems.pdf) · [Narrative guide](https://xpounder-com.github.io/llms-in-modern-agentic-systems/narrative/) · [Literature index](LITERATURE.md)
+[Read the paper](https://xpounder-com.github.io/llms-in-modern-agentic-systems/llms-in-modern-agentic-systems.pdf) · [Narrative guide](https://xpounder-com.github.io/llms-in-modern-agentic-systems/narrative/) · [Literature index](LITERATURE.md)
 
 ## Contents
 
