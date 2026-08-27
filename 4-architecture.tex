@@ -1,0 +1,507 @@
+\section{Architectures for LLM-Centered Agents}
+\label{sec:architecture}
+
+An agent architecture is the operational realization of the representation contract developed in the previous section: it determines where goals, evidence, task state, plans, permissions, actions, outcomes, and evaluations live, and which transitions may change them. CoALA provides a useful conceptual decomposition into modular memory, a structured action space, and a generalized decision-making process~\cite{sumers2024coala}. For deployed systems, that decomposition must be extended with explicit ownership and enforcement. The central engineering question is therefore not whether an LLM is present, but which records it may read or propose, which component holds authoritative state, which rules authorize a transition, and which validator decides that an effect occurred. An LLM may interpret evidence, construct a plan, or propose a tool call without becoming the authority for provenance, permissions, or outcome truth. Production architectures consequently place probabilistic model proposals inside independently checkable control surfaces: schemas type inputs and outputs, state machines or graphs constrain transitions, policy gates enforce permissions and budgets, and validators determine whether execution may continue, retry, escalate, or commit an external effect. Two systems using the same model and prompts can therefore have materially different agentic behavior because their state ownership, transition semantics, and authority boundaries differ. Figure~\ref{fig:reference-architecture} summarizes this separation between proposal and authorized commitment.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  font=\small,
+  line cap=round,
+  line join=round,
+  main/.style={
+    rounded corners=1.35mm,
+    draw=surveyLine,
+    line width=0.78pt,
+    align=center,
+    text width=25mm,
+    minimum height=16mm,
+    inner sep=4.5pt,
+    text=surveyInk
+  },
+  support/.style={
+    rounded corners=1.25mm,
+    draw=surveyLine,
+    line width=0.72pt,
+    align=center,
+    text width=32mm,
+    minimum height=12.5mm,
+    inner sep=4pt,
+    text=surveyInk,
+    font=\small
+  },
+  arr/.style={
+    -{Latex[length=2.0mm,width=1.3mm]},
+    line width=0.92pt,
+    draw=surveyNavy
+  },
+  data/.style={
+    {Latex[length=1.75mm,width=1.15mm]}-{Latex[length=1.75mm,width=1.15mm]},
+    line width=0.8pt,
+    draw=surveyNavy
+  },
+  feedback/.style={
+    -{Latex[length=1.9mm,width=1.2mm]},
+    line width=0.85pt,
+    dashed,
+    draw=surveyOrange
+  },
+  trace/.style={
+    -{Latex[length=1.7mm,width=1.1mm]},
+    line width=0.75pt,
+    dashed,
+    draw=surveyLine
+  }
+]
+
+\node[font=\small\bfseries,text=surveyNavy] at (0,1.65)
+  {A BOUNDED AGENT SEPARATES MODEL PROPOSAL FROM AUTHORIZED COMMITMENT};
+
+% The main path contains only the decisions that change authority or world state.
+\node[main,fill=surveyBlue!43] (state) at (-6.80,0.00) {
+  {\scriptsize\bfseries\color{surveyNavy}TASK AND STATE}\\[2pt]
+  \textbf{goal, facts, budget}
+};
+\node[main,fill=surveyPurple!46] (planner) at (-3.40,0.00) {
+  \textbf{LLM planner}\\
+  next bounded step
+};
+\node[main,fill=surveyOrange!42] (proposal) at (0.00,0.00) {
+  \textbf{Typed proposal}\\
+  action + arguments
+};
+\node[main,fill=surveyOrange!62] (gate) at (3.40,0.00) {
+  \textbf{Authorization gate}\\
+  schema, permission, budget
+};
+\node[main,fill=surveyGreen!48] (environment) at (6.80,0.00) {
+  \textbf{Tool / environment}\\
+  execute + return result
+};
+
+\draw[arr] (state.east) -- (planner.west);
+\draw[arr] (planner.east) -- (proposal.west);
+\draw[arr] (proposal.east) -- (gate.west);
+\draw[arr] (gate.east) -- (environment.west);
+
+% Information and oversight sit below the main authority path so no arrow has
+% to cut through a decision card.
+\node[support,fill=surveyBlue!34] (memory) at (-5.40,-2.75) {
+  \textbf{Evidence and memory}\\source, scope, confidence, expiry
+};
+\node[support,fill=surveyPurple!34] (verify) at (0.00,-2.75) {
+  \textbf{Verifier and stopping rule}\\support, progress, recovery
+};
+\node[support,fill=surveyMuted] (tracebox) at (5.40,-2.75) {
+  \textbf{Trace, approval, and replay}\\inputs, policy decisions, effects
+};
+
+% Orthogonal lanes keep evidence, feedback, and audit traffic visually distinct.
+\draw[data,rounded corners=1.7mm]
+  (state.south) -- ++(0,-0.34) -| (memory.north west);
+\draw[data,rounded corners=1.7mm]
+  (memory.north east) -- ++(0,0.34) -| (planner.south);
+\draw[arr,rounded corners=1.7mm]
+  (environment.south west) -- ++(0,-0.42) -|
+  node[pos=0.42,above=1.5pt,font=\tiny\bfseries,fill=white,inner sep=1pt,text=surveyLine] {RESULT}
+  (verify.north east);
+\draw[feedback,rounded corners=1.7mm]
+  (verify.north west) -- ++(0,0.65) -|
+  node[pos=0.58,above=1.5pt,font=\tiny\bfseries,fill=white,inner sep=1pt,text=surveyOrange] {REVISE / STOP}
+  (planner.south);
+\draw[trace,rounded corners=1.7mm]
+  (environment.south east) -- ++(0,-0.95) |- (tracebox.east);
+
+\node[rounded corners=1.4mm,draw=surveyNavy,fill=surveyNavy,text=white,
+  font=\small\bfseries,align=center,minimum width=16.00cm,minimum height=9mm]
+  at (0,-4.65)
+  {ASSURANCE: typed contracts \textbullet{} authority checks \textbullet{} verification \textbullet{} traceability \textbullet{} escalation};
+
+\end{tikzpicture}
+
+\caption{Reference architecture for bounded LLM-centered agents. The model plans and proposes a typed action, but an external gate authorizes the action against schemas, permissions, and budgets before any environment change. Evidence and memory inform the next decision; results are checked for support and progress; and approval plus trace paths preserve accountability.}
+\label{fig:reference-architecture}
+\end{figure}
+
+\subsection{Control topologies}
+
+Control topology is not merely the shape of an orchestration diagram; it determines which component selects the next transition, which state enables that transition, and how parallelism, recovery, and termination are represented. Workflow pattern research established that orchestration systems should be compared through observable control semantics, including sequence, choice, concurrency, synchronization, cancellation, and exception handling, rather than through vendor-specific syntax~\cite{vanderAalst2003workflowpatterns}. LLM-centered systems add three concerns to that classical lens: a proposed transition may be probabilistic, its supporting evidence may be incomplete or contested, and its execution may require separate authorization. We therefore compare each topology by five questions: where task state persists; who proposes the next step; how evidence, preconditions, permissions, and budgets are checked; how results and errors update subsequent decisions; and how the episode terminates or escalates. This lens separates architectural substance from labels: the same visible sequence can be implemented with very different state and authority boundaries, while a system with several named agents can still have one centralized controller.
+
+\paragraph{Prompt loop.}
+A prompt loop appends each observation to the transcript, asks the LLM for the next step, and repeats. ReAct demonstrates the value of this lightweight feedback structure~\cite{yao2023react}, but one transcript then serves as evidence, memory, plan, and program counter. AgentBench and WebArena show that model capability alone does not remove long-horizon control failures~\cite{liu2024agentbench,zhou2024webarena}. A production loop should externalize typed step, authorization, outcome, progress, and stopping records; otherwise replay reconstructs prose rather than state transitions. Prompt loops remain useful baselines, but incomplete production architectures.
+
+\paragraph{Planner--executor.}
+A planner--executor topology separates task decomposition from environment-specific action. Plan-and-Solve reduces missing-step errors in reasoning~\cite{wang2023planandsolve}, while Plan-and-Act extends the split to long-horizon web tasks~\cite{erdogan2025planandact}. The architectural value lies in the interface: the plan is versioned, prerequisites and permissions are checked at execution time, and typed outcomes can retain, repair, or invalidate later steps. This works when intent is stable but observations are volatile; it collapses into a prompt loop when the plan is only prose or the executor hides state and errors.
+
+\paragraph{Graph or state machine orchestration.}
+A graph or state machine represents process state and permitted transitions outside the model. StateFlow reports higher success and lower inference cost than ReAct on its InterCode SQL and ALFWorld evaluations~\cite{wu2024stateflow}. Nodes need typed inputs, effects, and success predicates; edges need guards and failure destinations; the runtime, not the LLM, commits transitions. This makes branching, intervention, replay, and recovery inspectable, but creates configuration cost and false assurance when guards still depend on stale prose or unchecked model judgment.
+
+\paragraph{Event-driven architecture.}
+An event-driven topology distributes control through messages. The actor model motivates modular message-driven behavior~\cite{hewitt1973actor}, while Lamport's partial ordering explains why causal identity and versioning matter~\cite{lamport1978timeclocks}. Events need typed identity, provenance, authorization context, and deduplication; delivery itself is not authority. Consumers must recheck state and permissions, tolerate duplicate delivery, and correlate results and retries. The topology supports asynchronous work and recovery, but introduces stale or reordered evidence, duplicate effects, races, and confused-deputy risk.
+
+\paragraph{Hierarchical and multi-agent orchestration.}
+A hierarchical or multi-agent topology delegates bounded work to managers, workers, or peers. MetaGPT demonstrates role and artifact coordination~\cite{hong2024metagpt}, and MultiAgentBench shows that topology and planning strategy affect milestone completion~\cite{zhu2025multiagentbench}. Delegation becomes architectural only through a task contract that limits evidence, tools, authority, budget, output, and success criteria. Workers return candidate results; a parent or arbiter admits them through provenance and conflict checks. This supports separable parallel work, but becomes costly when state is tightly coupled or the manager, shared context, or delegated authority becomes an unverified bottleneck.
+
+\begin{table}[!htbp]
+\centering
+\caption{Common control topologies and their operational trade-offs.}
+\label{tab:control-topologies}
+\small
+\surveytableformat
+\begin{tabularx}{\textwidth}{L{2.6cm}Y Y Y}
+\toprule
+\rowcolor{surveyBlue!28}\textbf{Topology} & \textbf{Best suited to} & \textbf{Main advantage} & \textbf{Primary risk} \\
+\midrule
+Prompt loop & Low-risk prototypes and short tool tasks & Minimal implementation overhead & Implicit state, weak stopping, poor replay \\
+Planner--executor & Multi-step tasks with well-defined tools & Separation of deliberation and actuation & Plans become stale; executor errors may be hidden \\
+Graph/state machine & Auditable workflows with conditional branches & Explicit transitions, checkpoints, and recovery & Graph complexity and state version management \\
+Event-driven & Long-running or asynchronous processes & Durability and scalable decoupling & Duplicate events, races, and partial failures \\
+Hierarchical / multi-agent & Tasks benefiting from specialization or parallelism & Modular roles and permission isolation & Coordination overhead and correlated errors \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{State and memory architectures}
+\label{sec:memory}
+
+In an agentic system, state and memory answer different operational questions. State is the authoritative, typed record required to determine and safely commit the next transition: the current step, evidence used, pending approvals, observed tool effects, budgets, and version. Memory is retained information that may be retrieved to inform later reasoning. The distinction appears from complementary directions in prior systems: StateFlow makes execution progress explicit through states and transitions~\cite{wu2024stateflow}, CoALA separates working, episodic, semantic, and procedural stores within an agent architecture~\cite{sumers2024coala}, and MemGPT manages movement between in-context and external memory~\cite{packer2024memgpt}. Once an agent can act on the world, however, this distinction becomes an integrity boundary. Retrieved memory should enter the current computation as a provenance-bearing candidate rather than silently overwrite authoritative task state; conversely, facts needed for recovery or authorization cannot survive only in a transcript, summary, or embedding. State therefore needs a schema, owner, version, invariants, and controlled updates, whereas memory needs relevance, provenance, freshness, retention, and access policies. Blurring the two produces systems that remember more language while preserving less operational truth.
+
+\subsubsection{Functional memory layers}
+
+A practical architecture separates at least five layers, not as progressively larger versions of the same store, but as representations that answer different control questions. The sequence below moves from information that must remain authoritative within the active run to information whose value emerges across tasks:
+\begin{enumerate}
+    \item \textbf{Execution state: What may occur next?} Authoritative progress, approvals, budgets, tool outcomes, and committed effects for continuation and recovery.
+    \item \textbf{Working memory: What is active now?} Task-local hypotheses, constraints, candidates, and intermediate artifacts that remain provisional.
+    \item \textbf{Episodic memory: What happened before?} Provenance-bearing trajectories and outcomes, as in Generative Agents~\cite{park2023generativeagents}.
+    \item \textbf{Semantic memory: What is believed across episodes?} Versioned facts, preferences, concepts, and organizational knowledge with validity and source.
+    \item \textbf{Procedural memory: How should the system act?} Reusable, revocable skills, plans, prompts, code, and lessons such as those extracted by ExpeL~\cite{zhao2024expel}.
+\end{enumerate}
+The layers therefore differ not only in update frequency and retention, but in authority. A retrieved episode or semantic record may become a candidate in working memory; it does not become an execution fact merely because it was retrieved. Conversely, a successful trajectory should not silently rewrite a shared skill. Information should cross these boundaries through explicit operations (retrieve, validate, admit, commit, consolidate, or discard) that preserve provenance and version history. This staged flow prevents a fluent summary or superficially similar memory from changing what the system is permitted to do.
+
+\subsubsection{Representations and stores}
+
+After deciding what role information plays, an architecture must choose how that information is represented. This is an operational decision: the representation determines which claims can be addressed exactly, which updates can be made atomically, whether provenance survives compaction, and whether recalled material can be distinguished from current authorization. No single form (raw transcript, summary, key--value record, embedding, relational table, knowledge graph, or executable artifact) supports all of these operations. Representative systems expose different parts of the trade-off. Generative Agents makes observation streams and synthesized reflections retrievable, supporting continuity in simulated social behavior but not supplying an authoritative transaction record~\cite{park2023generativeagents}. MemGPT manages movement between in-context and external memory, showing that location and access are themselves control decisions~\cite{packer2024memgpt}. MemoryBank makes retention, updating, and forgetting explicit, emphasizing the lifecycle of long-term conversational records~\cite{zhong2024memorybank}. Taken together, these designs argue for composite representation: typed records protect operational truth, provenance-bearing artifacts preserve evidence, and associative indices support recall without granting retrieved content authority by default.
+
+\begin{itemize}
+    \item \textbf{Transcripts} preserve chronology but mix observations, instructions, assertions, and tool returns; they are archives rather than canonical state.
+    \item \textbf{Summaries} reduce context cost but can erase constraints and provenance, so they must link to source spans and transformation metadata.
+    \item \textbf{Vector indexes} support semantic recall, but similarity does not establish truth, recency, permission, or applicability.
+    \item \textbf{Structured records} support exact filters, invariants, atomic updates, and access control, making them the strongest fit for authoritative state.
+    \item \textbf{Knowledge graphs} expose relations, time, and provenance, while leaving entity resolution and edge validity as explicit obligations.
+    \item \textbf{Executable memory} stores code, plans, or skills, as in Voyager~\cite{wang2023voyager}; because retrieval can change behavior, it requires sandboxing, evaluation, versioning, and revocation.
+\end{itemize}
+
+The practical conclusion is a hybrid record, not a winning store. A task may keep authoritative status, budgets, and approvals in a typed transactional record; immutable source documents and tool receipts in an artifact store; embeddings or graph links as discovery indices; a derived summary for model context; and separately versioned procedures for reuse. Stable identifiers connect these views so that a retrieved passage can be traced to evidence and an action can be traced to the exact state and procedure that authorized it. The representation stack thus implements the paper's central boundary: associative memory proposes relevant material, while structured state determines what the system may commit.
+
+\subsubsection{Memory operations as policy decisions}
+
+A stored object becomes operational memory only through a lifecycle policy that decides when to create, link, retrieve, update, consolidate, or discard it, and which later decisions may consume it. Contemporary systems make different portions of that policy explicit. A-MEM generates attributes and links among records, so accumulated experience becomes a navigable relational structure~\cite{xu2025amem}; Mem0 selectively extracts and maintains long-term information from interactions~\cite{chhikara2025mem0}; and ExpeL transforms completed trajectories into reusable experiential lessons~\cite{zhao2024expel}. These are not interchangeable variants of one retrieval algorithm. They implement different typed transformations (event to linked record, interaction to retained fact, or trajectory to procedure) and grant the resulting object different authority. Reported gains on each system's native tasks therefore answer different questions. A meaningful comparison should identify the source object, transformation, retained provenance, intended consumer, and decision enabled, rather than collapse all results into a single memory leaderboard.
+
+Every memory operation should be a typed, versioned event. Writes preserve source, scope, confidence, validity, and retention; reads return provenance, freshness, and conflicts; updates supersede rather than erase. AgeMem learns when to store, retrieve, update, and discard~\cite{yu2026agemem}, replacing fixed schedules with task-sensitive control. The same flexibility relocates risk into the learned policy, so schemas, authorization, versioning, and invalidation must remain independently enforced.
+
+Personalized summarization provides an earlier example: feedback becomes an explicit preference model that changes later selection and synthesis~\cite{ghodratnama2023personalized,ghodratnama2024sumrecom}. In an acting system, that representation can alter tool choice, so an inferred preference may propose an update but cannot silently become durable authorization.
+
+
+Memory benchmarks make the distinction empirical. MemBench tests factual and reflective recall~\cite{tan2025membench}, whereas Mem2ActBench tests whether remembered preferences and task state improve tool selection and argument grounding~\cite{shen2026mem2actbench}. Current systems are weaker at active use than retrieval-only results suggest. Evaluation must therefore follow write, retrieval, admission, decision, and effect; question answering establishes recall, not safe improvement to action.
+
+\begin{table}[!htbp]
+\centering
+\caption{Representative memory designs. Results across rows are not directly comparable because the systems target different tasks and memory horizons.}
+\label{tab:memory-evidence}
+\small
+\surveytableformat
+\begin{tabularx}{\textwidth}{L{2.45cm}L{3.0cm}L{3.0cm}L{3.1cm}Y}
+\toprule
+\rowcolor{surveyBlue!28}\textbf{System} & \textbf{Memory object} & \textbf{Write or update policy} & \textbf{Evidence setting} & \textbf{Primary limitation} \\
+\midrule
+Generative Agents~\cite{park2023generativeagents} & Natural language observations, reflections, and plans & Stores observations; periodically synthesizes reflections & Interactive simulated social environment and human judgments & Simulation behavior does not establish factual or transactional reliability \\
+MemGPT~\cite{packer2024memgpt} & In-context working memory plus external archival memory & Model-mediated movement between memory tiers & Long conversations and document analysis & Model-controlled paging can omit or retrieve the wrong state \\
+Memory\-Bank\newline\cite{zhong2024memorybank} & Long-term conversational events and summaries & Updating and forgetting inspired by memory decay & Long-term dialogue and personality consistency & Conversation metrics do not test downstream tool action \\
+ExpeL~\cite{zhao2024expel} & Reusable natural language lessons from trajectories & Reflects over successes and failures across episodes & Reasoning and interactive agent tasks & Extracted lessons can preserve evaluator errors \\
+A-MEM~\cite{xu2025amem} & Linked notes with generated contextual attributes & Dynamically constructs and updates relationships & Knowledge and long-horizon agent tasks & Generated links and attributes require provenance validation \\
+AgeMem~\cite{yu2026agemem} & Short- and long-term memory under a learned policy & Reinforcement-learned store, retrieve, update, and discard actions & Long-horizon agent memory benchmarks & Policy optimization broadens the attack and regression surface \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{Memory failure modes}
+
+Memory failures are not a miscellaneous collection of model mistakes; each violates a field or transition in the representation contract:
+\begin{itemize}
+    \item \textbf{Staleness (valid-time failure):} a once-correct item remains eligible after the world changes. Store valid-from and valid-to times, freshness requirements, and supersession links, and revalidate high-impact facts at use time.
+    \item \textbf{Contamination (source type failure):} model-generated speculation is persisted as observation or evidence. Preserve typed source roles and require explicit promotion before an inference can enter semantic memory.
+    \item \textbf{Scope leakage (access control failure):} information from one user, tenant, or task is retrieved in another. Experiments on Memory EXTRaction Attacks demonstrate that stored user--agent interactions create a practical privacy surface~\cite{wang2025memoryprivacy}; every record and query therefore needs subject, tenant, purpose, and permission labels.
+    \item \textbf{Memory poisoning (integrity failure):} untrusted content crosses a write boundary and later steers decisions. A systematic study identifies multiple write channels and structural vulnerabilities and finds that more aggressive writing and retrieval can increase exploitability~\cite{dash2026memorypoisoning}. Separate trust domains, validate writes, and screen retrieved content before admission.
+    \item \textbf{Over-retrieval (selection failure):} irrelevant or weakly matched memories crowd out current evidence. Bound retrieval budgets, filter by time and scope, diversify candidates, and require an admission decision rather than inserting all matches into context.
+    \item \textbf{Under-retention (retention failure):} commitments, constraints, approvals, or unresolved obligations are discarded. Promote these objects to typed execution or semantic records with explicit retention rules instead of relying on lossy summaries.
+    \item \textbf{Self-reinforcement (feedback failure):} repeated retrieval of an erroneous note increases its apparent credibility. Empirical work on experience-following reports both error propagation and misleading experience replay~\cite{xiong2026memorymanagement}; retrieval frequency must not substitute for independent evidence, and negative outcomes should reduce or revoke an item's eligibility.
+\end{itemize}
+Mitigation belongs at the failed boundary: provenance and type checks at write time; version, time, scope, and conflict filters at retrieval; authorization at admission; and reconciliation or revocation after truth changes. Cleanup alone is too late once a stale or poisoned item has influenced action. Every retained object needs an origin, every use an admissibility decision, and every invalidation a path to dependent state.
+
+\subsection{Reasoning and planning}
+\label{sec:planning}
+
+Reasoning and planning are distinct transformations over system representations. Reasoning organizes evidence, constraints, hypotheses, and tests into intermediate claims; planning maps a goal and the accepted current state into an executable, versioned action structure. Classical planning makes the required semantics explicit through action preconditions and effects, as in STRIPS~\cite{fikes1971strips}, and through policies conditioned on uncertain observations, as in partially observable planning~\cite{kaelbling1998pomdp}. LLM scaffolds can propose these structures in natural language, but fluency does not remove the distinction: a rationale may omit evidence provenance, and a list of steps may be plan-shaped text without valid dependencies, permissions, or effects. A reliable architecture therefore separates a proposed rationale, a validated plan, the committed next action, and the observed result. Each transition should preserve typed inputs, ownership, success and failure conditions, and version history so that execution can reject, repair, or replan without treating the model's explanation as authority.
+
+\subsubsection{Decomposition and explicit plans}
+
+Decomposition becomes operational when subgoals are plan nodes rather than prose bullets. Least-to-most and Plan-and-Solve show benefits from staged reasoning~\cite{zhou2023leasttomost,wang2023planandsolve}; hierarchical task networks provide the stronger systems analogy of refinement under explicit constraints~\cite{erol1994htn}. A plan therefore needs versioned goals, dependencies, evidence, authority, expected effects, completion tests, and failure routes that a runtime can validate and schedule.
+
+A plan is a versioned hypothesis, not a fixed commitment. Plan-and-Act separates construction from adaptive execution~\cite{erdogan2025planandact}; executor outcomes should therefore complete, block, fail, or invalidate nodes against observed effects. Contradictory evidence or unavailable authority creates a linked successor plan, while completed and irreversible effects remain part of history. Repair preserves valid work instead of restarting from a fresh prompt.
+
+\subsubsection{Interleaved reasoning and acting}
+
+Interleaving matters because pre-execution plans rest on untested predictions. ReAct shows the value of alternating decisions with observations~\cite{yao2023react}, but a free-form transcript blurs evidence, inference, authority, and effect. A production loop should persist the unresolved subgoal, evidence, assumptions, proposal, authorization, receipt, and state difference. The rationale may help the model; typed runtime fields make progress inspectable and resumable.
+
+A useful loop is:
+\begin{enumerate}
+    \item select the next eligible unresolved subgoal from the current plan and state;
+    \item assemble a scoped evidence bundle and record assumptions that remain unverified;
+    \item propose an allowed action with typed arguments, expected effect, and success criterion;
+    \item validate permissions, preconditions, schema, and budget, then execute with an idempotency or transaction identifier where possible;
+    \item classify the observation, preserve the raw receipt, and derive a typed result and state difference;
+    \item commit accepted updates, evaluate progress and termination conditions, and continue, repair, retry, escalate, or stop.
+\end{enumerate}
+Progress closes the loop by comparing accepted before and after state with completion predicates, not by counting tokens or steps. Fewer unresolved requirements, satisfied tests, accepted evidence, and confirmed effects establish movement. No-progress detection and resource limits bound repeated exploration, while termination records completion, partial completion, blockage, failure, or cancellation together with remaining obligations.
+
+\subsubsection{Search and self-correction}
+
+Search and self-correction improve a trajectory by creating and evaluating alternative representations, but the alternatives differ across methods. Tree-of-Thoughts materializes multiple intermediate states and uses an evaluator to select or prune branches~\cite{yao2023treeofthoughts}; Reflexion converts feedback from completed attempts into verbal episodic records that condition later trajectories~\cite{shinn2023reflexion}; and Self-Refine repeatedly transforms the current artifact through model-generated critique and revision~\cite{madaan2023selfrefine}. These are therefore not interchangeable instances of a single \emph{reflection} mechanism: one searches a state tree, one writes experience for a later episode, and one iterates over the same output. Their reported gains establish that additional structure and feedback can outperform a single greedy pass on their evaluated tasks, but not that self-generated evaluation is independent evidence. When the generator, critic, and selector share a blind spot, the loop may strengthen a coherent error rather than correct it.
+
+A search controller should preserve candidate lineage, evidence, evaluator, result, rejection reason, and cost. Branching is justified by uncertainty and expected decision value; pruning should rely on executable tests, constraints, independent evidence, or human judgment. Termination depends on accepted solution criteria and the marginal value of another branch. Search earns its cost only when alternatives create better evidence for a bounded decision.
+
+\subsubsection{Programmatic and symbolic planning}
+
+Some reasoning and planning problems are better represented as programs, constraints, or symbolic operators than as free-form language. Program-Aided Language Models and Program-of-Thought prompting externalize arithmetic or symbolic computation into executable code~\cite{gao2023pal,chen2023pot}; STRIPS and PDDL make planning operators, preconditions, effects, objects, and goals explicit~\cite{fikes1971strips,mcdermott1998pddl}. These approaches strengthen different boundaries: code supplies deterministic execution for a specified computation, while a planning model supplies a search space with machine-checkable transition semantics. A hybrid agent can use an LLM to propose the formal representation and a parser, type checker, solver, or planner to reject malformed or unsatisfiable candidates. The translation itself remains a critical representation step, however: every variable, constraint, operator, and goal condition should be traceable to user intent, accepted evidence, or policy rather than introduced as an unsupported model assumption.
+
+This pattern is strongest when generation is difficult but validity is cheap to check. A model may propose SQL, code, a schedule, or a symbolic plan; the environment parses, constrains, tests, or simulates it and returns a counterexample. Passing a validator does not prove that the specification captured user intent, so the artifact, specification, validator, result, and repair must remain linked. Executable checks strengthen evidence without eliminating provenance or high-impact review.
+
+\subsection{Action selection and execution}
+\label{sec:action}
+
+Action selection is the boundary where a model proposal may become an external effect. Toolformer establishes proposal competence~\cite{schick2023toolformer}; $\tau$-bench shows why policy compliance and final task state matter beyond call selection~\cite{yao2024taubench}. The runtime must keep proposal, authorization, execution receipt, and independently observed effect distinct. A valid call is not necessarily permitted, and a success response is not proof of the intended state change. Schema-first interfaces, staged commitment, and explicit execution semantics constrain this transition.
+
+\subsubsection{Schema-first interfaces}
+
+A schema-first interface is an executable boundary, not a formatting hint. BFCL separates call conformance from long-horizon reliability and finds stronger performance on isolated calls than on memory and dynamic decision making~\cite{patil2025bfcl}. A tool contract should version the capability, inputs, outputs, scopes, side effects, preconditions, cost, idempotency, retry, and compensation. Descriptions help the model propose a call; the runtime binds and enforces the machine-readable contract.
+
+Validation protects both directions. Before execution, the runtime canonicalizes arguments and checks resource identity, permission, state, preconditions, and budget. Afterward, it preserves the receipt, validates provenance and structure, and checks the claimed effect. InjecAgent's 1,054 cases show why returned content must remain untrusted evidence: its ReAct-prompted GPT-4 configuration followed attacks in 24\% of cases~\cite{zhan2024injecagent}. Schemas reject malformed structure; they do not establish permission, truth, or goal satisfaction.
+
+\subsubsection{Read, propose, commit}
+
+Read--propose--commit is a staged state transition protocol: it separates the evidence used to understand the environment, the candidate operation constructed from that evidence, and the authority to create an external effect. It is not equivalent to placing a human in every loop. Parasuraman, Sheridan, and Wickens distinguish automation of information acquisition, analysis, decision, and action, and argue that the level of automation should be chosen for each function~\cite{parasuraman2000levels}; Shneiderman likewise argues that high computer automation and high human control can coexist~\cite{shneiderman2020hcai}. For an agentic runtime, the architectural consequence is that automation and oversight can differ by stage, but every handoff must be represented explicitly:
+\begin{enumerate}
+    \item \textbf{read}: invoke only the observation capabilities authorized for the task and return a provenance-bearing record containing the source, query or resource, timestamp, state version, trust label, and raw receipt. A read does not change the target environment, although the runtime may append the observation to its audit and evidence stores;
+    \item \textbf{propose}: materialize an immutable candidate containing the tool and schema version, canonical arguments, exact target resources, evidence references, expected state difference, uncertainty, cost, side effect and reversibility class, required permissions, and completion test. Dry runs, simulation, static checks, or diff generation attach validation evidence to this proposal rather than silently modifying it;
+    \item \textbf{commit}: have a policy gate or authorized person evaluate that exact proposal and persist the decision with principal, policy version, granted scopes, constraints, expiry, and proposal identifier. The executor rejects a stale or altered proposal, applies an idempotency or transaction identifier, and returns both an execution receipt and a separately validated effect record.
+\end{enumerate}
+Approval is a versioned capability grant, not conversational assent. A change to arguments, target state, schema, evidence, or predicted effect invalidates the grant. Review should expose the concrete diff, target, uncertainty, and reversibility; graduated authority can automate inspection while reserving consequential commits. Reads still carry privacy and cost, and approval does not prove correctness, so least privilege and post-effect validation remain necessary.
+
+\subsubsection{Execution semantics}
+
+Authorization does not remove execution ambiguity: after a timeout or broken connection, the effect may have failed, succeeded, or partially applied. The runtime must distinguish the logical operation, each attempt, and observed world state. Its lifecycle separates authorization, dispatch, acknowledgement, and effect verification, together with denial, ambiguity, partial application, and compensation. A plan node is satisfied by verified state change, not a response string.
+
+Recovery follows the result class. Invalid or denied proposals wait for changed input or authority; transient failures permit bounded backoff; unknown effects require status reconciliation before a side-effecting retry. Attempts remain linked to one logical operation. For non-atomic workflows, sagas provide explicit compensation~\cite{garciamolina1987sagas}; compensation is itself an authorized, fallible action rather than erasure of history.
+
+Tool returns should be normalized into typed success, partial, denied, unavailable, ambiguous, or terminal outcomes while preserving the receipt. AppWorld's state-based tests across 750 tasks and 457 APIs show why effect evidence matters; its strongest reported GPT-4o configuration reached 48.8\% on normal and 30.2\% on challenge tasks~\cite{trivedi2024appworld}. Invocation and fluent explanation are weak proxies for success, so continuation or recovery must follow the validated state difference.
+
+\subsubsection{Tool selection at scale}
+
+At catalog scale, tool selection is constrained retrieval over a changing capability space rather than classification over every description in the prompt. ToolLLM makes the retrieval problem explicit: ToolBench collected 16,464 real-world APIs across 49 categories, and ToolLLaMA uses a neural API retriever to recommend a tractable candidate set~\cite{qin2024toolllm}. BFCL exposes a complementary limit: models that perform strongly on single-turn calls still face open challenges in stateful, multi-step decision making, and the benchmark explicitly evaluates abstention~\cite{patil2025bfcl}. Together, these results separate three questions that are often collapsed: whether the catalog contains a useful capability, whether retrieval surfaces it, and whether the current task state and authority permit its use. A semantically relevant tool may still be unavailable, obsolete, too costly, insufficiently trusted, or outside the actor's scope.
+
+The capability registry should be authoritative and versioned rather than appended to a prompt. Entries expose schema, authority, side effects, health, cost, version, and validation status. Deterministic filters first remove unauthorized or incompatible tools; retrieval ranks the admissible remainder; the model selects or abstains within that bounded set. Permissions, health, and schemas are revalidated at dispatch.
+
+Hierarchical routing reduces context cost but can hide the only valid tool, so candidate recall must be measured separately from call accuracy. Fallbacks require compatible semantics, permissions, side effects, and outputs. Evaluation should distinguish catalog coverage, retrieval, selection, authorization, execution, effect correctness, collateral change, latency, and cost.
+
+\subsection{Learning and adaptation}
+\label{sec:learning}
+
+Learning and adaptation is the boundary at which runtime evidence becomes a persistent change to future behavior. A completed trajectory contains observations, decisions, actions, receipts, effects, feedback, and cost, but a successful outcome does not by itself identify which element caused the success or whether the behavior should generalize. The relevant literature changes different substrates: ExpeL extracts reusable natural language lessons from experience~\cite{zhao2024expel}; Voyager adds executable skills to a growing library~\cite{wang2023voyager}; and SOAR optimizes an agentic tool use policy from observed behavior~\cite{li2026soar}. The self-improvement taxonomy further distinguishes updates to foundation model parameters from updates to the surrounding scaffold, including prompts, memory, tools, and control logic~\cite{ren2026selfimprovingagents}. These mechanisms are not interchangeable. A textual lesson, executable procedure, routing statistic, memory item, and weight update have different scope, authority, failure modes, evaluation costs, and rollback semantics. The architectural question is therefore not simply whether an agent learns, but which representation changes, from what accepted evidence, for whose future tasks, and under whose authority.
+
+A production learning pipeline links immutable trajectories to candidate lessons, skills, prompts, memory policies, routers, or model updates. Each candidate needs scope, source evidence, expected benefit, risks, evaluation, approval, and rollback. Temporary within-episode adaptation may remain working state; shared changes require comparative testing against a frozen baseline and monitored promotion. This staging limits feedback contamination, reward hacking, and durable regressions.
+
+\subsubsection{Learning from trajectories}
+
+A trajectory becomes supervision only when its state transitions, evidence, proposals, authority, receipts, effects, costs, and evaluator remain attributable. Behavioral cloning inherits demonstration bias; preference optimization depends on shown comparisons and judges; reinforcement learning depends on delayed and potentially misspecified reward. Successful, failed, denied, corrected, and compensated episodes therefore provide different evidence and should not be collapsed into one undifferentiated transcript.
+
+Recent methods expand the learned object beyond the final action. SOAR explicitly treats environment observations as supervision rather than assigning learning signal only from outcome rewards; across three domains and 14 benchmarks, it reports gains of up to 7.0\% on general reasoning and 16.9\% on deep research tasks, together with fewer erroneous or inefficient tool uses~\cite{li2026soar}. SUPO jointly optimizes tool behavior and the summaries used to compress long interaction histories, making context management part of the policy rather than a fixed preprocessing rule~\cite{lu2026supo}. AgeMem exposes store, retrieve, update, summarize, and discard operations as actions and trains unified short- and long-term memory management across five long-horizon benchmarks~\cite{yu2026agemem}. These methods target different representations (action consequences, compressed context, and memory operations), so their gains should not be summarized as generic evidence that additional trajectory learning is uniformly better. They instead show that the placement and granularity of credit determine which component learns from the same episode.
+
+A trajectory-to-training pipeline must preserve provenance, evaluator reliability, environment and tool versions, sampling, objective, data splits, and the produced artifact. Held-out evaluation should compare with a frozen baseline on outcome quality, violations, collateral effects, calibration, efficiency, and regressions. Only an artifact that passes explicit promotion criteria should alter deployed policy. Learning is a controlled transformation of execution evidence, not replay of whatever received a favorable score.
+
+\subsubsection{Online adaptation and self-improvement}
+
+Online adaptation shortens the interval between feedback and behavioral change, but the literature uses the label for materially different persistence mechanisms. Reflexion converts task feedback into verbal records retained in an episodic memory buffer for later trials~\cite{shinn2023reflexion}; ExpeL aggregates experiences from training tasks into natural language insights and retrieves both insights and prior episodes at inference~\cite{zhao2024expel}; Voyager refines executable programs from environment feedback and commits successful programs to a reusable skill library~\cite{wang2023voyager}. In its Minecraft evaluation, Voyager reports 3.3 times more unique items, 2.3 times longer travel, and technology tree milestones reached up to 15.3 times faster than prior systems, while also reusing its skill library in a new world. These results support explicit scaffold adaptation in that environment, not a general claim that self-written memories or code are safe to share or deploy. The broader self-improvement taxonomy is therefore important: foundation model updates, prompt changes, memory writes, tool or skill updates, and control logic revisions modify different representations and require different evidence~\cite{ren2026selfimprovingagents}.
+
+Adaptation should be classified by blast radius: episode-local state, subject- or task-scoped memory, shared scaffolds, and model parameters. Promotion thresholds grow with persistence, privilege, and audience. A temporary hint may need local checks; a shared executable skill needs provenance, sandbox and held-out tests, approval, staged rollout, monitoring, and rollback.
+
+Generation, evaluation, and promotion authority must remain separate. Feedback can be noisy, manipulated, or privacy-sensitive, and persistent stores enlarge integrity and disclosure risks~\cite{dash2026memorypoisoning,wang2025memoryprivacy}. Candidate changes should be quarantined and tested against independent effects, invariants, held-out tasks, or accountable review. Bounded self-improvement requires a precise answer to what changed, why, where it applies, and how it can be revoked.
+
+\subsection{Hierarchical agency}
+\label{sec:hierarchy}
+
+Hierarchical agency is a representation of nested responsibility: it determines which controller owns the root objective and authoritative state, which subgoals and capabilities may be delegated, and which evidence permits a child result to change the parent plan. Classical abstractions make these obligations concrete. An option is a temporally extended action defined by an initiation set, an internal policy, and a termination condition~\cite{sutton1999options}; hierarchical task network planning refines abstract tasks into constrained networks of subtasks~\cite{erol1994htn}. Plan-and-Act instantiates the same separation in an LLM agent through a structured high-level planner and an environment-specific executor, reporting a 54\% success rate on WebArena-Lite~\cite{erdogan2025planandact}. These results support hierarchy as a way to divide long-horizon control, but they do not justify multiplying conversational roles. Whether implemented with one model at several control levels or with several agents, the hierarchy resides in state ownership, admissible transitions, and completion authority.
+
+The task tree is therefore a persistent control structure rather than a transcript outline. A parent retains the root task identifier, objective, global plan version, authoritative state, policy and budget envelope, and final completion authority. A child receives a versioned snapshot for a bounded subtask and owns only the local state needed to execute it. Manager--worker delegation, planner--executor separation, reusable skill libraries, and task graphs are useful only when their boundaries align with different context, evidence, tools, permissions, or verification duties. Privilege separation follows naturally: research and planning children may retrieve evidence and propose actions, while a narrowly scoped executor alone holds commit capabilities. A delegation should expire or be revoked when its parent plan, input evidence, permission, or target state version changes.
+
+A delegation contract should specify:
+\begin{itemize}
+    \item \textbf{identity and lineage:} stable task, parent, plan version, dependency, and assignee identifiers;
+    \item \textbf{objective and entry conditions:} the bounded subgoal, constraints, preconditions, and assumptions;
+    \item \textbf{input state and evidence:} referenced artifacts, provenance, freshness, and the state version from which the child starts;
+    \item \textbf{capability envelope:} allowed tools, data, permissions, action classes, time, tokens, and monetary budget;
+    \item \textbf{return schema:} required artifacts, claims with evidence references, expected effects, and proposed state delta;
+    \item \textbf{exit conditions:} machine-checkable success tests, retry limits, failure classes, and escalation route; and
+    \item \textbf{delegation policy:} whether further delegation is allowed, its depth and authority limits, and expiry or cancellation conditions.
+\end{itemize}
+
+Return is a second typed boundary. A child should report a status, produced artifacts and claims, supporting evidence, action receipts and verified effects, its proposed state delta, unresolved assumptions, consumed budget, and a recommended parent transition. The parent then checks the contract, evidence, permissions, completion predicate, and referenced state versions before admitting the result. It may accept, reject, request repair, escalate, or invalidate dependent nodes; the child should not overwrite authoritative root state directly. This admission step prevents a fluent completion message from being mistaken for completion and localizes rework when a branch fails.
+
+The architectural trade-off is between global consistency and local autonomy. Centralized parents simplify prioritization, conflict resolution, and budget control but can become decision and context bottlenecks. More autonomous children permit specialization and parallel progress, but increase stale state, duplicated work, reconciliation, and authority risks. Hierarchy is therefore justified when subproblems can be separated along state, data, tool, or permission boundaries and their outputs can be tested before merge. It should be evaluated through milestone completion, accepted handoffs, rework and conflict rates, escalation frequency, latency and cost, and privilege violations, not by the number of agents, roles, or exchanged messages.
+
+\subsection{Multi-agent coordination}
+\label{sec:multiagent}
+
+Multi-agent coordination distributes work, evidence, and control authority. AutoGen emphasizes programmable conversations~\cite{wu2023autogen}, CAMEL role-conditioned interaction~\cite{li2023camel}, and MetaGPT specialized roles and artifacts~\cite{hong2024metagpt}. The architectural question is what information and authority are genuinely separated and how contributions are reconciled. Membership, state ownership, messages, permissions, conflict resolution, termination, and accountability, not the number of model calls, define the system.
+
+\subsubsection{Coordination topologies}
+
+Topology determines which participants can observe state, assign work, communicate evidence, resolve conflicts, and authorize a shared transition. Four patterns recur:
+\begin{itemize}
+    \item \textbf{centralized}: a manager owns the root plan and authoritative ledger, issues versioned task contracts, and admits validated results;
+    \item \textbf{peer-to-peer}: participants own local state and exchange typed proposals, evidence, acknowledgments, and conflict notices without a permanent central integrator;
+    \item \textbf{blackboard}: participants coordinate through a shared structured workspace whose records expose partial solutions and unresolved needs~\cite{nii1986blackboard};
+    \item \textbf{market or contract}: a task is announced with constraints and an evaluation rule, candidates bid their capability, cost, or expected utility, and assignment becomes an explicit contract~\cite{smith1980contractnet}.
+\end{itemize}
+
+These patterns change the failure surface rather than defining a universal ranking. Centralization simplifies global prioritization, least privilege enforcement, and final accountability, but concentrates context, queueing, and recovery in one manager. Peer-to-peer structures remove that chokepoint and can support local adaptation, yet require explicit discovery, synchronization, duplicate work detection, and distributed conflict resolution. A blackboard decouples producers from consumers and preserves visible intermediate state, but only if writes are atomic, versioned, attributable, access-controlled, and invalidated when upstream evidence changes. Contract-based allocation makes selection criteria observable and can allocate heterogeneous capabilities dynamically, while adding bidding latency and the risk that self-reported capability or cost is poorly calibrated.
+
+Contemporary evidence reinforces this conditional view. MultiAgentBench compares star, chain, tree, and graph protocols across interactive collaboration and competition scenarios; it reports that the graph protocol performed best in its research scenario and that cognitive planning increased milestone achievement by three percentage points~\cite{zhu2025multiagentbench}. This is evidence that topology and planning policy affect progress, not that graph communication is globally superior. A sound design should choose the narrowest topology that matches the dependency structure: centralized control when state is tightly coupled or authority must remain singular; peer or graph communication when dependencies are local and dynamic; a blackboard when several specialists must contribute asynchronously to a common artifact; and contracting when task allocation itself is uncertain. Hybrids are often appropriate: for example, a central authority may control commits while workers exchange evidence through a shared blackboard and receive work through explicit contracts.
+
+The topology should be persisted as configuration rather than implied by prompts. It defines membership, capability, permission, state ownership, communication, allocation, merge, escalation, budget, termination, and reconfiguration authority. Runtime measures of stale reads, duplicate work, conflicts, latency, privilege violations, and accepted progress distinguish useful distribution from multiplying the same reasoning path.
+
+\subsubsection{Communication and aggregation}
+
+Communication is where local observations and proposals become candidates for shared state. FIPA-style performatives distinguish requests, reports, proposals, agreements, and refusals from their payloads~\cite{fipa2002communicative}; LLM systems need the same separation even when content remains natural language. A typed message envelope binds sender, recipient, task and state versions, evidence, requested transition, authority, uncertainty, causality, expiry, and acknowledgment so operational meaning is not inferred from style.
+
+Delivery is not acceptance. The recipient should validate the sender's identity and delegated authority, parse the declared schema, resolve evidence references, compare state and plan versions, and check freshness, policy, and budget before the message changes a task or triggers an action. It should persist whether the message was received, rejected, admitted, superseded, or awaiting repair, together with the validator and reason. This protocol state supports replay, deduplication, timeout handling, cancellation, and accountability; it also prevents quoted instructions, stale plans, and unsupported claims inside one agent's output from silently controlling another. Natural language explanation can remain attached for human and model interpretation, but the executable consequence must be selected from an explicit transition set.
+
+Aggregation is a separate admission problem: several contributions must be transformed into one decision without erasing their provenance or dissent. Objective validation should dominate when answers or effects can be tested. Evidence-aware selection can score source quality, coverage, recency, and contradiction; majority vote is defensible only when candidate errors are sufficiently independent; confidence weighting requires calibration on the relevant task distribution; and debate followed by a judge adds value only if interaction exposes information that independent sampling would miss. Du et al. report factuality and reasoning gains from iterative multi-agent debate in their studied settings~\cite{du2024multiagentdebate}. Smit et al., however, find that debate protocols do not reliably outperform self-consistency or ensembles of independent reasoning paths without careful tuning, while showing that agreement intensity can materially change results~\cite{smit2024mad}. Explanation-mediated weak-to-strong supervision provides another structured exchange of claims, critiques, and supervisory signals~\cite{zakershahrak2024explanation}. Together, these results argue for treating communication and aggregation as evaluated algorithms, not assuming that discussion produces verification.
+
+The admitted decision should preserve candidates, evidence, eligibility, verifier results, aggregation rule, conflicts, selected result or abstention, and accountable authority. Agreement is weak evidence when agents share models, prompts, corpora, or context. Meaningful diversity must come from different evidence, tools, permissions, models, or verification functions; correlated failure should remain explicit.
+
+Evaluation should compare the protocol with one agent, independent sampling, and deterministic verification. Message validity, duplication, disagreement, judge calibration, communication cost, and accepted progress expose coordination value. MultiAgentBench confirms that topology and planning alter milestone progress~\cite{zhu2025multiagentbench}; additional agents are justified only when evidence, specialization, or verification pays for reconciliation.
+
+\subsubsection{Multi-agent failure modes}
+
+Multi-agent failures are usually failures of represented coordination before they are failures of model count. Cemri et al. construct the Multi-Agent System Failure Taxonomy from 150 expert-annotated execution traces and scale the accompanying dataset to more than 1,600 traces across seven frameworks; its 14 failure modes fall into system design, inter-agent-misalignment, and task verification categories~\cite{cemri2025mast}. This evidence is important because it localizes failure in the protocol that connects agents, rather than treating an unsuccessful final answer as an undifferentiated model error. The three categories correspond to missing or violated representation contracts:
+\begin{itemize}
+    \item \textbf{specification and system design:} task or role constraints are not encoded and checked; steps repeat because completion is not persisted; relevant history disappears; or no controller owns a termination condition;
+    \item \textbf{inter-agent misalignment:} agents fail to request clarification, drift from the assigned task, withhold or ignore relevant evidence, reset the conversation, or describe reasoning that does not match the action taken; and
+    \item \textbf{verification and termination:} the system stops before postconditions hold, performs no or incomplete verification, or admits an incorrect check as proof of completion.
+\end{itemize}
+
+The categories interact: an underspecified contract creates divergent interpretations, untyped messages hide them, shared state admits incompatible claims, and weak completion tests convert agreement into success. Duplicate work, stale state, and premature consensus are propagation paths. MultiAgentBench exposes repetition and inefficient collaboration~\cite{zhu2025multiagentbench}; containment therefore requires lineage from the first violated contract to dependent claims, plans, actions, and effects.
+
+A typed incident should identify the failed contract, task and plan versions, evidence, affected artifacts and effects, retryability, containment owner, and disposition. Detection moves work through blocked, quarantined, repairing, compensating, escalated, or failed states and invalidates dependent state. Specification, alignment, and verification failures require different controls; none is repaired by another unsupported completion claim.
+
+Recovery is part of coordination. Retries preserve operation and failure identity and avoid duplicate effects; partial success may require compensation or a successor plan. Failed workers return usable artifacts and unresolved obligations so only unfinished work is reassigned. Failed managers require externally persisted root state and takeover rules. Human escalation should carry the incident and a precise decision request, not the entire transcript.
+
+Multi-agent value must be measured against coordination burden. Compare failure propagation, duplicate execution, stale handoffs, conflicts, recovery, privilege violations, messages, latency, and cost with a single agent and independent samples. If distribution does not produce measurable gains from parallelism, complementary evidence, specialization, or independent verification, one agent with explicit modules is usually more reliable.
+
+\subsection{Interoperability: tools, context, and agent-to-agent communication}
+\label{sec:protocols}
+
+Interoperability externalizes the representation contract across process, vendor, and organizational trust boundaries. It determines how a remote capability is discovered, how inputs and outputs are serialized, how long-running work is tracked, and how one system relates a returned artifact to its own task state. Syntactic compatibility is necessary but insufficient: a valid protocol message does not establish that the sender is trustworthy, the capability is appropriate, the request is authorized, the response is true, or an intended external effect occurred. Two protocol families address complementary parts of this problem.
+
+\paragraph{Model Context Protocol (MCP).}
+MCP standardizes how an AI host connects through clients to servers that expose tools, resources, and prompts. The specification defines a stateful, capability-negotiated protocol over JSON-RPC and standard transports~\cite{mcp2025spec}. Its durable architectural contribution is a common description and invocation surface: a tool can declare an input schema and optional output schema; a resource has a URI and metadata; requests, responses, notifications, progress, errors, and cancellation can be correlated. The declaration is still a capability claim made by a server. A host should persist the server identity and protocol version, negotiated capability snapshot, tool or resource identifier and schema version, validated arguments, authorization context, request and result identifiers, returned content and structured output, errors, timing, and cost. Returned text or data becomes an observation with provenance, not an instruction or verified effect.
+
+MCP authorization mechanisms can authenticate parties, discover authorization servers, bind tokens to intended resources, and constrain scopes, but authentication and token validity do not answer whether a particular agent should perform a particular action in the current task. The application must still map the authenticated principal and granted scopes to a local capability policy, obtain any required user approval, recheck current state and budget, and validate the observed effect after invocation. This preserves the read--propose--authorize--execute--verify sequence even when the connector is standardized.
+
+\paragraph{Agent2Agent (A2A).}
+A2A standardizes interaction between independent agents. An Agent Card advertises identity, endpoint, skills, interfaces, and security requirements; exchanges use messages for immediate communication and tasks for stateful work that can produce status updates and artifacts~\cite{a2a2026spec}. This makes remote delegation more explicit than forwarding a chat prompt, but an advertised skill is not evidence that the agent is competent, available, authorized, or safe for the requested data. The delegating system should therefore translate its local subtask contract into an A2A task linked to the parent task, evidence snapshot, permission and data use envelope, expected artifact schema, budget, deadline, and completion test. It should persist the remote Agent Card and version used, endpoint and authenticated principal, task and context identifiers, messages, task state transitions, artifacts, cancellation or input requests, and terminal status.
+
+The parent retains admission and completion authority. A remote \emph{completed} state means that the remote protocol lifecycle ended successfully; it does not prove that local postconditions hold. Likewise, an authentication or authorization-required state does not itself grant permission for an operation. Returned artifacts must pass provenance, schema, policy, freshness, and task-specific verification before they update the parent plan or trigger a local action. This distinction permits agents operated by different organizations to collaborate without silently merging their trust domains.
+
+\begin{table}[H]
+\centering
+\caption{Complementary representation boundaries of MCP and A2A. Both require application-owned authorization, verification, and trace continuity.}
+\label{tab:protocols}
+\small
+\surveytableformat
+\begin{tabularx}{\textwidth}{L{2cm}Y Y}
+\toprule
+ & \textbf{MCP} & \textbf{A2A} \\
+\midrule
+Primary boundary & Host application to tools and context providers & Delegating agent to an independent remote agent \\
+Advertised surface & Tools, resources, prompts, schemas, capabilities & Agent Card, skills, interfaces, security schemes \\
+Persistent unit & Session plus correlated request, result, progress, or error & Message or stateful task with status and context \\
+Returned record & Content, structured output, resource link, or error & Message, task status, artifact, or terminal outcome \\
+Typical use & Connect an agent to files, databases, APIs, or services & Delegate bounded work to a specialized agent \\
+Not guaranteed & Local authorization, output truth, or verified effect & Competence, shared policy, or local task completion \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The protocols can be composed without conflating them. A parent may create an A2A task for a remote specialist, while that specialist uses MCP clients to obtain evidence or invoke tools. The end-to-end trace should preserve one lineage from the root request and evidence snapshot, through the delegation contract and remote task, to every MCP invocation and receipt, produced artifact, independently observed effect, and parent admission decision. Correlation identifiers alone are insufficient if each hop discards the state version, authority, or evidence that justified it; the application needs a cross-protocol trace record that binds those fields explicitly.
+
+Protocol adoption also expands the supply chain. A registry, server, adapter, or remote agent may be compromised, stale, misconfigured, or simply unreliable. Clients should authenticate endpoints, negotiate and pin compatible protocol and schema versions, record the capability snapshot used for each decision, minimize scopes and disclosed data, enforce time and cost bounds, validate structured inputs and outputs, make side-effecting retries idempotent, support cancellation and revocation, and quarantine untrusted returned content. Capability discovery is not authorization, authentication is not trust, delivery is not acceptance, and protocol completion is not effect verification.
+
+Because these specifications define interfaces rather than empirical reliability guarantees, evaluation should test both conformance and application behavior. A compatibility matrix should exercise supported transports, protocol versions, capabilities, schemas, authentication modes, streaming, cancellation, and failure responses across independent implementations. End-to-end measures should include discovery-to-invocation success, stale capability and version negotiation failures, authorization denials and scope escalation, schema-valid output, trace completeness across hops, cancellation and retry correctness, task and effect success, latency, and cost. Security tests should include malicious capability descriptions, prompt injection in resources or artifacts, forged or confused identities, token audience errors, oversized responses, and unavailable peers. Comparisons with a native connector or local agent should report whether standardization reduces integration work without weakening the bounded transition controls required by the application.
+
+\subsection{Framework landscape}
+\label{sec:frameworks}
+
+An agent framework is not the architecture itself; it is a runtime and set of defaults for representing some parts of that architecture. It may externalize graph state while leaving authorization to application code, make handoffs explicit while keeping task completion conversational, or provide tracing without durable recovery. Feature checklists age quickly as APIs, product names, and maturity levels change. A more durable comparison asks which evidence, state, control, and authority boundaries a framework makes inspectable and enforceable, and which remain implicit or must be supplied by the application.
+
+\begin{table}[H]
+\centering
+\caption{Representative framework categories classified by their externalized representations. Entries are illustrative; documented primitives are not reliability guarantees.}
+\label{tab:framework-landscape}
+\small
+\surveytableformat
+\begin{tabularx}{\textwidth}{L{2.7cm}L{2.7cm}Y Y}
+\toprule
+\rowcolor{surveyBlue!28}\textbf{Category} & \textbf{Representative systems} & \textbf{Externalized representation} & \textbf{Architectural evidence to verify} \\
+\midrule
+Graph/workflow orchestration & LangGraph; Semantic Kernel & Nodes, typed state, guarded edges, checkpoints, interrupts & Persistence and resume semantics; approval scope; idempotent side effects; failure edges \\
+Agent conversation & AutoGen; CrewAI & Agents, roles, messages, tasks, handoffs & Ownership and message schemas; shared state merge; authority; termination and admission \\
+Data/RAG-centered agents & LlamaIndex; Haystack & Documents, indexes, retrievers, typed pipelines, tools & Provenance, access and refresh policy, retrieval evaluation, action state integration \\
+Native agent runtimes & OpenAI Agents SDK; Google ADK & Agents, tools, handoffs, sessions, guardrails, traces & Model portability; durable recovery; policy boundary; trace and evaluation export \\
+Interoperability protocols & MCP; A2A & Capability schemas, Agent Cards, tasks, messages, artifacts & Authentication, trust and admission boundaries, version negotiation, conformance \\
+Research prototypes & AutoGPT; BabyAGI and related loops & Open-ended plan, task list, memory, and iteration loop & Historical influence; state, authorization, verification, and recovery that must be added \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Primary documentation illustrates the variation in what is made explicit. LangGraph describes checkpointed graph state and resumable interrupts~\cite{langgraph2026persistence}; Semantic Kernel exposes multiple agent orchestration patterns while marking important orchestration features as experimental~\cite{microsoft2025semanticagents}; and Haystack defines schema-based shared agent state with typed component inputs and outputs~\cite{deepset2026haystackstate}. AutoGen emphasizes programmable agent conversation~\cite{wu2023autogen}; the OpenAI Agents SDK exposes agents, tools, handoffs, guardrails, sessions, and tracing~\cite{openai2025agentssdk}; and Google ADK documents agents, tools, sessions, state, callbacks, evaluation, and deployment abstractions~\cite{google2026adkdocs}. These sources establish interface capabilities, not comparative production reliability. MAST's observation of recurring coordination failures across seven multi-agent frameworks reinforces that adopting a framework does not remove the need for explicit contracts, verification, and recovery~\cite{cemri2025mast}.
+
+Framework selection should therefore begin with a representation matrix, not a catalog of integrations. For every required record (the evidence bundle, task and plan node, memory item, tool schema, action proposal, approval, execution receipt, verified effect, incident, and trace), the team should state whether the framework owns it, merely transports it, or leaves it to application code. The same matrix should locate who may create, mutate, approve, invalidate, and inspect each record. A versioned framework selection record can then capture candidate and dependency versions, requirements, gaps, adapters, security and data boundaries, operating limits, the evaluation baseline, and migration and rollback conditions. This turns framework choice from a one-time preference into an auditable architectural decision.
+
+Portability depends on preserving the application's semantic state outside framework-specific transcripts and identifiers. Adapters should map canonical application records into framework nodes, sessions, handoffs, or events, and map framework results back into typed outcomes. Prompts, tool schemas, policies, evaluators, and traces should be versioned independently where practical. An upgrade is safe only when it cannot silently change the meaning of stored state, completion, authorization, or recovery.
+
+Finally, a proof-of-fit should execute one representative long-horizon workflow with fixed models, tools, evidence, and budgets. It should test restart from checkpoint, approval edits and invalidation, duplicate delivery, malformed tool output, stale evidence, timeout, cancellation, partial side effects, worker failure, and trace export. Report task success and verified effect success separately, together with recovery and replay success, policy violations, trace completeness, latency and cost, required custom code, and behavior under injected faults. The preferred framework is the one that provides the smallest trustworthy extension surface for the system's actual obligations, not the one with the longest feature list.
+
+\subsection{Reference design principles}
+
+The preceding architectures can be synthesized as a chain-of-custody problem. Evidence is not yet operational state; state is not authorization; a successful API response is not a verified effect; and a plausible final answer is not proof that the intervening process was acceptable. Modern agentic systems become governable when each conversion is represented by a typed, persistent record and admitted through an explicit transition. The following principles are therefore coupled design obligations rather than an independent feature checklist.
+
+\begin{enumerate}
+    \item \textbf{Minimize adaptive control.} A model should decide only where the system genuinely needs semantic interpretation, uncertain judgment, or open-ended generation. Routing rules, eligibility constraints, budgets, authorization checks, and terminal conditions should remain deterministic whenever they can be specified. StateFlow's state-driven workflows illustrate how explicit states can organize model calls~\cite{wu2024stateflow}, while long-horizon benchmarks such as $\tau$-bench and AppWorld show that fluent tool use does not by itself produce consistent rule following or correct environment state~\cite{yao2024taubench,trivedi2024appworld}. The model should therefore emit a proposal with a reason code and supporting evidence; a deterministic controller should decide whether that proposal is an admissible transition.
+
+    \item \textbf{Make state explicit.} Every consequential decision should read from and write to a declared state model rather than depend on facts recoverable only from a transcript. At minimum, the architecture should externalize evidence bundles, task and plan nodes, memory items, action proposals, approvals, execution receipts, verified effects, incidents, budgets, and termination status. Each record needs an identifier, type, schema version, provenance, owner, timestamps, and lifecycle state. Cognitive agent architectures motivate the separation of working, episodic, semantic, and procedural state~\cite{sumers2024coala}; LangGraph's checkpoints and Haystack's schema-based agent state provide current implementation examples~\cite{langgraph2026persistence,deepset2026haystackstate}. These primitives are useful only when the application also defines merge, invalidation, retention, and authority semantics.
+
+    \item \textbf{Treat tools as privileged interfaces.} A tool joins language interpretation to an external capability and is therefore both an execution boundary and an attack surface. Capability discovery, argument construction, authorization, execution, and effect verification should be distinct stages. The action proposal should be immutable once approved, and authorization should evaluate the authenticated actor, current state, requested scope, intended effect, and applicable policy at execution time. $\tau$-bench exposes failures in policy-constrained tool interaction~\cite{yao2024taubench}, while InjecAgent demonstrates that untrusted tool content can redirect an agent toward harmful actions or data exfiltration~\cite{zhan2024injecagent}. Consequently, tool outputs must return as untrusted observations, and a successful call must yield a receipt rather than automatically mark the task complete.
+
+    \item \textbf{Verify at natural boundaries.} Verification should occur whenever the meaning or authority of a representation changes: evidence before synthesis, a plan before delegation, arguments before a tool call, receipts before effect claims, and artifacts before acceptance. Schema-valid function calls measure only one boundary~\cite{patil2025bfcl}. AppWorld instead evaluates final application state and checks for collateral changes~\cite{trivedi2024appworld}, while ScienceAgentBench evaluates executable scientific artifacts rather than relying only on textual plausibility~\cite{chen2025scienceagentbench}. A strong verifier should therefore produce its own typed record containing the tested claim, method, evidence, result, confidence or tolerance, and disposition. Failed verification should lead to a defined repair, rollback, escalation, or terminal state rather than another unconstrained model turn.
+
+    \item \textbf{Bound every loop.} Interleaved reasoning, search, reflection, and revision can improve difficult trajectories~\cite{yao2023react,yao2023treeofthoughts,shinn2023reflexion}, but each additional cycle also expands cost, latency, and the opportunity for non-progress or policy drift. Step, time, token, monetary, retrieval, tool call, and retry budgets should be explicit state fields decremented by the controller. Progress should be defined over observable state changes, for example, a newly satisfied dependency, reduced uncertainty, or verified partial effect, rather than the production of more text. When no progress occurs within a declared window, the system should terminate, re-plan under a bounded alternative, or escalate with the last valid checkpoint and unresolved obligations.
+
+    \item \textbf{Design for failure.} Failure is not a single exception but a family of state transitions. An error record should distinguish malformed output, denied authorization, stale evidence, unavailable dependency, timeout, duplicate delivery, inconsistent state, partial side effect, failed verification, and exhausted budget; it should also mark the condition as retryable, compensatable, terminal, or requiring human judgment. Durable checkpoints support controlled resume~\cite{langgraph2026persistence}, while saga-style compensation provides a foundation for reversing distributed partial work when atomic rollback is unavailable~\cite{garciamolina1987sagas}. The recurring coordination failures identified by MAST show why recovery cannot be delegated to conversation alone~\cite{cemri2025mast}. A retry is safe only when its input state is still valid and its external effect is absent, idempotent, or compensatable.
+
+    \item \textbf{Trace decisions and effects.} A trace should be a causal graph of records, not merely a chronological transcript. Evidence identifiers, task and plan identifiers, model and prompt versions, policy decisions, tool arguments, approvals, receipts, effect checks, retries, costs, and terminal reasons should be connected by stable trace and parent identifiers. Causal ordering matters when events cross workers or agents~\cite{lamport1978timeclocks}; tracing interfaces such as those exposed by the OpenAI Agents SDK make collection easier but do not determine the application's semantics~\cite{openai2025agentssdk}. The trace is complete only when a reviewer can move from a claimed outcome back to the evidence and authority that justified every consequential transition.
+
+    \item \textbf{Version adaptive components.} Prompts, memory policies, skills, retrieval configurations, evaluators, tool schemas, protocol adapters, and model dependencies change the meaning of state and must therefore be deployable, migratable, and reversible artifacts. The execution record should identify the versions actually used, not merely the versions currently configured. Evidence staleness~\cite{vu2023freshllms} and memory poisoning~\cite{dash2026memorypoisoning} demonstrate that retained representations can become invalid or adversarial even when application code is unchanged. An upgrade should specify compatibility rules, migration and re-evaluation requirements, dependent approvals or caches to invalidate, rollback criteria, and the state version to restore.
+\end{enumerate}
+
+Together, these principles impose two architectural invariants: no external side effect should occur without a current, authorized action proposal, and no task should be declared successful without a verified effect or an explicit unresolved status. The practical implementation sequence follows the same narrative: define canonical schemas and lifecycle states, persist an append-only transition history, enforce policy and authorization gates, make execution idempotent or compensatable, and attach effect verifiers and evaluation hooks. This turns the chapter's taxonomy into an engineering argument: agentic capability becomes dependable only when evidence, state, authority, action, and verification remain linked throughout the trajectory.

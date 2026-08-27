@@ -1,0 +1,213 @@
+\section{Evaluation Methodologies and Benchmarks}
+\label{sec:evaluation}
+
+Evaluation closes the architectural argument developed in the preceding sections. If a modern agentic system is intended to transform evidence into bounded action through explicit representations, an evaluation must determine whether those representations remained valid and whether each transition preserved its contract. A final answer alone collapses critical distinctions: an agent can produce the right text from unsupported evidence, reach the target state through a prohibited action, receive a successful API response without producing the intended effect, or fail safely after correctly denying an inadmissible request. AppWorld's state-based tests expose both goal completion and collateral changes~\cite{trivedi2024appworld}, while $\tau$-bench evaluates final database state, policy following, and consistency across repeated trials~\cite{yao2024taubench}. These designs demonstrate why evaluation must cover evidence, state, authority, process, effects, resources, recovery, and risk.
+
+The object being evaluated is therefore the configured system, not the base model in isolation. Its evaluation manifest should identify the model and decoding settings, prompts, retriever and evidence snapshot, memory policy, tool schemas, permissions, orchestration logic, budgets, verifiers, environment version, and termination rules. Changing any of these elements changes the policy that generates the trajectory. A score without this system boundary cannot support a controlled comparison or explain whether an observed gain came from the model, the scaffold, additional resources, a weaker evaluator, or privileged information.
+
+A recent survey organizes agent evaluation across core capabilities, application-specific benchmarks, generalist agents, benchmark dimensions, and developer-facing evaluation frameworks, while identifying persistent gaps in cost, safety, robustness, and fine-grained diagnosis~\cite{yehudai2026agentsurveyeval}. We complement that landscape with a systems-oriented question: at which representation or transition did the evidence-to-action chain succeed, degrade, or fail?
+
+\subsection{Unit of evaluation: from outputs to episodes}
+
+The natural unit for an agent is an \emph{episode}: the evaluation contract, initial state and goal, sequence of proposed and authorized transitions, resulting observations and receipts, terminal state, and all resources consumed. To align with the proposal--gate--validate model introduced earlier, let $z_t=(s_t,o_t,\tilde{u}_t,u_t,\rho_t,d_t,s_{t+1})$ denote a transition record containing the prior state and observation, proposed action, authorized action (or $\bot$), execution receipt, validation disposition, and committed next state. The complete episode is $\tau=(g,\kappa,s_0,z_0,\ldots,z_{T-1},s_T)$, where $g$ is the goal and $\kappa$ is the versioned system and evaluation manifest. This record distinguishes what the model proposed, what the system permitted, what the environment acknowledged, and what the verifier accepted.
+
+Evaluation should preserve these distinctions in a vector rather than collapse them immediately into a scalar:
+\begin{equation}
+\mathbf{M}(\tau)=\langle Q(\tau),C(\tau),R(\tau),S(\tau),V(\tau) \rangle,
+\end{equation}
+where $Q(\tau)$ measures verified task and artifact quality, $C(\tau)$ resource use and latency, $R(\tau)$ run-to-run reliability and recovery, $S(\tau)$ safety and policy compliance, and $V(\tau)$ lineage and record completeness. The dimensions are related but not interchangeable. For example, retries may improve eventual quality while increasing cost and exposure, and a system may reach the goal state while violating policy. Hard constraints such as an unauthorized commit, missing receipt, or unverified effect should therefore be reported as gates or disqualifying events rather than averaged away by strong performance elsewhere. Aggregate scores can aid ranking, but Pareto comparisons and the underlying dimension values are more informative.
+
+The same episode should be examined at multiple, linked levels:
+\begin{itemize}
+    \item \textbf{component level}: test the records produced by retrieval, memory, planning, tool selection, authorization, and verification for schema validity, provenance, freshness, calibration, and local correctness;
+    \item \textbf{trajectory level}: test whether transitions were admissible and useful, including measurable progress, loops, redundant or contradictory actions, budget consumption, recovery, and policy decisions;
+    \item \textbf{outcome level}: test the claimed artifact or environment effect, unmet obligations, collateral state changes, and whether completion was supported by a valid receipt and effect check;
+    \item \textbf{system level}: test throughput, tail latency, cost, reliability under load, shared state contention, privacy, and incident rates across episodes;
+    \item \textbf{human--system level}: test workload, intervention timing, trust calibration, override behavior, and downstream consequences for the people who authorize, supervise, or receive the work.
+\end{itemize}
+
+The levels must remain joinable through stable episode, transition, evidence, and artifact identifiers. Otherwise a failed outcome cannot be attributed to stale retrieval, an invalid proposal, a gate error, an execution fault, or a weak verifier. Existing benchmarks provide complementary slices of this hierarchy: AgentBoard uses authored milestones to reveal progress when binary success is sparse~\cite{hsieh2024agentboard}; AppWorld uses executable state checks to accept different valid trajectories while detecting collateral damage~\cite{trivedi2024appworld}; and $\tau$-bench's pass$^k$ exposes inconsistency that a single successful run would hide~\cite{yao2024taubench}. A complete evaluation should combine such evidence rather than mistake any one slice for the system as a whole.
+
+\subsection{Core metrics}
+
+The metric vector becomes operational only when each dimension is tied to an observable record, an acceptance rule, and a level of aggregation. Every reported metric should name its unit, numerator and denominator, episode population, budget, treatment of abstentions and blocked actions, and uncertainty across repeated runs. This prevents a component proxy, such as valid JSON or retrieval recall, from being presented as evidence of end-to-end agency. The metrics below follow the episode from requested effect to transition quality, resource use, recovery, memory-mediated action, and safety.
+
+\subsubsection{Task success and artifact quality}
+
+Task success compares a typed acceptance contract with a verified effect. AppWorld checks application state and collateral changes~\cite{trivedi2024appworld}, SWE-bench executes repository tests~\cite{jimenez2024swebench}, and ScienceAgentBench evaluates generated programs and cost~\cite{chen2025scienceagentbench}. Outcome records should separate effect success, artifact validity, constraints, collateral damage, and unresolved obligations. Partial credit aids diagnosis but is not completion when the missing step is authorization, submission, or verification.
+
+\subsubsection{Trajectory quality}
+
+Trajectory quality distinguishes proposed, authorized, attempted, committed, compensated, and verified actions and measures progress, repetition, correction, rejection, and recovery. AgentBoard adds intermediate milestones~\cite{hsieh2024agentboard}; MAST exposes coordination and termination failures hidden by plausible conversation~\cite{cemri2025mast}. For multi-agent systems, delegation, duplication, disagreement, and orphaned work also matter. Shorter is not automatically better when verification creates necessary evidence.
+
+\subsubsection{Efficiency and cost}
+
+Efficiency should attribute tokens, calls, tools, waiting, retries, verification, human work, and latency to transitions. OSWorld-Human reports roughly 1.4--2.7 times excess steps for evaluated agents and finds planning and reflection calls dominate latency~\cite{abhyankar2025osworldhuman}. Longer trajectories also enlarge error and attack surfaces. Report quality--cost and quality--latency frontiers under fixed contracts rather than one ratio that can hide low absolute success.
+
+\subsubsection{Reliability and recovery}
+
+Reliability asks whether the same contract produces acceptable effects across sampling and environment variation. $\tau$-bench's pass$^k$ measures repeated success~\cite{yao2024taubench}; reports should include first attempt success, abstention, denial, catastrophic failure, and cost variance. Recovery is distinct: fault injection should measure restoration from the last valid checkpoint without duplicate effects. Eventual completion alone does not establish recovery.
+
+\subsubsection{Memory and state}
+
+Memory evaluation follows admission, update, retrieval, conflict, use, invalidation, and deletion. MemBench emphasizes recall, whereas Mem2ActBench tests tool use grounded in retained state~\cite{tan2025membench,shen2026mem2actbench}. Report write and retrieval quality, provenance, staleness, scope leakage, deletion, and action improvement against stateless and long-context baselines. Poisoning tests should trace admission through realized action to localize the failed layer~\cite{dash2026memorypoisoning}.
+
+\subsubsection{Safety and side effects}
+
+Safety evaluation distinguishes unsafe observations and proposals from policy decisions, attempted execution, and realized effects. Agent Security Bench spans prompts, tools, and memory~\cite{zhang2024agentsecuritybench}; InjecAgent isolates indirect tool content attacks~\cite{zhan2024injecagent}; and ST-WebAgentBench adds explicit policies to web tasks~\cite{levy2026stwebagentbench}. Safety must be reported with verified utility: dependable systems preserve authorization and effect invariants without blocking everything.
+
+\subsection{Evaluation protocols}
+
+An evaluation protocol determines which parts of an episode can be observed and which conclusions the evidence can support. No single protocol covers the full chain. Offline tests isolate record contracts cheaply; interactive environments expose stateful consequences and recovery; human review addresses underspecified value judgments and downstream consequences; and model judges scale bounded semantic assessments. Every protocol should emit a versioned manifest, the evaluated inputs and outputs, the applicable oracle or rubric, and a judgment record that can be joined back to the episode trace.
+
+\subsubsection{Offline component tests}
+
+Offline component tests are fast, inexpensive, and well suited to continuous regression checks. A case should specify the component and version, initial typed state, input record, authorization context, expected output schema or invariant, oracle, and prohibited outcomes. Useful suites cover retrieval and claim support, memory admission and conflict resolution, plan validation, tool selection and arguments, policy decisions, transition guards, and evaluator calibration. RAGAS illustrates reference-free and reference-based component measures for retrieval-augmented generation~\cite{es2024ragas}, while BFCL uses exact and executable checks for function selection and argument construction~\cite{patil2025bfcl}.
+
+Component success is necessary but local. A valid tool call may be unauthorized, a relevant document may be stale, and a calibrated verifier may still receive an incomplete evidence bundle. Mutation and property-based tests should therefore vary schemas, missing fields, scope, freshness, conflicting records, and boundary values. These tests identify the failing contract precisely, but they cannot establish long-horizon progress, external effects, concurrency behavior, or recovery in a changing environment.
+
+\subsubsection{Interactive environments}
+
+Interactive protocols execute an agent in a sandboxed website, operating system, repository, simulator, or tool environment. Their contract should specify the initial environment snapshot, goal and acceptance criteria, available observations and tools, identity and permissions, applicable policies, budgets, reset semantics, expected effects, and prohibited collateral changes. WebArena and OSWorld evaluate agents in stateful interfaces~\cite{zhou2024webarena,xie2024osworld}; AppWorld adds controllable application state and programmatic unit test evaluators~\cite{trivedi2024appworld}. These environments provide stronger evidence of action correctness than static datasets because the agent must observe, decide, act, and handle the resulting state.
+
+The added validity comes with setup cost, nondeterminism, environment maintenance, evaluator blind spots, and contamination from public tasks or trajectories. Results should identify the environment image or snapshot, evaluator and tool versions, model and scaffold manifest, seed where applicable, prompts, permissions, budgets, reset procedure, and network policy. These records make runs interpretable and longitudinal comparisons defensible. When live services or web evidence are necessary, the protocol should preserve the observations, requests, responses, timestamps, and verified final effects instead of treating an unversioned external environment as fixed.
+
+\subsubsection{Human evaluation}
+
+Human evaluation remains necessary for underspecified goals, usability, social and organizational consequences, and judgments whose authority properly belongs to people. Human-centered AI work emphasizes combining high automation with meaningful human control rather than treating the two as opposites~\cite{shneiderman2020hcai}; established levels-of-automation research likewise shows that the placement of human and machine responsibility changes system performance and failure~\cite{parasuraman2000levels}. A protocol should therefore state whether the person is a user, domain expert, approver, supervisor, or outcome reviewer and what evidence and authority that role receives.
+
+Reviewers should inspect the goal and rubric, relevant evidence, proposed and authorized actions, receipts and effects, and the parts of the trajectory needed for attribution, not only the final answer. The judgment record should capture criterion-level ratings, rationale, confidence, requested clarification, override or escalation decisions, and unresolved disagreement. System identity should be blinded when it is not part of the question; presentation order should be randomized; and inter-annotator agreement, adjudication, reviewer expertise, and workload should be reported. Human review should also measure whether intervention occurred at the right boundary and whether system confidence supported calibrated reliance.
+
+\subsubsection{LLM-as-judge}
+
+Model judges can scale semantic evaluation of open-ended artifacts when exact or executable oracles are unavailable. G-Eval reports improved alignment with human judgments for summarization and dialogue while also identifying bias toward model-generated text~\cite{liu2023geval}; MT-Bench and Chatbot Arena show that strong judges can approximate aggregate human preferences but exhibit position, verbosity, self-enhancement, and reasoning biases~\cite{zheng2023llmjudge}. A model judge should therefore be treated as another fallible evaluator component, not as ground truth.
+
+Each judgment should persist the judge model and version, decoding settings, prompt and rubric version, evidence supplied, candidate ordering, criterion-level scores, rationale, confidence, and refusal or parsing status. Judges should be calibrated against expert labels on the target domain, blinded to irrelevant system identity, tested for order and length sensitivity, and supplemented by deterministic or executable checks. Pairwise comparisons can be more stable than absolute scores but still require randomized order and disagreement reporting. For grounded tasks, the judge should receive the authoritative evidence bundle and assess claims individually; for tool or environment tasks, it must not override an execution-based effect result.
+
+The strongest evaluation program layers these protocols in increasing scope: isolate contracts offline, exercise representative transitions interactively, use humans for legitimate value and authority judgments, and use calibrated model judges only for bounded semantic criteria. When the layers disagree, the report should preserve the disagreement and identify which evaluator has authority for the claim in question. This protocol hierarchy prevents a convenient proxy from silently replacing the effect, policy, or human consequence the system was meant to satisfy.
+
+\subsection{Representative benchmarks}
+
+A benchmark is a measurement instrument whose environment and evaluator determine which parts of an episode are visible. It can support an architectural claim only when it observes the corresponding representation or effect. \Cref{tab:agent-benchmarks} preserves the breadth and historical difficulty exposed by representative introducing reports; \Cref{tab:benchmark-evidence} and \Cref{tab:benchmark-evidence-specialized} then compare diagnostic coverage and blind spots. The reported numbers are historical reference points rather than current leaderboard claims, because model, scaffold, budget, and evaluator performance change rapidly.
+
+For interpretation, each benchmark should be read as a contract over six elements: interaction substrate, initial and terminal state, records exposed to the evaluator, permitted actions and policies, temporal horizon, and acceptance oracle. A high score on function calling, retrieval, or milestone progress is evidence for that boundary; it is not automatically evidence of authorization correctness, recovery, collateral effect control, or end-to-end task success.
+
+\begin{table}[H]
+\centering
+\caption{Representative benchmark breadth and historical difficulty. ``Original evidence'' reports a result from the introducing work or official initial release to contextualize the challenge at publication time, not to rank current systems.}
+\label{tab:agent-benchmarks}
+\scriptsize
+\surveytableformat
+\begin{tabularx}{\textwidth}{L{2.1cm}L{2.05cm}L{1.35cm}Y Y}
+\toprule
+\rowcolor{surveyBlue!28}\textbf{Benchmark} & \textbf{Interaction substrate} & \textbf{Scale} & \textbf{Primary stressor} & \textbf{Original evidence of difficulty} \\
+\midrule
+GAIA~\cite{mialon2024gaia} & Web, files, multimodal tools & 466 questions & General assistant reasoning, browsing, tool use & Human respondents: 92\%; GPT-4 with plugins: 15\% \\
+WebArena~\cite{zhou2024webarena} & Controlled websites & 812 tasks & Long-horizon web navigation and action & Human: 78.24\%; best GPT-4-based baseline: 14.41\% \\
+OSWorld~\cite{xie2024osworld} & Real desktop operating systems and applications & 369 tasks & Multimodal computer use across applications & Human: 72.36\%; best reported baseline: 12.24\% \\
+SWE-bench~\cite{jimenez2024swebench} & Executable GitHub repositories & 2,294 issues & Repository-scale software repair & Best original model: 1.96\%; Verified later curated 500 human-checked tasks \\
+$\tau$-bench~\cite{yao2024taubench} & User--agent--tool simulation & Multi-domain dialogues & Policy following, tool use, and user interaction & Large variance across policies and repeated trials; pass$^k$ exposes inconsistency \\
+Multi-agent benchmark~\cite{zhu2025multiagentbench} & Cooperative and competitive tasks & Multiple scenarios & Coordination, milestones, communication topology & Performance depends materially on coordination topology and planning \\
+Memory-to-action~\cite{shen2026mem2actbench} & Persistent assistant sessions and tools & 400 tool use tasks from 2,029 sessions & Active use of long-term memory & Seven evaluated memory frameworks remained inadequate at parameter grounding \\
+Agency benchmark~\cite{li2026agencybench} & Dockerized real-world work scenarios & 138 tasks, 32 scenarios & Six capabilities over long, feedback-rich episodes & Average 90 tool calls and about 1M tokens; closed vs. open models: 48.4\% vs. 32.1\% \\
+Agent Security Bench~\cite{zhang2024agentsecuritybench} & Tool-using agent attack scenarios & 10 scenarios, 400+ tools & Attacks and defenses for agent systems & Highest average attack success reported across tested settings reached 84.3\% \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\caption{Diagnostic coverage of representative general and application benchmarks. Scores across incompatible substrates should not be compared directly.}
+\label{tab:benchmark-evidence}
+\small
+\surveytableformat
+\begin{tabularx}{\textwidth}{L{2.65cm}L{3.05cm}L{3.1cm}L{3.4cm}Y}
+\toprule
+\rowcolor{surveyBlue!28}\textbf{Benchmark} & \textbf{Interaction substrate} & \textbf{Primary evaluator} & \textbf{Strongest evidence} & \textbf{Key limitation} \\
+\midrule
+AgentBench~\cite{liu2024agentbench} & Multiple text and interactive environments & Per-environment success & Breadth across distinct agent tasks under a common protocol & Aggregate scores can hide scaffold choices made for each environment \\
+AgentBoard~\cite{hsieh2024agentboard} & Multi-turn embodied, game, web, and tool tasks & Progress and success milestones & Fine-grained progress diagnosis when end-to-end success is sparse & Authored milestones are proxies for useful progress \\
+WorkArena~\cite{drouin2024workarena} & Enterprise knowledge work applications & Task-specific browser state & Realistic navigation and business object manipulation & Replica environments do not capture every production permission or integration \\
+AppWorld~\cite{trivedi2024appworld} & Controllable apps, APIs, and simulated users & Executable state checks & Complex cross-application coding and tool interaction & API-mediated interaction differs from noisy live software and human use \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\caption{Diagnostic coverage of specialized tool use, safety, and scientific agent benchmarks.}
+\label{tab:benchmark-evidence-specialized}
+\small
+\surveytableformat
+\begin{tabularx}{\textwidth}{L{2.65cm}L{3.05cm}L{3.1cm}L{3.4cm}Y}
+\toprule
+\rowcolor{surveyBlue!28}\textbf{Benchmark} & \textbf{Interaction substrate} & \textbf{Primary evaluator} & \textbf{Strongest evidence} & \textbf{Key limitation} \\
+\midrule
+BFCL~\cite{patil2025bfcl} & Function schemas and multi-turn tool calls & Exact and executable call checks & Tool selection, argument construction, and stateful function calling & Function correctness does not establish end-to-end goal completion \\
+ST-WebAgent\-Bench\newline\cite{levy2026stwebagentbench} & Stateful web tasks with safety constraints & Utility and safety checks & Joint measurement of task success and trustworthy behavior & Threat and policy coverage remains bounded by authored scenarios \\
+Discovery\-World\newline\cite{jansen2024discoveryworld} & Interactive simulated scientific environments & Discovery objectives and environment state & Experiment planning, hypothesis testing, and evidence gathering & Simulated science is more observable and resettable than real laboratories \\
+ScienceAgent\-Bench\newline\cite{chen2025scienceagentbench} & Data-driven scientific research tasks & Artifact and task-specific checks & Scientific coding and analysis grounded in realistic research workflows & Coverage is concentrated in tasks that admit computable artifacts \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The tables are therefore a coverage map, not a league table. A benchmark portfolio should include complementary evaluators for the specific claims a system makes. For example, BFCL can isolate whether the agent constructed a valid call, AppWorld can test whether application state changed correctly, ST-WebAgentBench can check policy-constrained web behavior, and a separate recovery protocol is still required to determine whether the system handles partial failure. The same model can legitimately receive different conclusions because the instruments observe different boundaries.
+
+\subsubsection{Generalist and long-horizon evaluation}
+
+Generalist benchmarks trade diagnostic depth for breadth. GAIA spans browsing and multimodal tool use~\cite{mialon2024gaia}; AgentBench aggregates heterogeneous environments~\cite{liu2024agentbench}; and AgentBoard adds progress milestones~\cite{hsieh2024agentboard}. AgencyBench and OSWorld 2.0 increase the horizon: the former averages roughly ninety tool calls and one million tokens, while the latter evaluates 108 workflows and reports a best configuration of 20.6\% under its stated 500-step protocol~\cite{li2026agencybench,yuan2026osworld2}. These results expose state divergence, missed constraints, and weak verification, but their aggregate scores remain configuration- and evaluator-dependent evidence rather than universal rankings.
+
+\subsubsection{Web and computer use agents}
+
+WebArena, OSWorld, WorkArena, AppWorld, and ST-WebAgentBench make interface or application state part of the evidence and differ in whether evaluators inspect terminal pages, database fields, policy decisions, or collateral effects~\cite{zhou2024webarena,xie2024osworld,drouin2024workarena,trivedi2024appworld,levy2026stwebagentbench}. Their execution-based scoring is stronger than static answers but sensitive to interface drift and incomplete oracles. Environment version, permissions, reset health, checked effects, and efficiency must therefore accompany completion; OSWorld-Human shows that step excess and planning or reflection calls can dominate latency~\cite{abhyankar2025osworldhuman}.
+
+\subsubsection{Software engineering agents}
+
+SWE-bench evaluates real repository repairs with executable tests~\cite{jimenez2024swebench}, while SWE-agent shows that the interaction interface materially affects performance~\cite{yang2024sweagent}. Executable oracles are strong but bounded by coverage and environment. A 2026 audit reported material design or description issues in 59.4\% of the 138 SWE-bench Verified problems it examined~\cite{openai2026swebenchaudit}; the result motivates continuous task, oracle, contamination, and version audits rather than rejection of execution-based evaluation.
+
+\subsubsection{Memory, multi-agent, and security benchmarks}
+
+Specialized benchmarks isolate otherwise hidden representations: MemBench measures recall, Mem2ActBench memory-mediated tool use, MultiAgentBench coordination, Agent Security Bench cross-surface attacks and defenses, and InjecAgent indirect prompt injection~\cite{tan2025membench,shen2026mem2actbench,zhu2025multiagentbench,zhang2024agentsecuritybench,zhan2024injecagent}. Each supports only the boundary its evaluator observes. Benchmark selection should therefore map every architectural claim to the episode record and transition that would prove it and list unobserved claims as evaluation gaps.
+
+\subsection{Benchmark validity and common pitfalls}
+
+A benchmark score is not an intrinsic property of a model. It is the end of an inference chain that begins with a task distribution and a complete agent configuration, passes through a particular environment and set of episode records, and terminates in an evaluator. Modern agentic systems make this chain unusually fragile: the same language model can be placed inside different planners, memory policies, tool interfaces, retry loops, and permission boundaries, while the same trajectory can receive different judgments from different acceptance oracles. Benchmark validity therefore asks whether the recorded evidence supports the claim being made, not merely whether a scoring script returned a number. Six recurrent threats break that connection.
+
+\paragraph{Scaffold confounding.}
+An agent result reflects a compound configuration. SWE-agent shows that interface design can materially change performance~\cite{yang2024sweagent}, and Kapoor et al. warn that additional inference or scaffold choices can be misattributed to agent design~\cite{kapoor2025agentsmatter}. Model comparisons should hold scaffold and resources fixed; system comparisons should publish the full manifest and ablate the source of gains.
+
+\paragraph{Budget confounding.}
+More plans, retries, agents, context, or stronger judges can buy accuracy. Cost-controlled evaluation and success--cost frontiers expose whether a result reflects better policy or simply more search~\cite{kapoor2025agentsmatter}. Comparisons should report common caps and realized tokens, calls, time, retries, and workers; differing budgets support only utility claims at those resource levels.
+
+\paragraph{Contamination and public trajectories.}
+Public tasks and trajectories can enter training, retrieval, prompts, or templates, measuring exposure rather than transfer~\cite{kapoor2025agentsmatter}. Time-split, private, and refreshed sets reduce but do not prove absence of contamination~\cite{chen2025contamination}. Reports should preserve task provenance, dates, splits, consulted artifacts, and known exposure and stratify results by public, held-out, and newly authored subsets.
+
+\paragraph{Evaluator weakness.}
+Tests can miss obligations, state oracles can miss collateral effects, and LLM judges can reward fluency or agreement. The SWE-bench audit illustrates the need to revalidate even human-filtered executable tasks~\cite{openai2026swebenchaudit}; model judges require calibration for position, verbosity, and rubric sensitivity~\cite{liu2023geval,zheng2023llmjudge}. Oracles should be tested for false acceptance and rejection and disclose exactly which fields they observe.
+
+\paragraph{Environment drift.}
+Interactive benchmarks drift with browsers, packages, APIs, accounts, fixtures, and time. Runs should identify environment and dependency versions, permissions, reset result, evaluator, and timestamp. Baseline health tasks distinguish agent regressions from broken infrastructure; intentional environment changes begin a new benchmark version.
+
+\paragraph{Single-run reporting.}
+One trajectory shows possibility, not dependability. $\tau$-bench distinguishes single-trial success from pass$^k$ repeated success~\cite{yao2024taubench}. Reports should separate pass@${k}$ from pass$^k$ and state sampling, trial count, retries, and confidence intervals. When full repetition is costly, use a prespecified representative or risk-weighted subset and retain traces for failure cluster analysis.
+
+These threats are not independent housekeeping items. An unrecorded scaffold can consume an unrecorded budget, exploit a public trajectory, pass a weak oracle, and appear stable only because the environment and random seed never changed. The remedy is correspondingly structural: a system manifest, resource ledger, exposure ledger, oracle validation record, environment snapshot, and repeated episode outcomes. Together they turn a leaderboard number into a scoped claim whose alternative explanations are visible and testable.
+
+\subsection{A practical evaluation pipeline}
+
+A publishable and deployment-oriented evaluation pipeline is best understood as a control loop, not a terminal checklist. It converts an architectural or capability claim into an evaluation contract, collects the records needed to test that contract, and uses the resulting evidence to bound a research conclusion or release decision. The loop remains active after deployment because tasks, environments, models, policies, and risks change. This lifecycle view is consistent with the NIST AI Risk Management Framework's progression from mapping context to measuring and managing risk~\cite{nist2023airmf,nist2024genaiprofile}. In practical terms, the pipeline should:
+\begin{enumerate}
+    \item \textbf{Scope the claim.} Define the task distribution, intended users, operating context, required artifacts or effects, and unacceptable outcomes. State whether the claim concerns a model under a fixed scaffold, a complete agentic system, or deployment utility; those are different estimands.
+    \item \textbf{Encode the evaluation contract.} Bind every run to a system manifest, environment version, initial state, permitted actions, resource limits, temporal horizon, evaluator-visible fields, and acceptance oracle. Claims that the oracle cannot observe should be listed as evaluation gaps before experiments begin.
+    \item \textbf{Challenge components and transitions.} Test retrieval evidence, plan and task node constraints, tool proposal schemas, memory admission and invalidation, policy gates, effect verification, and the evaluators themselves. Component tests localize defects that an end-to-end score would merge into a generic failure.
+    \item \textbf{Run complete episodes.} Execute from a declared initial state to a terminal artifact or verified external effect, retaining the joined evidence, state transition, action, receipt, and judgment records. State-based tests such as AppWorld's can accept different valid trajectories while also detecting collateral changes~\cite{trivedi2024appworld}.
+    \item \textbf{Estimate stability and robustness.} Repeat a prespecified task set under fixed resource policies, then introduce semantic perturbations, tool faults, delays, and recovery opportunities. Report both average success and repeated success measures such as pass$^k$ so that occasional capability is not confused with dependable behavior~\cite{yao2024taubench}.
+    \item \textbf{Diagnose through linked records.} Classify failures with a stable taxonomy, but preserve the causal path from the first violated evidence or state contract to downstream decisions and effects. Progress-sensitive instruments such as AgentBoard show why intermediate milestones can be more diagnostic than terminal success alone~\cite{hsieh2024agentboard}.
+    \item \textbf{Report a multi-objective result.} Present task and artifact quality together with verified effect success, constraint satisfaction, safety, abstention, recovery, latency, token and tool cost, and uncertainty. Include task-level or risk-stratified breakdowns and success--cost frontiers rather than compressing incompatible outcomes into one rank.
+    \item \textbf{Audit the instrument.} Measure oracle false acceptance and rejection, check environment health, review exposure and holdout risks, challenge boundary cases, and retire or revise invalid tasks. The continuing reassessment of SWE-bench demonstrates that benchmark maintenance is part of the evidence lifecycle~\cite{openai2026swebenchaudit}.
+    \item \textbf{Gate change and monitor deployment.} Translate the evaluation contract into explicit release thresholds, rollback and escalation triggers, and post-deployment monitoring. Use the same episode and effect schema for regression tests, production incidents, user appeals, and change review so that new evidence can update the claim rather than begin an incomparable record.
+\end{enumerate}
+
+No single benchmark covers this full chain. AgentBoard exposes authored progress milestones, AppWorld evaluates terminal state and collateral effects, $\tau$-bench measures repeated behavioral consistency, and ST-WebAgentBench adds explicit safety and trustworthiness policies~\cite{hsieh2024agentboard,trivedi2024appworld,yao2024taubench,levy2026stwebagentbench}. Their results become comparable evidence only after each instrument is mapped to the claims, records, transitions, and blind spots it can actually observe.
+
+The central principle is that agent evaluation should use the same explicit, typed, and persistent representations demanded of the systems it studies. A leaderboard score is then a view over an episode ledger, not the evidence itself. The ledger must preserve what was attempted, which evidence and constraints governed each transition, what effects occurred, how those effects were judged, and which residual risks remained. Evaluation thereby closes the survey's core loop: evidence supports a bounded action, the action produces new evidence, and that evidence controls whether the system may progress, recover, or stop.

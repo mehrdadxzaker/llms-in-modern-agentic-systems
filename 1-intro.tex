@@ -1,0 +1,322 @@
+\section{Introduction}
+\label{sec:introduction}
+
+Large language models (LLMs) have changed the interface to artificial intelligence by allowing users to specify tasks, constraints, and desired outputs in natural language. Their fluency and broad task coverage, however, should not be confused with dependable autonomy. A standalone LLM has no persistent state outside its current context, no guaranteed access to current or private information, and no intrinsic ability to execute actions in an external environment. It may also produce unsupported claims, follow irrelevant instructions embedded in retrieved content, or lose track of constraints across a long interaction. These limitations are especially consequential when a model is used not only to generate text but also to query databases, edit files, operate software, or trigger business processes~\cite{greshake2023promptinjection}.
+
+Retrieval-Augmented Generation (RAG) addresses one part of this problem by conditioning generation on evidence retrieved from an external corpus~\cite{ghodratnama2024adapting,lewis2020rag,gao2023ragsurvey}. RAG makes knowledge easier to update, enables source attribution, and supports domain adaptation without retraining the underlying model. Nevertheless, retrieval alone does not determine when additional evidence is needed, how a complex goal should be decomposed, whether a tool result is valid, or how the system should recover when an action fails. These requirements motivate a shift from \emph{context augmentation} to \emph{closed-loop control}: the system repeatedly observes its environment, updates state, selects an action, evaluates the result, and revises its plan.
+
+The resulting design space is commonly described as \emph{agentic AI}. The term is useful but inconsistently applied. Some systems labeled as agents are deterministic workflows with an LLM embedded in one step; others allow the model to select tools but not alter the control flow; still others maintain long-term state, delegate to specialized agents, and adapt their strategy over many interactions. This ambiguity makes it difficult to compare methods, interpret benchmark results, and reason about deployment risk. We therefore use \emph{LLM-centered agentic systems} as the umbrella term for the full systems family studied here. The umbrella includes RAG and workflows as enabling system forms, but the operational taxonomy below reserves \emph{agent} for systems in which a model adaptively participates in choosing the next action.
+
+\subsection{From language model applications to agentic systems}
+\label{sec:operational-definitions}
+
+We distinguish five system types by where control decisions are made and how much authority the model receives; the categories make no claim about human-like intelligence.
+
+\begin{table}[t]
+\centering
+\caption{Operational taxonomy used in this survey. The boundary between categories is determined by control flow, state, and action authority rather than by marketing terminology.}
+\label{tab:operational-taxonomy}
+\small
+\surveytableformat
+\begin{tabularx}{\textwidth}{L{2.5cm}Y Y Y}
+\toprule
+\rowcolor{surveyBlue!28}\textbf{System type} & \textbf{Control flow} & \textbf{State and tools} & \textbf{Typical example} \\
+\midrule
+LLM application & One model invocation or a fixed sequence of invocations & Context-local state; no external action or only application-controlled post-processing & Summarization, extraction, classification \\
+RAG application & Fixed retrieve--construct context--generate pipeline & External knowledge access; retrieval policy is largely predetermined & Enterprise question answering with citations \\
+LLM workflow & Developer-authored graph, state machine, or business process & May include tools, retries, and persistent state, but branching is mostly specified in advance & Document processing pipeline with approval gates \\
+Bounded agent & The model selects among allowed actions and may revise the plan from observations & Explicit task state, tools, stopping criteria, budgets, and permission boundaries & Research, coding, or support agent operating in a sandbox \\
+Multi-agent system & Multiple bounded agents exchange tasks, evidence, or control & Distributed state and role-specific tools; requires coordination and conflict resolution & Manager--worker, debate, or blackboard architecture \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+An \agent{} is a system in which a model helps choose the next action from a bounded action space using a goal, current state, and observations. An \agentic{} system is the surrounding socio-technical system of agents, tools, policies, memory, evaluators, and human oversight. The broader \emph{LLM-centered agentic system} may also contain fixed retrieval and workflow components and is analyzed by execution form, functional layer, adaptation locus, and evidence. Ordinary prompting remains a baseline rather than an agent; production agents should operate under explicit permissions, budgets, stopping criteria, and escalation rules.
+
+In \emph{agentic RAG}, retrieval becomes an action within the control loop: the system decides whether and where to retrieve, reformulates queries, inspects conflicts, and stops when support is sufficient. Agents do not replace RAG; retrieval becomes one capability among planning, memory, computation, communication, and execution.
+
+The practical story is an escalation of responsibility. A model first assists with a response; retrieval adds current or attributable evidence; a workflow makes predictable processing explicit; and a bounded agent is warranted only when the next useful step cannot be fixed in advance. Each move expands both capability and failure surface. The survey follows that trade-off from evidence through decision and action to evaluation and governance.
+
+\subsection{Historical progression and current systems view}
+
+Modern agents combine several research lines: classical beliefs, goals, planning, and coordination~\cite{rao1995bdi,wooldridge2009multiagent}; transformer-based language-conditioned policies~\cite{vaswani2017attention,brown2020language}; non-parametric knowledge through RAG~\cite{lewis2020rag}; and tool-augmented reasoning and interaction~\cite{nakano2021webgpt,yao2023react,schick2023toolformer}. Orchestration frameworks now expose state, retries, branches, and approval, while MCP and A2A seek to standardize tool and agent communication~\cite{mcp2025spec,a2a2026spec}.
+
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[
+  font=\small,
+  line cap=round,
+  line join=round,
+  card/.style={
+    rounded corners=1.5mm,
+    draw=surveyLine,
+    line width=0.65pt,
+    align=left,
+    minimum height=2.05cm,
+    text width=3.25cm,
+    inner xsep=7pt,
+    inner ysep=7pt,
+    text=surveyInk,
+    font=\footnotesize
+  },
+  root/.style={
+    rounded corners=1.7mm,
+    draw=surveyNavy,
+    fill=surveyNavy,
+    text=white,
+    line width=0.75pt,
+    align=center,
+    minimum height=1.10cm,
+    text width=5.35cm,
+    inner sep=6pt,
+    font=\small\bfseries
+  },
+  connector/.style={
+    -{Latex[length=2.0mm,width=1.25mm]},
+    line width=0.75pt,
+    draw=surveyNavy
+  },
+  eyebrow/.style={font=\scriptsize\bfseries,text=surveyNavy,align=left}
+]
+
+\node[font=\scriptsize\bfseries,text=surveyLine] at (0,0.82)
+  {SYSTEMS-LEVEL UNIT OF ANALYSIS};
+\node[root] (umbrella) at (0,0) {LLM-centered agentic systems};
+
+\node[card, fill=surveyBlue!16] (forms) at (-5.7,-2.45) {
+  {\color{surveyNavy}\scriptsize\bfseries 01}\\[-1pt]
+  {\color{surveyNavy}\scriptsize\bfseries EXECUTION FORM}\\[5pt]
+  LLM application \textbullet{} RAG\\
+  workflow\\
+  bounded agent\\
+  multi-agent system
+};
+
+\node[card, fill=surveyGreen!16] (layers) at (-1.9,-2.45) {
+  {\color{surveyNavy}\scriptsize\bfseries 02}\\[-1pt]
+  {\color{surveyNavy}\scriptsize\bfseries FUNCTIONAL LAYER}\\[5pt]
+  Grounding \textbullet{} memory\\
+  planning \textbullet{} action\\
+  coordination\\
+  governance
+};
+
+\node[card, fill=surveyPurple!16] (change) at (1.9,-2.45) {
+  {\color{surveyNavy}\scriptsize\bfseries 03}\\[-1pt]
+  {\color{surveyNavy}\scriptsize\bfseries LOCUS OF\\[-1pt] ADAPTATION}\\[5pt]
+  Context \textbullet{} prompt\\
+  memory \textbullet{} tools\\
+  scaffold\\
+  model parameters
+};
+
+\node[card, fill=surveyOrange!13] (evidence) at (5.7,-2.45) {
+  {\color{surveyNavy}\scriptsize\bfseries 04}\\[-1pt]
+  {\color{surveyNavy}\scriptsize\bfseries EVIDENCE LENS}\\[5pt]
+  Component tests\\
+  episodes \textbullet{} benchmarks\\
+  deployments\\
+  incidents
+};
+
+% Four explicit ports make each dimension a direct child of the umbrella term.
+% The distinct curves preserve hierarchy without a visually ambiguous bus.
+\path (umbrella.south west) -- (umbrella.south east)
+  coordinate[pos=.14] (portforms)
+  coordinate[pos=.38] (portlayers)
+  coordinate[pos=.62] (portchange)
+  coordinate[pos=.86] (portevidence);
+\draw[connector] (portforms) to[out=-112,in=90] (forms.north);
+\draw[connector] (portlayers) to[out=-100,in=90] (layers.north);
+\draw[connector] (portchange) to[out=-80,in=90] (change.north);
+\draw[connector] (portevidence) to[out=-68,in=90] (evidence.north);
+
+\end{tikzpicture}
+
+\caption{Umbrella taxonomy used in this survey. Following the umbrella-first organizing logic used to map self-improving agents by update substrate and evaluation target~\cite{ren2026selfimprovingagents}, we place the broader literature under \emph{LLM-centered agentic systems} and compare work along four independent dimensions. The dimensions avoid treating RAG, workflows, and agents as a single maturity ladder.}
+\label{fig:systems-progression}
+\end{figure*}
+
+These dimensions are compositional rather than chronological. Reliable systems are usually hybrid. A bounded agent may use a deterministic workflow for high-risk steps, a symbolic planner for constrained subproblems, RAG for evidence, and a human approval gate before committing an irreversible action. The appropriate architecture depends on task uncertainty, the cost of errors, environmental dynamics, and the availability of objective verification.
+
+\subsection{Positioning relative to related surveys}
+\label{sec:related-surveys}
+
+Existing surveys offer complementary views: broad reviews organize agent capabilities and applications~\cite{wang2024autonomousagentssurvey,xi2025agentsurvey,plaat2025agenticllms}, while focused reviews cover RAG~\cite{gao2023ragsurvey,singh2025agenticragsurvey}, memory~\cite{zhang2025memorysurvey}, tool learning~\cite{shi2025toollearning}, evaluation~\cite{yehudai2026agentsurveyeval}, or self-improvement~\cite{ren2026selfimprovingagents}. Their root terms are not interchangeable: self-improving agents update model parameters or scaffolds from feedback, whereas many RAG, workflow, and bounded-agent systems remain fixed between episodes. \Cref{tab:related-surveys} makes the distinction explicit.
+
+\begin{table*}[t]
+\centering
+\caption{Positioning against representative surveys. Primary denotes the organizing lens rather than every topic mentioned by a paper.}
+\label{tab:related-surveys}
+\small
+\surveytableformat
+\begin{tabularx}{\textwidth}{L{3.0cm}L{3.1cm}L{3.5cm}Y}
+\toprule
+\rowcolor{surveyBlue!28}\textbf{Survey} & \textbf{Umbrella or root term} & \textbf{Primary organizing lens} & \textbf{Relationship to this survey} \\
+\midrule
+Gao et al.~\cite{gao2023ragsurvey} & Retrieval-augmented generation & Naive, advanced, and modular retrieval pipelines & Deep grounding coverage; limited treatment of action authority, multi-agent coordination, and governance \\
+Wang et al.~\cite{wang2024autonomousagentssurvey} & LLM-based autonomous agents & Construction, applications, and evaluation & Broad agent overview; less emphasis on cross-layer reliability contracts and operational boundaries \\
+Xi et al.~\cite{xi2025agentsurvey} & LLM-based agents & Brain, perception, action, and application domains & Comprehensive capability view; RAG-to-workflow boundaries and governance are not the central lens \\
+Zhang et al.~\cite{zhang2025memorysurvey} & LLM-based agent memory & Memory sources, forms, operations, and evaluation & Deep memory coverage used here as one layer within a larger systems architecture \\
+Shi et al.~\cite{shi2025toollearning} & Automatic tool agents & Tool discovery, learning, selection, and use & Deep tool learning coverage; does not by itself integrate memory, governance, or deployment evidence \\
+Yehudai et al.~\cite{yehudai2026agentsurveyeval} & LLM agent evaluation & Benchmarks, metrics, and evaluation protocols & Deep evaluation treatment; this survey connects evaluation to architecture and action authority \\
+Ren et al.~\cite{ren2026selfimprovingagents} & Self-improving agents & Foundation model versus scaffold improvement & Provides the umbrella-first taxonomic inspiration; its scope begins where feedback changes the model or scaffold \\
+\textbf{This survey} & \textbf{LLM-centered agentic systems} & \textbf{Execution form, six functional layers, adaptation locus, and evidence} & \textbf{Integrates RAG, workflows, agents, evaluation, and governance through bounded system authority} \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+The overview in \Cref{fig:literature-atlas} turns this broad scope into a navigable map. It assigns 98 representative sources to one primary locus in the survey taxonomy, while the text and comparative tables interpret the larger literature and its cross-cutting contributions.
+
+\begin{figure*}[p]
+\centering
+\begin{tikzpicture}[
+  font=\scriptsize,
+  line cap=round,
+  line join=round,
+  arrow/.style={
+    -{Latex[length=1.7mm,width=1.05mm]},
+    line width=0.55pt,
+    draw=surveyLine
+  },
+  rootarrow/.style={arrow,line width=0.65pt,draw=surveyNavy},
+  brancharrow/.style={arrow,line width=0.55pt,draw=surveyLine},
+  workarrow/.style={arrow,line width=0.62pt,draw=surveyNavy},
+  branch/.style={
+    rounded corners=1.1mm,
+    draw=surveyLine,
+    line width=0.55pt,
+    align=center,
+    text width=1.54cm,
+    inner xsep=3.5pt,
+    inner ysep=5pt,
+    font=\fontsize{7.6}{8.8}\selectfont\bfseries,
+    text=surveyNavy
+  },
+  leaf/.style={
+    rounded corners=1.0mm,
+    draw=surveyLine,
+    line width=0.5pt,
+    fill=white,
+    align=center,
+    text width=2.20cm,
+    inner xsep=3pt,
+    inner ysep=3pt,
+    font=\scriptsize\bfseries,
+    text=surveyInk
+  },
+  works/.style={
+    rounded corners=1.0mm,
+    draw=surveyLine,
+    line width=0.45pt,
+    align=left,
+    text width=9.80cm,
+    inner xsep=5pt,
+    inner ysep=3pt,
+    font=\scriptsize,
+    text=surveyInk
+  }
+]
+
+% Column headers
+\node[font=\scriptsize\bfseries,text=surveyLine] at (-6.25,1.05) {BRANCH};
+\node[font=\scriptsize\bfseries,text=surveyLine] at (-3.95,1.05) {PRIMARY LOCUS};
+\node[font=\scriptsize\bfseries,text=surveyLine] at (2.75,1.05) {REPRESENTATIVE WORKS (98 SOURCES)};
+
+% Compact umbrella node and tree spine
+\node[
+  rounded corners=1.4mm,
+  fill=surveyNavy,
+  draw=surveyNavy,
+  line width=0.75pt,
+  minimum width=0.62cm,
+  minimum height=5.35cm,
+  inner sep=0pt
+] (root) at (-7.70,-9.60) {};
+\node[rotate=90,font=\scriptsize\bfseries,text=white,align=center]
+  at (root.center) {LLM-centered agentic systems};
+
+% Branches
+\node[branch,fill=surveyBlue!26,minimum height=2.72cm] (b1) at (-6.25,-0.76)
+  {Foundations\\and scope};
+\node[branch,fill=surveyGreen!25,minimum height=4.50cm] (b2) at (-6.25,-4.80)
+  {Grounding\\and action};
+\node[branch,fill=surveyPurple!23,minimum height=4.50cm] (b3) at (-6.25,-9.60)
+  {State, adaptation,\\and coordination};
+\node[branch,fill=surveyOrange!20,minimum height=4.50cm] (b4) at (-6.25,-14.40)
+  {Evaluation\\and evidence};
+\node[branch,fill=surveyMuted,minimum height=2.90cm] (b5) at (-6.25,-18.40)
+  {Assurance\\and deployment};
+
+% Primary loci
+\node[leaf] (l1) at (-3.95,0.00) {Cross-cutting\\surveys};
+\node[leaf] (l2) at (-3.95,-1.52) {Classical and\\language model foundations};
+\node[leaf] (l3) at (-3.95,-3.20) {Retrieval and\\grounding};
+\node[leaf] (l4) at (-3.95,-4.80) {Reasoning and\\planning};
+\node[leaf] (l5) at (-3.95,-6.40) {Tools and\\action runtime};
+\node[leaf] (l6) at (-3.95,-8.00) {Memory and\\persistent state};
+\node[leaf] (l7) at (-3.95,-9.60) {Self-improvement\\and long horizons};
+\node[leaf] (l8) at (-3.95,-11.20) {Coordination\\and protocols};
+\node[leaf] (l9) at (-3.95,-12.80) {Benchmark\\frameworks};
+\node[leaf] (l10) at (-3.95,-14.40) {Interactive\\environments};
+\node[leaf] (l11) at (-3.95,-16.00) {Code, tool, science,\\and long-horizon tests};
+\node[leaf] (l12) at (-3.95,-17.60) {Security and\\governance};
+\node[leaf] (l13) at (-3.95,-19.20) {Application\\evidence};
+
+% Literature leaves. Each mapped source is deliberately assigned once.
+\node[works,fill=surveyBlue!11] (w1) at (2.75,0.00) {\textbf{Survey roots and scope.} Broad agent, RAG, memory, tool learning, evaluation, and self-improvement surveys~\cite{wang2024autonomousagentssurvey,xi2025agentsurvey,plaat2025agenticllms,ren2026selfimprovingagents,gao2023ragsurvey,singh2025agenticragsurvey,zhang2025memorysurvey,shi2025toollearning,yehudai2026agentsurveyeval}.};
+\node[works,fill=surveyBlue!11] (w2) at (2.75,-1.52) {\textbf{Foundational agent and LLM concepts.} Classical agency, planning, hierarchical control, multi-agent systems, cognitive analogies, transformers, and few-shot language models~\cite{russell2021aima,rao1995bdi,wooldridge2009multiagent,kaelbling1998pomdp,sutton1999options,fikes1971strips,erol1994htn,mcdermott1998pddl,hawkins2021thousandbrains,vaswani2017attention,brown2020language}.};
+\node[works,fill=surveyGreen!11] (w3) at (2.75,-3.20) {\textbf{RAG and evidence control.} Canonical, adaptive, corrective, and self-reflective retrieval; query rewriting, pseudo documents, re-ranking, context structure, and RAG evaluation~\cite{lewis2020rag,ghodratnama2024adapting,ma2023queryrewriting,wang2023query2doc,shi2023replug,jiang2023flare,asai2024selfrag,sarthi2024raptor,yan2024crag,es2024ragas,liu2024lostinthemiddle}.};
+\node[works,fill=surveyGreen!11] (w4) at (2.75,-4.80) {\textbf{Reasoning and plans.} ReAct, branching search, least-to-most decomposition, plan-and-solve, program-of-thought, self-refinement, tool routing, and plan-and-act control~\cite{yao2023react,yao2023treeofthoughts,zhou2023leasttomost,wang2023planandsolve,chen2023pot,madaan2023selfrefine,karpas2022mrkl,erdogan2025planandact}.};
+\node[works,fill=surveyGreen!11] (w5) at (2.75,-6.40) {\textbf{Tools and execution interfaces.} Web interaction, learned tool use, tool use datasets, function calling evaluation, and production agent runtimes~\cite{nakano2021webgpt,schick2023toolformer,qin2024toolllm,openai2025agentssdk,patil2025bfcl}.};
+\node[works,fill=surveyPurple!10] (w6) at (2.75,-8.00) {\textbf{Memory construction and measurement.} Generative, hierarchical, conversational, experiential, structured, and learned memory policies, together with memory benchmarks~\cite{park2023generativeagents,packer2024memgpt,zhong2024memorybank,zhao2024expel,xu2025amem,chhikara2025mem0,yu2026agemem,ghodratnama2023personalized,ghodratnama2024sumrecom,tan2025membench,shen2026mem2actbench}.};
+\node[works,fill=surveyPurple!10] (w7) at (2.75,-9.60) {\textbf{Adaptation and long-horizon learning.} Verbal reflection, program/library growth, embodied exploration, weak-to-strong feedback, and agentic reinforcement learning~\cite{shinn2023reflexion,gao2023pal,wang2023voyager,li2026soar,lu2026supo,zakershahrak2024explanation}.};
+\node[works,fill=surveyPurple!10] (w8) at (2.75,-11.20) {\textbf{Coordination and interoperability.} Role-play, conversational coordination, software development teams, multi-agent debate, benchmarked coordination, MCP, and A2A~\cite{li2023camel,wu2023autogen,hong2024metagpt,du2024multiagentdebate,zhu2025multiagentbench,mcp2025spec,a2a2026spec}.};
+\node[works,fill=surveyOrange!10] (w9) at (2.75,-12.80) {\textbf{Benchmark concepts.} Breadth-oriented agent environments, progress-sensitive boards, and multimodal general assistant evaluation~\cite{liu2024agentbench,hsieh2024agentboard,mialon2024gaia}.};
+\node[works,fill=surveyOrange!10] (w10) at (2.75,-14.40) {\textbf{Interactive environments.} Web, desktop, human-executed computer use, long-horizon operating system tasks, enterprise work, and controllable app worlds~\cite{zhou2024webarena,xie2024osworld,abhyankar2025osworldhuman,yuan2026osworld2,drouin2024workarena,trivedi2024appworld}.};
+\node[works,fill=surveyOrange!10] (w11) at (2.75,-16.00) {\textbf{Executable and long-horizon tests.} Repository repair, software agents, tool-agent-user interaction, scientific discovery, data-driven science, full agency episodes, and benchmark auditing~\cite{jimenez2024swebench,yang2024sweagent,yao2024taubench,jansen2024discoveryworld,chen2025scienceagentbench,li2026agencybench,openai2026swebenchaudit}.};
+\node[works,fill=surveyMuted] (w12) at (2.75,-17.60) {\textbf{Security and governance.} Prompt injection, controlled attack benchmarks, agent security evaluation, trustworthy web interaction, NIST guidance, OWASP, and MITRE ATLAS~\cite{greshake2023promptinjection,zhan2024injecagent,zhang2024agentsecuritybench,levy2026stwebagentbench,nist2023airmf,nist2024genaiprofile,owasp2025llmtop10,mitre2026atlas}.};
+\node[works,fill=surveyMuted] (w13) at (2.75,-19.20) {\textbf{Application and deployment evidence.} Verified mathematical search, autonomous materials synthesis, chemistry tooling, automated research, multi-agent scientific work, and consequential office workflows~\cite{romeraparedes2024funsearch,szymanski2023alab,bran2024chemcrow,lu2024aiscientist,ghafarollahi2024sciagents,xu2025agentcompany}.};
+
+% Root-to-branch and branch-to-leaf hierarchy.
+\draw[draw=surveyNavy,line width=0.65pt] (root.east) -- (-7.30,-9.60);
+\draw[draw=surveyNavy,line width=0.65pt] (-7.30,-18.40) -- (-7.30,-0.76);
+\foreach \branch/\y in {b1/-.76,b2/-4.80,b3/-9.60,b4/-14.40,b5/-18.40}
+  \draw[rootarrow] (-7.30,\y) -- (\branch.west);
+\foreach \leaf in {l1,l2}
+  \draw[brancharrow] (b1.east) -- (\leaf.west);
+\foreach \leaf in {l3,l4,l5}
+  \draw[brancharrow] (b2.east) -- (\leaf.west);
+\foreach \leaf in {l6,l7,l8}
+  \draw[brancharrow] (b3.east) -- (\leaf.west);
+\foreach \leaf in {l9,l10,l11}
+  \draw[brancharrow] (b4.east) -- (\leaf.west);
+\foreach \leaf in {l12,l13}
+  \draw[brancharrow] (b5.east) -- (\leaf.west);
+\foreach \leaf/\work in {l1/w1,l2/w2,l3/w3,l4/w4,l5/w5,l6/w6,l7/w7,l8/w8,l9/w9,l10/w10,l11/w11,l12/w12,l13/w13}
+  \draw[workarrow] (\leaf.east) -- (\work.west);
+\end{tikzpicture}
+
+\caption{Comprehensive literature taxonomy for LLM-centered agentic systems. Inspired by the umbrella-first, work-level mapping in the self-improvement survey of Ren et al.~\cite{ren2026selfimprovingagents}, this atlas assigns 98 representative sources to one primary locus. The placement expresses the source's principal contribution, not an exclusive claim: many methods span multiple layers, and the surrounding text and tables cover additional work.}
+\label{fig:literature-atlas}
+\end{figure*}
+
+\subsection{Scope and literature selection}
+\label{sec:survey-method}
+
+This systems-oriented narrative survey covers LLM-centered agentic systems through \reviewcutoff across the execution forms and functional layers in \Cref{fig:systems-progression}; it does not claim to enumerate every implementation. We synthesize peer-reviewed research, public benchmarks, influential preprints where mature coverage is unavailable, and official specifications for evolving protocols. Included work contributes materially to grounding, architecture, state, planning, tools, coordination, adaptation, evaluation, safety, interoperability, or deployment. Ordinary chat and fixed pipelines appear only when they clarify a boundary, and vendor deployments are treated as case studies rather than independent evidence of general effectiveness.
+
+Because products and leaderboards change quickly, we emphasize durable abstractions and benchmark methodology: frameworks are compared by control and operational guarantees, and results expose capability gaps rather than declare permanent rankings.
+
+\subsection{Contributions and organization}
+
+The survey makes the following contributions:
+
+\begin{itemize}
+    \item \textbf{An umbrella term and operational definitions.} We use LLM-centered agentic systems for the broader systems family, then distinguish LLM applications, RAG, deterministic workflows, bounded agents, and multi-agent systems by control, state, and action authority.
+    \item \textbf{A multidimensional systems taxonomy.} We compare execution form, six functional layers, locus of adaptation, and evidence rather than presenting RAG, workflows, and agents as a single maturity ladder.
+    \item \textbf{Integrated foundations and current mechanisms.} We connect classical agency and planning to modern RAG, memory policies, long-horizon learning, MCP, and A2A.
+    \item \textbf{Comparative evidence and deployment guidance.} We map mechanisms, benchmarks, safety sources, and application studies to the claims they support, then connect outcome, trajectory, cost, recovery, and side effect metrics to typed contracts, least privilege, approval, verification, tracing, and replay.
+\end{itemize}
+
+The review follows one systems narrative: RAG moves from grounding a response to deciding when to seek evidence; foundations explain state, planning, uncertainty, and bounded action; architecture turns them into memory, decision, tool, and coordination components; evaluation asks what can justify a capability claim; and governance and applications test whether that claim survives consequential deployment. The final sections identify open problems along the same evidence-to-action-to-accountability path.

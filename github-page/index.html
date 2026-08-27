@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A systems survey of LLM-centered agentic systems: retrieval, workflows, bounded agents, evaluation, and governance.">
+    <title>LLM-Centered Agentic Systems</title>
+    <link rel="stylesheet" href="../site-shared/theme.css">
+  </head>
+  <body>
+    <div class="top-rule"></div>
+    <div class="page-shell">
+      <header class="container site-header">
+        <a class="wordmark" href="./">LLM-Centered Agentic Systems</a>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="site-nav" aria-expanded="false">Menu</button>
+        <nav class="site-nav" id="site-nav" data-site-nav data-open="false" aria-label="Primary navigation">
+          <a href="./" aria-current="page">Overview</a>
+          <a href="../project-page/">Narrative</a>
+          <a href="../0-main.pdf">Read paper</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="container hero">
+          <div>
+            <p class="eyebrow">Comprehensive systems survey • July 2026</p>
+            <h1>LLM-centered<br>agentic systems</h1>
+            <p class="lede">A systems view of how language models become evidence-aware, bounded, and governable actors in the world.</p>
+            <div class="actions">
+              <a class="button" href="../0-main.pdf">Read the paper</a>
+              <a class="button secondary" href="../project-page/">Follow the argument</a>
+            </div>
+          </div>
+          <aside class="hero-aside" aria-label="Central claim">
+            <p class="section-kicker">Central claim</p>
+            <p><strong>Fluent generation is not dependable autonomy.</strong><br>Reliability emerges from explicit state, evidence, action contracts, verification, and proportionate governance.</p>
+          </aside>
+        </section>
+
+        <div class="intro-band">
+          <div class="container statement">The paper asks one question across the whole stack: <strong>what must surround a language model</strong> before it can move from producing a response to choosing and verifying actions over time?</div>
+        </div>
+
+        <section class="container" id="taxonomy">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">The systems lens</p>
+              <h2>Four ways to locate a contribution</h2>
+            </div>
+            <p>The survey does not put RAG, workflows, and agents on one maturity ladder. It compares them along independent dimensions that affect capability and risk.</p>
+          </div>
+          <div class="card-grid">
+            <article class="system-card" style="--card-color: var(--blue)">
+              <span class="card-number">01</span>
+              <h3>Execution form</h3>
+              <p>LLM application, RAG, workflow, bounded agent, or multi-agent system.</p>
+            </article>
+            <article class="system-card" style="--card-color: var(--green)">
+              <span class="card-number">02</span>
+              <h3>Functional layer</h3>
+              <p>Grounding, memory, planning, action, coordination, and governance.</p>
+            </article>
+            <article class="system-card" style="--card-color: var(--purple)">
+              <span class="card-number">03</span>
+              <h3>Adaptation locus</h3>
+              <p>Context, prompt, memory, tools, scaffold, or model parameters.</p>
+            </article>
+            <article class="system-card" style="--card-color: var(--orange)">
+              <span class="card-number">04</span>
+              <h3>Evidence lens</h3>
+              <p>Component tests, trajectories, benchmarks, deployments, and incidents.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="mist">
+          <div class="container">
+            <div class="section-head">
+              <div>
+                <p class="section-kicker">Reader map</p>
+                <h2>From source to accountable action</h2>
+              </div>
+              <p>The paper follows a progression from grounding information to acting under authority, then asks what evidence and safeguards make that action credible.</p>
+            </div>
+            <div class="decision-rail">
+              <div class="decision-step"><span class="step-tag">01 • Ground</span><p><strong>Retrieve and attribute evidence.</strong> RAG lets a system work over current, scoped, and attributable information, but does not guarantee factuality by itself.</p></div>
+              <div class="decision-step"><span class="step-tag">02 • Decide</span><p><strong>Represent state and choose the next step.</strong> Planning, memory, and tools turn a language model into a component of a control loop.</p></div>
+              <div class="decision-step"><span class="step-tag">03 • Act</span><p><strong>Constrain external authority.</strong> Tool contracts, permissions, budgets, and validators determine whether a proposed action can happen.</p></div>
+              <div class="decision-step"><span class="step-tag">04 • Account</span><p><strong>Measure outcomes and side effects.</strong> Evaluation must cover success, recovery, cost, traceability, and safety together.</p></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="container">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Literature atlas</p>
+              <h2>A taxonomy for 98 cited sources</h2>
+            </div>
+            <p>Every cited work receives one primary location in the full atlas. The placement identifies its main contribution, without denying that many systems cross layers.</p>
+          </div>
+          <div class="atlas" aria-label="High-level literature taxonomy">
+            <div class="atlas-header"><span>Branch</span><span>Primary locus</span><span>Research contribution</span></div>
+            <div class="atlas-row"><div class="atlas-branch" style="--branch-color: color-mix(in srgb, var(--blue) 32%, white)">Foundations<br>and scope</div><div class="atlas-locus">Survey roots and classical foundations</div><div class="atlas-work" style="--work-color: color-mix(in srgb, var(--blue) 16%, white)"><strong>What the system is.</strong> Agent, LLM, planning, and survey foundations establish the unit of analysis.</div></div>
+            <div class="atlas-row"><div class="atlas-branch" style="--branch-color: color-mix(in srgb, var(--green) 32%, white)">Grounding<br>and action</div><div class="atlas-locus">Retrieval, reasoning, and tools</div><div class="atlas-work" style="--work-color: color-mix(in srgb, var(--green) 16%, white)"><strong>What the system can do.</strong> Evidence retrieval, planning, tool selection, and execution interfaces enlarge the action loop.</div></div>
+            <div class="atlas-row"><div class="atlas-branch" style="--branch-color: color-mix(in srgb, var(--purple) 28%, white)">State, adaptation,<br>and coordination</div><div class="atlas-locus">Memory, learning, and protocols</div><div class="atlas-work" style="--work-color: color-mix(in srgb, var(--purple) 15%, white)"><strong>What changes across time.</strong> Persistent state, self-improvement, and coordination alter system behavior across episodes.</div></div>
+            <div class="atlas-row"><div class="atlas-branch" style="--branch-color: color-mix(in srgb, var(--orange) 24%, white)">Evaluation<br>and evidence</div><div class="atlas-locus">Benchmarks and interactive environments</div><div class="atlas-work" style="--work-color: color-mix(in srgb, var(--orange) 14%, white)"><strong>What a claim can support.</strong> Episodes, executable checks, and long-horizon environments expose different gaps.</div></div>
+            <div class="atlas-row"><div class="atlas-branch">Assurance<br>and deployment</div><div class="atlas-locus">Security, governance, and applications</div><div class="atlas-work" style="--work-color: var(--mist)"><strong>What authority is justified.</strong> Security controls, deployment evidence, and human accountability set the boundary for autonomy.</div></div>
+          </div>
+        </section>
+
+        <section class="container">
+          <div class="callout">
+            <div>
+              <p class="section-kicker" style="color: var(--blue)">The practical rule</p>
+              <h2>Use the least autonomy that solves the task.</h2>
+              <p>Use RAG for attributable evidence, workflows for predictable control, bounded agents for uncertain but verifiable work, and multi-agent systems only when distinct roles create a measurable advantage.</p>
+            </div>
+            <a class="button" href="../project-page/">Explore the narrative</a>
+          </div>
+        </section>
+
+        <section class="container">
+          <p class="section-kicker">Project materials</p>
+          <div class="source-list">
+            <div class="source-item"><span>Survey</span><a href="../0-main.pdf">Full paper (PDF)</a></div>
+            <div class="source-item"><span>Taxonomy</span><a href="../1-intro.tex">Introduction and literature atlas</a></div>
+            <div class="source-item"><span>Evidence</span><a href="../5-evaluating.tex">Evaluation and benchmark analysis</a></div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer"><div class="container"><span>LLM-Centered Agentic Systems</span><span>Static project page • Palatino/Pazo visual direction</span></div></footer>
+    </div>
+    <script src="../site-shared/site.js"></script>
+  </body>
+</html>

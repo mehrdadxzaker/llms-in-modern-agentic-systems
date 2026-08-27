@@ -1,0 +1,173 @@
+\documentclass[11pt,a4paper]{article}
+
+% Encoding and typography
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[utf8]{inputenc}
+  \usepackage[T1]{fontenc}
+  % Match the Schmidhuber-coauthored reference survey: URW Palladio text,
+  % Pazo mathematics, and Inconsolata monospaced text where available.
+  \usepackage{mathpazo}
+  \IfFileExists{inconsolata.sty}{\usepackage{inconsolata}}{}
+\else
+  % Local fallback for lean TeX installations that omit the Type 1 Palladio
+  % files. Overleaf's default pdfLaTeX route uses the branch above.
+  \usepackage{fontspec}
+  \defaultfontfeatures{Ligatures=TeX}
+  \setmainfont{Palatino}
+  \setmonofont{Menlo}
+\fi
+\usepackage{microtype}
+
+% Mathematics
+\usepackage{amsmath,amssymb}
+
+% Figures, tables, and layout
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,fit,backgrounds}
+
+% Document structure and references
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[table]{xcolor}
+\usepackage{hyperref}
+\usepackage{url}
+
+\geometry{margin=1in}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em}
+\setlength{\emergencystretch}{1.5em}
+\raggedbottom
+\setlength{\textfloatsep}{12pt plus 3pt minus 4pt}
+\setlength{\floatsep}{10pt plus 2pt minus 2pt}
+\setlength{\intextsep}{10pt plus 2pt minus 2pt}
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{\z@}%
+  {-2.5ex \@plus -.5ex \@minus -.3ex}%
+  {1.1ex \@plus .2ex}%
+  {\normalfont\Large\bfseries\raggedright}}
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+  {-2.0ex \@plus -.4ex \@minus -.25ex}%
+  {.8ex \@plus .15ex}%
+  {\normalfont\large\bfseries\raggedright}}
+\renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
+  {-1.7ex \@plus -.35ex \@minus -.2ex}%
+  {.65ex \@plus .1ex}%
+  {\normalfont\normalsize\bfseries\raggedright}}
+\makeatother
+\renewcommand{\topfraction}{0.88}
+\renewcommand{\textfraction}{0.08}
+\renewcommand{\floatpagefraction}{0.72}
+
+\definecolor{deepblue}{RGB}{21,67,96}
+\definecolor{deepred}{RGB}{132,36,36}
+\definecolor{deepgreen}{RGB}{34,101,67}
+\definecolor{lightblue}{RGB}{229,241,249}
+\definecolor{lightgreen}{RGB}{232,245,236}
+\definecolor{lightorange}{RGB}{252,240,220}
+\definecolor{darkorange}{RGB}{184,92,0}
+\definecolor{lightgray}{RGB}{245,246,247}
+
+% Figure palette adapted from the visual system used in the reference survey.
+\definecolor{surveyNavy}{HTML}{002060}
+\definecolor{surveyBlue}{HTML}{9CC3E6}
+\definecolor{surveyGreen}{HTML}{A9D18E}
+\definecolor{surveyPurple}{HTML}{D8B4E2}
+\definecolor{surveyOrange}{HTML}{ED7D31}
+\definecolor{surveyInk}{HTML}{25324A}
+\definecolor{surveyLine}{HTML}{62738A}
+\definecolor{surveyCanvas}{HTML}{F7F9FC}
+\definecolor{surveyMuted}{HTML}{E8EDF3}
+
+\captionsetup[figure]{
+    font=small,
+    labelfont=bf,
+    labelsep=period,
+    justification=raggedright,
+    singlelinecheck=false
+}
+\captionsetup[table]{
+    font=small,
+    labelfont=bf,
+    labelsep=period,
+    justification=raggedright,
+    singlelinecheck=false
+}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=deepblue,
+    citecolor=deepgreen,
+    urlcolor=deepred,
+    bookmarksopen=true,
+    bookmarksnumbered=true,
+    pdfauthor={Anonymous Author(s)},
+    pdftitle={LLMs in Modern Agentic Systems: A Systems Survey}
+}
+
+\newcommand{\reviewcutoff}{July 2026}
+\newcommand{\agent}{\textit{agent}}
+\newcommand{\agentic}{\textit{agentic}}
+\newcommand{\Cref}[1]{\autoref{#1}}
+\newcommand{\projectpageurl}{https://xpounder-com.github.io/llms-in-modern-agentic-systems/}
+\newcommand{\githuburl}{https://github.com/Xpounder-com/llms-in-modern-agentic-systems}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\surveytableformat}{%
+  \renewcommand{\arraystretch}{1.14}%
+  \setlength{\tabcolsep}{3.6pt}%
+  \rowcolors{2}{surveyCanvas}{white}%
+}
+
+\begin{document}
+
+% Overleaf's current single-pass build state does not persist BibTeX labels
+% between recompiles.  This generated map keeps the numeric labels available
+% on the first LaTeX pass; regenerate it together with manual-references.tex
+% whenever the bibliography changes.
+\makeatletter
+\let\survey@bibcite\bibcite
+\renewcommand{\bibcite}[2]{%
+  \@ifundefined{b@#1}{\survey@bibcite{#1}{#2}}{}%
+}
+\input{citation-map}
+\let\bibcite\survey@bibcite
+\makeatother
+
+\title{LLMs in Modern Agentic Systems:\\
+A Systems Survey}
+\author{Anonymous Author(s)\\[3pt]
+\small
+\href{\githuburl}{\textcolor{deepblue}{\texttt{[GitHub repository]}}}
+\quad\textbar\quad
+\href{\projectpageurl}{\textcolor{deepblue}{\texttt{[Project page]}}}}
+\date{}
+\maketitle
+
+\begin{abstract}
+Large language models are increasingly embedded in systems that retrieve evidence, maintain state, invoke tools, coordinate specialized components, and act over extended horizons. We use \emph{LLM-centered agentic systems} as the umbrella term for this systems family while distinguishing fixed language model applications and retrieval pipelines from workflows, bounded agents, and multi-agent systems by adaptive control, persistent state, and action authority. Our central argument is that dependable agency is a representation and transition control problem as much as a model capability problem: heterogeneous evidence must be transformed into bounded, reviewable, and verifiably completed effects through explicit, typed, persistent data structures. This comprehensive survey develops that argument through \reviewcutoff{} across six interacting layers: grounding and perception; memory and state; reasoning and planning; action and tool interfaces; coordination and interoperability; and safety, governance, and observability. We connect classical agent foundations to work on agentic retrieval, memory, tool use learning, graph-based orchestration, self-improvement, multi-agent coordination, interoperability protocols, and long-horizon reinforcement learning. Comparative tables and evidence maps distinguish what component a method changes, what feedback it consumes, what authority it receives, and what its evaluation can actually establish. We synthesize benchmarks and deployment evidence across verified outcome quality, trajectory efficiency, recovery, memory-mediated action, cost, side effects, and human accountability. Across this literature, retrieved content is not automatically admissible evidence, model output is not authorization, a successful tool response is not proof of the intended effect, and a benchmark score is not a transferable guarantee about an unrecorded system. Reliable agency instead requires a persistent case that links evidence, state, proposals, permissions, execution receipts, verified effects, resources, and responsibility. We conclude with lifecycle invariants and a research agenda for grounded, governable, interoperable, and resource-bounded agency.
+\end{abstract}
+
+\section*{Keywords}
+LLM-centered agentic systems; agentic AI; retrieval-augmented generation; autonomous agents; memory; planning; tool use; multi-agent systems; evaluation; safety; interoperability
+
+\input{1-intro}
+\input{2-rag}
+\input{3-agents-foundation}
+\input{4-architecture}
+\input{5-evaluating}
+\input{6-safety-governance}
+\input{6-applications}
+\input{7-conclusion}
+
+% Checked-in BibTeX output keeps the project self-contained on build services
+% that do not complete the required LaTeX--BibTeX--LaTeX--LaTeX sequence.
+\input{manual-references}
+
+\end{document}

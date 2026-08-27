@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A narrative guide to the LLM-Centered Agentic Systems survey.">
+    <title>From Fluent Output to Dependable Action</title>
+    <link rel="stylesheet" href="../site-shared/theme.css">
+  </head>
+  <body>
+    <div class="top-rule"></div>
+    <div class="page-shell">
+      <header class="container site-header">
+        <a class="wordmark" href="../github-page/">LLM-Centered Agentic Systems</a>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="site-nav" aria-expanded="false">Menu</button>
+        <nav class="site-nav" id="site-nav" data-site-nav data-open="false" aria-label="Primary navigation">
+          <a href="../github-page/">Overview</a>
+          <a href="./" aria-current="page">Narrative</a>
+          <a href="../0-main.pdf">Read paper</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="container hero">
+          <div>
+            <p class="eyebrow">A reader's guide to the survey</p>
+            <h1>From fluent output to dependable action</h1>
+            <p class="lede">The central transition in agentic systems is not from one model to another. It is from producing a response to acting in a closed loop with evidence, constraints, and feedback.</p>
+            <div class="actions">
+              <a class="button" href="../0-main.pdf">Read the full survey</a>
+              <a class="button secondary" href="../github-page/">Project overview</a>
+            </div>
+          </div>
+          <aside class="hero-aside" aria-label="Reader question">
+            <p class="section-kicker">The reader question</p>
+            <p><strong>What changes when a model can act?</strong><br>It gains capability only through a larger system; that same system must make its authority observable and controllable.</p>
+          </aside>
+        </section>
+
+        <div class="intro-band">
+          <div class="container statement">An LLM can write a plausible answer. A dependable system must also know <strong>what it knows, what it may do, how it will check itself, and when it must stop.</strong></div>
+        </div>
+
+        <section class="container">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Act I • The boundary</p>
+              <h2>Not every LLM system is an agent</h2>
+            </div>
+            <p>The paper starts by separating increasingly adaptive system forms. This matters because each form delegates a different amount of control to the model.</p>
+          </div>
+          <div class="decision-rail">
+            <div class="decision-step"><span class="step-tag">LLM application</span><p>The model answers, summarizes, classifies, or extracts. Control remains outside the model.</p></div>
+            <div class="decision-step"><span class="step-tag">RAG application</span><p>The model synthesizes over retrieved evidence, but the retrieve-and-generate sequence is mainly predetermined.</p></div>
+            <div class="decision-step"><span class="step-tag">LLM workflow</span><p>A developer-authored graph may include state and tools, while most branching remains explicit and inspectable.</p></div>
+            <div class="decision-step"><span class="step-tag">Bounded agent</span><p>The model can select permitted next actions from observations, under budgets, stopping rules, and authorization boundaries.</p></div>
+            <div class="decision-step"><span class="step-tag">Multi-agent system</span><p>Several bounded agents coordinate tasks, evidence, or control, creating both new capability and new accountability boundaries.</p></div>
+          </div>
+        </section>
+
+        <section class="mist">
+          <div class="container">
+            <div class="section-head">
+              <div>
+                <p class="section-kicker">Act II • The loop</p>
+                <h2>RAG becomes agentic when retrieval is a decision</h2>
+              </div>
+              <p>Retrieval is not replaced by an agent. It becomes one capability among planning, memory, computation, communication, and action.</p>
+            </div>
+            <div class="narrative-grid">
+              <article class="narrative-card" style="--card-color: var(--blue)"><h3>1. Gather</h3><p>Start from a user goal, retrieve scoped evidence, and preserve provenance rather than treating the model as the source of truth.</p></article>
+              <article class="narrative-card" style="--card-color: var(--purple)"><h3>2. Interpret</h3><p>Rank, filter, and synthesize evidence. A plausible answer is still only a hypothesis until its support is checked.</p></article>
+              <article class="narrative-card" style="--card-color: var(--green)"><h3>3. Return or revise</h3><p>If support is incomplete or conflicting, retrieve again, re-plan, abstain, or escalate instead of confidently continuing.</p></article>
+            </div>
+          </div>
+        </section>
+
+        <section class="container">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Act III • The architecture</p>
+              <h2>Agency lives in the system around the model</h2>
+            </div>
+            <p>The model may propose an action, but the runtime decides whether that action has a valid schema, authority, budget, and verifiable consequence.</p>
+          </div>
+          <div class="card-grid">
+            <article class="system-card" style="--card-color: var(--blue)"><span class="card-number">STATE</span><h3>Remember selectively</h3><p>Separate task state, evidence, generated notes, and stable preferences. Every persistent memory needs scope and provenance.</p></article>
+            <article class="system-card" style="--card-color: var(--purple)"><span class="card-number">POLICY</span><h3>Choose under constraints</h3><p>Plans are hypotheses. New observations, permissions, and tool results can invalidate a proposed next step.</p></article>
+            <article class="system-card" style="--card-color: var(--green)"><span class="card-number">ACTION</span><h3>Commit through contracts</h3><p>Typed tools, least privilege, budgets, and validation make an action interface safer than unstructured text.</p></article>
+            <article class="system-card" style="--card-color: var(--orange)"><span class="card-number">TRACE</span><h3>Make behavior inspectable</h3><p>Record sources, decisions, tool calls, outcomes, approvals, costs, and side effects so failures can be understood.</p></article>
+          </div>
+        </section>
+
+        <section class="mist">
+          <div class="container">
+            <div class="section-head">
+              <div>
+                <p class="section-kicker">Act IV • The evidence</p>
+                <h2>Success is more than the final answer</h2>
+              </div>
+              <p>Agent evaluation must ask whether a system reached the right state, took a safe trajectory, recovered from failure, and justified its cost and authority.</p>
+            </div>
+            <div class="narrative-grid">
+              <article class="narrative-card" style="--card-color: var(--blue)"><h3>Outcome</h3><p>Did the requested record exist, test pass, form submit, or task state change as intended?</p></article>
+              <article class="narrative-card" style="--card-color: var(--orange)"><h3>Trajectory</h3><p>Did the system make valid tool calls, avoid loops, recover from interruptions, and preserve policy boundaries?</p></article>
+              <article class="narrative-card" style="--card-color: var(--purple)"><h3>Deployment</h3><p>What did it cost, what side effects occurred, and did people retain meaningful oversight at consequential decisions?</p></article>
+            </div>
+          </div>
+        </section>
+
+        <section class="container">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Act V • The decision</p>
+              <h2>Autonomy should be earned</h2>
+            </div>
+            <p>The appropriate architecture depends on uncertainty, the cost of error, available verification, and whether external action can be made reversible.</p>
+          </div>
+          <div class="decision-rail">
+            <div class="decision-step"><span class="step-tag">Need evidence?</span><p>Use retrieval with provenance and access control.</p></div>
+            <div class="decision-step"><span class="step-tag">Known process?</span><p>Use a workflow with explicit branches, retries, and approval gates.</p></div>
+            <div class="decision-step"><span class="step-tag">Uncertain next step?</span><p>Use a bounded agent only where it can observe, act through contracts, and verify progress.</p></div>
+            <div class="decision-step"><span class="step-tag">Distinct roles?</span><p>Use multiple agents only when their tools, evidence, or verification responsibilities are genuinely complementary.</p></div>
+          </div>
+        </section>
+
+        <section class="container">
+          <div class="callout">
+            <div>
+              <p class="section-kicker" style="color: var(--blue)">The conclusion</p>
+              <h2>Build bounded, evidence-aware, verifiable autonomy.</h2>
+              <p>The credible path is disciplined composition: evidence with provenance, actions with contracts, memory with governance, learning with regression controls, and evaluation that measures outcomes, cost, and risk together.</p>
+            </div>
+            <a class="button" href="../0-main.pdf">Read the full argument</a>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer"><div class="container"><span>LLM-Centered Agentic Systems</span><span>Project narrative • systems survey</span></div></footer>
+    </div>
+    <script src="../site-shared/site.js"></script>
+  </body>
+</html>

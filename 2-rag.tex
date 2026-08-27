@@ -1,0 +1,186 @@
+\section{Retrieval-Augmented Generation and the Transition to Agentic Retrieval}
+\label{sec:rag}
+
+Retrieval-Augmented Generation (RAG) is the first point in this survey at which external information becomes explicit system state rather than remaining implicit in model parameters or transient prompting. In its canonical form, a retriever maps a query to passages from an external corpus and a generator conditions on the query and those passages to produce an answer~\cite{lewis2020rag}. The systems consequence is more important than the pipeline shorthand: each retrieved passage can be represented as an evidence object carrying content, source identity and version, retrieval time, access scope, score, and provenance, then persisted with the claims it is used to support. This boundary makes frequently changing or access-controlled knowledge replaceable and auditable without retraining the model. It does not make a retrieved passage true, nor does it grant the model action authority; it makes the available support inspectable. The model is therefore a synthesis and decision component operating over a bounded evidence record, while the external collection remains the attributable source.
+
+The familiar four-stage summary (indexing, retrieval, context construction, and generation) hides the state transformations that make RAG dependable. Indexing creates addressable, versioned evidence units; retrieval selects candidates under a query and access policy; context construction normalizes, reranks, deduplicates, and assigns evidence identifiers; generation consumes that bounded record; and post-generation verification maps claims back to supporting items. Production systems therefore add ingestion controls, access filtering, ranking, citation mapping, caching, monitoring, and verification. Because the retrieval layer may combine sparse lexical search, dense vectors, graph traversal, structured queries, or external search APIs, RAG is a family of architectures whose choices determine which evidence and metadata the system can represent~\cite{gao2023ragsurvey}. Work on LLM-mediated information retrieval reaches the same systems conclusion: retrieval quality is coupled to model selection, orchestration, scaling cost, privacy, interpretability, and personalization~\cite{ghodratnama2024adapting}. A retrieval metric cannot therefore be interpreted in isolation; the pipeline must preserve provenance and access constraints and expose its transformations as inspectable state transitions.
+
+
+\begin{figure*}[!t]
+\centering
+\begin{tikzpicture}[
+  font=\small,
+  line cap=round,
+  line join=round,
+  pane/.style={
+    rounded corners=1.9mm,
+    draw=surveyLine,
+    line width=0.8pt,
+    fill=white
+  },
+  block/.style={
+    rounded corners=1.25mm,
+    draw=surveyLine,
+    line width=0.72pt,
+    align=center,
+    text width=34mm,
+    minimum height=11mm,
+    inner sep=4pt,
+    text=surveyInk
+  },
+  arr/.style={
+    -{Latex[length=2.0mm,width=1.3mm]},
+    line width=0.9pt,
+    draw=surveyNavy
+  },
+  feedback/.style={
+    -{Latex[length=1.9mm,width=1.2mm]},
+    line width=0.85pt,
+    dashed,
+    draw=surveyOrange
+  },
+  note/.style={
+    rounded corners=1.15mm,
+    draw=surveyLine,
+    line width=0.6pt,
+    fill=white,
+    align=center,
+    text width=56mm,
+    minimum height=8mm,
+    inner sep=3pt,
+    font=\scriptsize,
+    text=surveyInk
+  }
+]
+
+\node[font=\small\bfseries,text=surveyNavy,align=center,text width=15.0cm] at (0,2.00)
+  {RAG AND AGENTIC RETRIEVAL SHARE EVIDENCE;\\
+   THEY DIFFER IN WHO CONTROLS THE NEXT STEP};
+
+% A readable side-by-side comparison: the action sequence stays vertical, and
+% only the bounded system is allowed to decide what evidence work comes next.
+\node[pane,fill=surveyBlue!10,minimum width=7.45cm,minimum height=10.00cm] at (-4.00,-3.65) {};
+\node[font=\small\bfseries,text=surveyNavy,align=center] at (-4.00,0.78)
+  {CONVENTIONAL RAG\\PRESCRIBED EVIDENCE FLOW};
+\node[block,fill=surveyBlue!43] (q) at (-4.00,-0.45) {\textbf{Query}\\user request};
+\node[block,fill=surveyGreen!43] (retrieve) at (-4.00,-2.30) {\textbf{Retrieve}\\top-$k$ passages};
+\node[block,fill=surveyPurple!43] (context) at (-4.00,-4.15) {\textbf{Construct context}\\fixed evidence window};
+\node[block,fill=surveyNavy,draw=surveyNavy,text=white] (answer) at (-4.00,-6.00) {\textbf{Generate answer}\\citation optional};
+\draw[arr] (q.south) -- (retrieve.north);
+\draw[arr] (retrieve.south) -- (context.north);
+\draw[arr] (context.south) -- (answer.north);
+\node[note] at (-4.00,-7.55)
+  {one retrieval policy \textbullet{} fixed sequence \textbullet{} no progress-aware retry};
+
+\node[pane,fill=surveyGreen!10,minimum width=7.45cm,minimum height=10.00cm] at (4.00,-3.65) {};
+\node[font=\small\bfseries,text=surveyNavy,align=center] at (4.00,0.78)
+  {BOUNDED AGENTIC RETRIEVAL\\CONTROLLED EVIDENCE LOOP};
+\node[block,fill=surveyBlue!43] (state) at (4.00,-0.35) {\textbf{Task state}\\goal + uncertainty};
+\node[block,fill=surveyPurple!43] (plan) at (4.00,-2.10) {\textbf{Choose next evidence action}\\query, source, or tool};
+\node[block,fill=surveyGreen!48] (search) at (4.00,-3.85) {\textbf{Retrieve / use tool}\\within source and cost bounds};
+\node[block,fill=surveyOrange!43] (check) at (4.00,-5.85) {\textbf{Evidence ledger + claim check}\\support, conflict, stopping rule};
+\node[block,fill=surveyNavy,draw=surveyNavy,text=white] (response) at (4.00,-7.85) {\textbf{Grounded response}\\or abstain / escalate};
+\draw[arr] (state.south) -- (plan.north);
+\draw[arr] (plan.south) -- (search.north);
+\draw[arr] (search.south) -- (check.north);
+\draw[arr] (check.south) -- (response.north);
+\draw[feedback] (check.east) -- ++(0.98,0) |- (plan.east);
+\node[fill=surveyGreen!10,inner sep=2pt,
+  font=\tiny\bfseries,text=surveyInk,align=center,text width=17mm]
+  at (6.82,-3.98) {INSUFFICIENT SUPPORT\\OR EVIDENCE CONFLICT};
+
+\end{tikzpicture}
+
+\caption{Conventional RAG and bounded agentic retrieval share an evidence pipeline but not a control model. Conventional RAG executes a prescribed retrieval sequence. Bounded agentic retrieval preserves task and evidence state, chooses retrieval actions inside an explicit authority boundary, and uses support or conflict to re-plan, abstain, or escalate. The additional loop is justified only when those decisions are observable and governed.}
+\label{fig:agentic-rag}
+\end{figure*}
+
+\subsection{Why RAG is useful and what it does not guarantee}
+
+RAG's four recurring advantages all follow from externalizing evidence. An evidence store can be refreshed without retraining the base model; retrieval can enforce scope and access policy before content enters model context; passage identifiers and document versions can support citation and audit; and domain-specific corpora can improve task performance without full model adaptation. None of these properties makes the resulting answer true. Failures arise at distinct layers: retrieval can return irrelevant, stale, duplicated, or unauthorized items; representation can omit provenance or access metadata; context use can fail when the model overlooks relevant passages, especially in long contexts~\cite{liu2024lostinthemiddle}; and retrieved content can carry adversarial instructions across the trust boundary~\cite{greshake2023promptinjection}. Even an intact citation establishes association, not entailment of the attached claim. RAGAS-style evaluation therefore separates context relevance, answer relevance, and faithfulness rather than treating retrieval success as a single score~\cite{es2024ragas}. RAG reduces reliance on parametric memory and makes support auditable, but it does not provide a factuality guarantee; downstream control still needs explicit support, conflict, abstention, and stopping states.
+
+Evaluating RAG as an evidence-to-claim transformation requires three questions and three corresponding records:
+\begin{enumerate}
+    \item \textbf{Evidence discovery}: Does the retrieval record contain sufficient relevant information from permissible sources, together with the query, source version, rank, and retrieval metadata needed to explain the selection?
+    \item \textbf{Evidence use}: Does the generation trace show that the model correctly interpreted the retrieved information, resolved or exposed conflicts, and carried relevant uncertainty into the answer?
+    \item \textbf{Claim support}: Can each externally verifiable claim be linked to identifiable evidence that entails it, or be explicitly marked unsupported and handled through abstention or further search?
+\end{enumerate}
+The three levels are causally ordered but not interchangeable. A correct answer may come from parametric memory despite failed retrieval; a high-quality context may be ignored or misinterpreted; and correctly used evidence may still fail to entail the final wording of a claim. Evaluation should therefore report the levels separately and retain their artifacts for attribution and replay, so improvement at one layer cannot conceal regression at another.
+
+\subsection{Evolution of RAG architectures}
+
+The familiar progression from naive to advanced, modular, and agentic RAG is useful only when read as a relocation of control rather than a maturity ladder. Naive RAG fixes the retrieve--construct--generate sequence; advanced RAG improves one or more transformations inside that sequence; modular RAG exposes retrieval, ranking, synthesis, and verification as composable components; and agentic RAG allows a controller to select the next evidence action from explicit task and evidence state~\cite{gao2023ragsurvey,singh2025agenticragsurvey}. The categories overlap, and production systems are often hybrid. We therefore compare them along three operational axes: who selects the next retrieval transition, which evidence and intermediate state persist, and which stopping and verification boundaries constrain the result.
+
+\paragraph{Naive RAG.}
+Naive RAG fixes the evidence policy: encode one query, retrieve top-$k$ passages, construct context, and generate~\cite{lewis2020rag}. This path is inexpensive and auditable for narrow questions over stable corpora, but it cannot revise the source, query, or stopping decision when evidence is weak. Query wording, chunking, and context position therefore remain consequential failure points~\cite{liu2024lostinthemiddle}. Naive RAG is a fixed workflow, not a primitive agent.
+
+\paragraph{Advanced RAG.}
+Advanced RAG keeps a developer-authored flow while improving query, candidate, or context transformations. Rewriting and pseudo document expansion change the represented information need~\cite{ma2023queryrewriting,wang2023query2doc}; REPLUG adapts retrieval around a black-box model~\cite{shi2023replug}; and FLARE and Self-RAG condition retrieval on uncertainty or learned critique~\cite{jiang2023flare,asai2024selfrag}. These mechanisms make evidence acquisition responsive, but the enclosing system remains an adaptive workflow when its branches and authority are fixed in advance.
+
+\paragraph{Modular RAG.}
+Modular RAG exposes routing, retrieval, ranking, context construction, synthesis, and verification as components with typed artifacts. RAPTOR adds multi-resolution retrieval~\cite{sarthi2024raptor}, while Corrective RAG represents relevance and invokes fallback search when local evidence is weak~\cite{yan2024crag}. Modularity localizes evaluation and supports heterogeneous sources, but expands the contract surface for schemas, freshness, access, and provenance. A developer-authored routing graph is still a workflow; its importance is that it creates inspectable state surfaces on which bounded control can operate.
+
+\paragraph{Agentic RAG.}
+Agentic RAG moves selection of the next evidence transition to a controller that can rewrite, change source, inspect conflict, request clarification, or abstain from explicit task and evidence state. ReAct illustrates how observations can revise subsequent action~\cite{yao2023react}, and Agentic RAG generalizes that pattern to iterative evidence acquisition~\cite{singh2025agenticragsurvey}. The benefit is adaptive multi-hop search; the cost is looping, noisy evidence overfitting, boundary crossing, and indirect prompt injection~\cite{greshake2023promptinjection}. Agentic retrieval is therefore bounded evidence action under permissions, budgets, stopping rules, and traceable state.
+
+\begin{table*}[t]
+\centering
+\caption{Comparison of representative retrieval-augmented architectures. The rows describe dominant tendencies rather than strict implementation requirements.}
+\label{tab:rag-evolution}
+\small
+\surveytableformat
+\begin{tabularx}{\textwidth}{L{2.3cm}Y Y Y Y}
+\toprule
+\rowcolor{surveyBlue!28}\textbf{Architecture} & \textbf{Retrieval policy} & \textbf{Control flow} & \textbf{Primary strength} & \textbf{Characteristic risk} \\
+\midrule
+Naive RAG & One top-$k$ query over a fixed index & Fixed retrieve--generate pipeline & Simplicity and low latency & Query mismatch and unsupported synthesis \\
+Advanced RAG & Rewriting, hybrid search, re-ranking, or iterative retrieval & Mostly developer-defined & Better evidence recall and precision & Pipeline complexity and evaluation leakage between stages \\
+Modular RAG & Source routing and task-specific retrieval modules & Explicit graph or state machine & Inspectability and heterogeneous evidence access & Configuration burden and inconsistent component contracts \\
+Agentic RAG & Model- or policy-selected retrieval actions & Adaptive observe--retrieve--reason--verify loop & Multi-hop search and uncertainty-driven evidence collection & Runaway search, adversarial content, and non-reproducible trajectories \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\begin{table*}[t]
+\centering
+\caption{Representative RAG mechanisms and the evidence each isolates. Reported improvements are not directly comparable because tasks, corpora, generators, and retrieval budgets differ.}
+\label{tab:rag-method-evidence}
+\small
+\surveytableformat
+\begin{tabularx}{\textwidth}{L{2.55cm}L{3.05cm}L{3.15cm}Y}
+\toprule
+\rowcolor{surveyBlue!28}\textbf{Method} & \textbf{Mechanism changed} & \textbf{Evaluation focus} & \textbf{Systems implication and limitation} \\
+\midrule
+Query2doc~\cite{wang2023query2doc} & Generates a pseudo document to expand the query & Retrieval effectiveness across standard search datasets & Improves query representation, but added generated text can introduce unsupported terms \\
+Query rewriting~\cite{ma2023queryrewriting} & Rewrites the user request before retrieval & Downstream QA and retrieval quality & Separates intent interpretation from retrieval, but relies on rewrite faithfulness \\
+REPLUG~\cite{shi2023replug} & Trains or weights a retriever around a frozen black-box LM & Language model and knowledge-intensive tasks & Supports model-agnostic retrieval; does not supply an agent control loop \\
+FLARE~\cite{jiang2023flare} & Triggers retrieval during generation from anticipated uncertainty & Long-form knowledge-intensive generation & Demonstrates adaptive retrieval, but retrieval policy and generation quality remain coupled \\
+RAPTOR~\cite{sarthi2024raptor} & Retrieves over a tree of recursively summarized clusters & Multi-step question answering over long corpora & Adds multi-resolution evidence access; summaries create additional lineage and fidelity obligations \\
+Self-RAG~\cite{asai2024selfrag} & Learns retrieve, relevance, support, and utility reflection tokens & Factuality and task performance across QA and generation & Integrates retrieval decisions with generation; requires trained reflection behavior \\
+Corrective RAG~\cite{yan2024crag} & Scores retrieved evidence and invokes a corrective search path & Robustness to low-quality initial retrieval & Makes recovery explicit; external search broadens trust and provenance boundaries \\
+RAGAS~\cite{es2024ragas} & Decomposes evaluation into faithfulness and context-related metrics & Reference-light RAG evaluation & Enables component diagnosis, but judge-based metrics require calibration against humans \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\subsection{Data, indexing, and freshness}
+
+The quality of a RAG system is bounded before the first query is issued. Ingestion converts a source document into persistent, typed evidence records; each record should retain document identity and version, timestamps, ownership, access policy, lineage, and the offsets needed to reconstruct the source passage. Chunking then determines the semantic unit to which retrieval scores, citations, and later claim checks refer. Units must be small enough for discriminative retrieval but complete enough to preserve definitions, tables, code structure, and cross-references. Fixed-length chunks are operationally convenient yet can sever precisely the context needed for entailment. Structure-aware and hierarchical schemes preserve section and parent--child relations and allow local passages to remain connected to broader summaries, as illustrated by RAG architecture surveys and RAPTOR~\cite{gao2023ragsurvey,sarthi2024raptor}. Bounded action therefore begins with the data model: a later controller cannot reliably enforce freshness, authorization, or provenance that ingestion discarded.
+
+Freshness is not merely an indexing schedule; it is a consistency property of the evidence state. Vector and lexical stores can accept incremental insertions, deletions, and replacements, but every derived object (chunk, embedding, summary, graph edge, and cache entry) must inherit the source's identity and version so that a change can invalidate its descendants. This dependency graph allows the system to distinguish current, stale, and revoked evidence and to record which version supported a later claim or action. For stable corpora, scheduled incremental maintenance may suffice; for volatile facts, evidence should instead be obtained at decision time from an authoritative database, API, or search index. FreshLLMs demonstrates why this distinction matters: models struggle on fast-changing questions, whereas retrieving current search evidence improves factuality~\cite{vu2023freshllms}; CRAG similarly invokes web search as a corrective source when local retrieval is unreliable~\cite{yan2024crag}. In the survey's terms, index maintenance is therefore not back-office plumbing: it is the temporal contract between evidence state and bounded action.
+
+Authorization is part of evidence validity, not a filter applied to prose after generation. A passage is eligible evidence only when the requesting principal and tenant are permitted to use its source at retrieval time. Row-, document-, and tenant-level policy labels must therefore travel with the evidence record and be enforced in the retrieval query; cache keys, shared summaries, and reranking stages must preserve the same boundary. Post-generation redaction is strictly weaker because the model has already observed the material, and a retrieved instruction may redirect later tool use. Greshake et al. show that indirect prompts embedded in retrieved data can induce data theft and unauthorized API behavior~\cite{greshake2023promptinjection}, while OWASP recommends least privilege access to data sources and authorization in downstream systems rather than delegation to the model~\cite{owasp2025llmtop10}. The retrieval trace should consequently record the principal, policy version, authorization decision, and evidence objects released. This turns access control into an auditable constraint on the evidence-to-action transition.
+
+\subsection{Context construction and evidence compression}
+
+Retrieval produces candidates; context construction selects the evidence the model will actually see. The objective is sufficient, complementary support within a bounded context, not maximum passage count. Position effects make indiscriminate length unreliable~\cite{liu2024lostinthemiddle}; RECOMP shows that selective compression can sharply reduce context with little task loss and can omit unhelpful augmentation~\cite{xu2024recomp}. Compression is therefore an evidence transformation whose source identity, version, offsets, and lineage must remain recoverable.
+
+Long context and retrieval solve different problems. A context window holds transient input; it does not select evidence, enforce freshness, or preserve state. Retrieval remains useful even at longer context lengths and can match substantially larger fine-tuned contexts with less computation~\cite{xu2024retrievalmeets}. Long context is therefore workspace, retrieval locates and refreshes evidence, and structured memory persists state. The design question is which information remains transient, fetched on demand, or durably retained.
+
+\subsection{When retrieval should become agentic}
+
+Retrieval should become agentic only when consequential evidence choices are difficult to pre-specify yet observable enough to verify. Fixed retrieval remains preferable when sources, ranking, and stopping are known. When evidence is insufficient or conflicting, an escalation ladder can permit a bounded rewrite, second source, clarification, or abstention before granting open-ended planning. FLARE and CRAG show how adaptive retrieval can sit behind explicit triggers~\cite{jiang2023flare,yan2024crag}. Each added degree of freedom should carry source, step, token, and time limits plus a stopping rule, so autonomy increases only with observability and control.
+
+\subsection{From evidence access to closed-loop agency}
+
+RAG solves evidence access; closed-loop agency begins when evidence can revise state and the next bounded action. ReAct and Reflexion show how observations and evaluated outcomes can alter later behavior~\cite{yao2023react,shinn2023reflexion}, but reliability requires the goal, evidence, proposal, authorization, result, and remaining uncertainty to remain explicit. Retrieval then becomes one perception mechanism within a bounded state machine that chooses among typed alternatives and verifies their postconditions. Evidence becomes operational only through that controlled transition into action.
