@@ -21,6 +21,8 @@ The survey develops this argument across six interacting layers:
 5. Coordination and interoperability
 6. Safety, governance, and observability
 
+The current bibliography contains **222 cited sources**.
+
 ## Repository map
 
 - `0-main.tex` — paper entry point
@@ -30,9 +32,8 @@ The survey develops this argument across six interacting layers:
 - `docs/` — GitHub Pages project website
 - `github-page/`, `project-page/`, and `site-shared/` — editable website source views
 
-The checked-in PDF is the current Overleaf-verified manuscript. The repository intentionally excludes temporary LaTeX build products.
+The checked-in PDF is the current 104-page, Overleaf-verified manuscript. The repository intentionally excludes temporary LaTeX build products.
 
 ## Status
 
-Research cutoff: **July 2026**. This repository accompanies an anonymized manuscript under review.
-
+Research cutoff: **July 2026**. This repository accompanies the anonymized survey manuscript.
