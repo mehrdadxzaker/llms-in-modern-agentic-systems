@@ -3,11 +3,13 @@
 
 from __future__ import annotations
 
+import json
 import re
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+PDF_LINKS_PATH = ROOT / "scripts" / "literature_pdf_links.json"
 
 CATEGORIES = [
     (
@@ -162,6 +164,9 @@ def clean_tex(value: str) -> str:
         r"\&": "&",
         r"\%": "%",
         r"\_": "_",
+        r"\$": "$",
+        r"$\tau$": "τ",
+        r"$\tau^2$": "τ²",
         "--": "–",
         r"\textendash": "–",
     }
@@ -185,20 +190,93 @@ def entry_url(entry: dict[str, str]) -> str | None:
     return f"https://arxiv.org/abs/{arxiv.group(1)}" if arxiv else None
 
 
-def markdown_entry(key: str, entry: dict[str, str]) -> str:
+def arxiv_id(entry: dict[str, str]) -> str | None:
+    eprint = entry.get("eprint", "")
+    match = re.fullmatch(r"\s*(\d{4}\.\d{4,5})(?:v\d+)?\s*", eprint)
+    if match:
+        return match.group(1)
+    candidates = [
+        entry.get("doi", ""),
+        entry.get("url", ""),
+        entry.get("journal", ""),
+        entry.get("howpublished", ""),
+    ]
+    for value in candidates:
+        match = re.search(r"(?:arXiv[.:/]|arxiv\.org/(?:abs|pdf)/)(\d{4}\.\d{4,5})(?:v\d+)?", value, re.I)
+        if match:
+            return match.group(1)
+    return None
+
+
+def direct_pdf_url(key: str, entry: dict[str, str], preferred: dict[str, str]) -> str | None:
+    if key in preferred:
+        return preferred[key]
+
+    url = clean_tex(entry.get("url", ""))
+    doi = clean_tex(entry.get("doi", "")).removeprefix("https://doi.org/")
+    arxiv = arxiv_id(entry)
+    if arxiv:
+        return f"https://arxiv.org/pdf/{arxiv}"
+    if url.lower().endswith(".pdf") or "/pdf?" in url or "/download/" in url:
+        return url
+    if "openreview.net/forum?id=" in url:
+        return url.replace("/forum?id=", "/pdf?id=")
+    if "aclanthology.org/" in url:
+        return url.rstrip("/") + ".pdf"
+    if doi.startswith("10.18653/v1/"):
+        return f"https://aclanthology.org/{doi.removeprefix('10.18653/v1/')}.pdf"
+    if doi.startswith("10.1038/"):
+        return f"https://www.nature.com/articles/{doi.removeprefix('10.1038/')}.pdf"
+    if doi.startswith("10.1007/"):
+        return f"https://link.springer.com/content/pdf/{doi}.pdf"
+    if doi.startswith("10.1145/"):
+        return f"https://dl.acm.org/doi/pdf/{doi}"
+    if "proceedings.mlr.press/" in url and url.endswith(".html"):
+        stem = url.rsplit("/", 1)[-1].removesuffix(".html")
+        return f"{url.rsplit('/', 1)[0]}/{stem}/{stem}.pdf"
+    if "proceedings.neurips.cc/paper_files/paper/" in url and "-Abstract" in url:
+        return url.replace("-Abstract", "-Paper").replace(".html", ".pdf")
+    if "proceedings.iclr.cc/paper_files/paper/" in url and "-Abstract" in url:
+        return url.replace("-Abstract", "-Paper").replace(".html", ".pdf")
+    return None
+
+
+def venue(entry: dict[str, str]) -> str:
+    return clean_tex(entry.get("booktitle") or entry.get("journal") or entry.get("howpublished") or "—")
+
+
+def extended_locus(entry: dict[str, str]) -> str:
+    entry_type = entry.get("type", "").lower()
+    if entry_type == "inproceedings":
+        return "Additional conference papers"
+    if entry_type == "article":
+        return "Additional journal and preprint papers"
+    if entry_type == "book":
+        return "Books and monographs"
+    return "Reports, standards, and technical resources"
+
+
+def markdown_entry(key: str, entry: dict[str, str], preferred: dict[str, str]) -> str:
     title = clean_tex(entry.get("title", key)).replace("|", r"\|")
-    url = entry_url(entry)
+    url = entry_url(entry) or direct_pdf_url(key, entry, preferred)
     title_cell = f"[{title}]({url})" if url else title
     year = clean_tex(entry.get("year", "—"))
-    venue = clean_tex(entry.get("booktitle") or entry.get("journal") or entry.get("howpublished") or "—")
-    venue = venue.replace("|", r"\|")
-    return f"| {year} | {title_cell} | {venue} | `{key}` |"
+    venue_cell = venue(entry).replace("|", r"\|")
+    pdf = direct_pdf_url(key, entry, preferred)
+    links = []
+    if pdf:
+        links.append(f"[PDF]({pdf})")
+    if entry_url(entry) and entry_url(entry) != pdf:
+        links.append(f"[Paper]({entry_url(entry)})")
+    links.append(f"`{key}`")
+    return f"| {year} | {title_cell} | {venue_cell} | {' · '.join(links)} |"
 
 
 def main() -> None:
     entries: dict[str, dict[str, str]] = {}
     for bib_path in (ROOT / "refs.bib", ROOT / "expanded-refs.bib"):
         entries.update(parse_bibliography(bib_path))
+    preferred_pdf_links = json.loads(PDF_LINKS_PATH.read_text(encoding="utf-8"))
 
     mapped_keys = [key for _, loci in CATEGORIES for _, _, keys in loci for key in keys]
     if len(mapped_keys) != 98 or len(set(mapped_keys)) != 98:
@@ -231,11 +309,11 @@ def main() -> None:
                     "",
                     description,
                     "",
-                    "| Year | Work | Venue or source | BibTeX key |",
+                    "| Year | Work | Venue or source | Links |",
                     "| --- | --- | --- | --- |",
                 ]
             )
-            lines.extend(markdown_entry(key, entries[key]) for key in keys)
+            lines.extend(markdown_entry(key, entries[key], preferred_pdf_links) for key in keys)
             lines.append("")
 
     lines.extend(
@@ -247,6 +325,41 @@ def main() -> None:
         ]
     )
     (ROOT / "LITERATURE.md").write_text("\n".join(lines), encoding="utf-8")
+
+    atlas_metadata = {
+        key: {"branch": branch, "locus": locus, "description": description, "order": order}
+        for branch, loci in CATEGORIES
+        for locus, description, keys in loci
+        for order, key in enumerate(keys)
+    }
+    atlas_order = [key for _, loci in CATEGORIES for _, _, keys in loci for key in keys]
+    extended_order = sorted(
+        (key for key in entries if key not in atlas_metadata),
+        key=lambda key: (-int(entries[key].get("year", "0") or 0), clean_tex(entries[key].get("title", key)).lower()),
+    )
+    library = []
+    for key in atlas_order + extended_order:
+        entry = entries[key]
+        metadata = atlas_metadata.get(key)
+        pdf = direct_pdf_url(key, entry, preferred_pdf_links)
+        source = entry_url(entry) or pdf
+        library.append(
+            {
+                "key": key,
+                "title": clean_tex(entry.get("title", key)),
+                "year": clean_tex(entry.get("year", "—")),
+                "venue": venue(entry),
+                "branch": metadata["branch"] if metadata else "Extended evidence base",
+                "locus": metadata["locus"] if metadata else extended_locus(entry),
+                "description": metadata["description"] if metadata else "Additional source cited in the full survey.",
+                "atlas": metadata is not None,
+                "pdfUrl": pdf,
+                "sourceUrl": source,
+                "entryType": entry.get("type", "source"),
+            }
+        )
+    output = "window.LITERATURE_DATA = " + json.dumps(library, ensure_ascii=False, indent=2) + ";\n"
+    (ROOT / "docs" / "assets" / "literature-data.js").write_text(output, encoding="utf-8")
 
 
 if __name__ == "__main__":

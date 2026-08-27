@@ -19,35 +19,35 @@ This index accompanies **LLMs in Modern Agentic Systems: A Systems Survey**. It 
 
 Broad surveys that establish the scope of agents, RAG, memory, tool learning, evaluation, and self-improvement.
 
-| Year | Work | Venue or source | BibTeX key |
+| Year | Work | Venue or source | Links |
 | --- | --- | --- | --- |
-| 2024 | [A Survey on Large Language Model Based Autonomous Agents](https://doi.org/10.1007/s11704-024-40231-1) | Frontiers of Computer Science | `wang2024autonomousagentssurvey` |
-| 2025 | The Rise and Potential of Large Language Model Based Agents: A Survey | Science China Information Sciences | `xi2025agentsurvey` |
-| 2025 | [Agentic Large Language Models, a Survey](https://doi.org/10.1613/jair.1.18675) | Journal of Artificial Intelligence Research | `plaat2025agenticllms` |
-| 2026 | [Self-Improvements in Modern Agentic Systems: A Survey](https://doi.org/10.48550/arXiv.2607.13104) | arXiv preprint arXiv:2607.13104 | `ren2026selfimprovingagents` |
-| 2023 | [Retrieval-Augmented Generation for Large Language Models: A Survey](https://arxiv.org/abs/2312.10997) | arXiv preprint arXiv:2312.10997 | `gao2023ragsurvey` |
-| 2025 | [Agentic Retrieval-Augmented Generation: A Survey on Agentic RAG](https://doi.org/10.48550/arXiv.2501.09136) | arXiv preprint arXiv:2501.09136 | `singh2025agenticragsurvey` |
-| 2025 | A Survey on the Memory Mechanism of Large Language Model-Based Agents | ACM Transactions on Information Systems | `zhang2025memorysurvey` |
-| 2025 | Tool Learning in the Wild: Empowering Language Models as Automatic Tool Agents | Proceedings of the ACM Web Conference | `shi2025toollearning` |
-| 2026 | [A Survey on Evaluation of LLM-Based Agents](https://doi.org/10.18653/v1/2026.findings-acl.1330) | Findings of the Association for Computational Linguistics: ACL 2026 | `yehudai2026agentsurveyeval` |
+| 2024 | [A Survey on Large Language Model Based Autonomous Agents](https://doi.org/10.1007/s11704-024-40231-1) | Frontiers of Computer Science | [PDF](https://link.springer.com/content/pdf/10.1007/s11704-024-40231-1.pdf) · [Paper](https://doi.org/10.1007/s11704-024-40231-1) · `wang2024autonomousagentssurvey` |
+| 2025 | [The Rise and Potential of Large Language Model Based Agents: A Survey](https://link.springer.com/content/pdf/10.1007/s11432-024-4222-0.pdf) | Science China Information Sciences | [PDF](https://link.springer.com/content/pdf/10.1007/s11432-024-4222-0.pdf) · `xi2025agentsurvey` |
+| 2025 | [Agentic Large Language Models, a Survey](https://doi.org/10.1613/jair.1.18675) | Journal of Artificial Intelligence Research | [Paper](https://doi.org/10.1613/jair.1.18675) · `plaat2025agenticllms` |
+| 2026 | [Self-Improvements in Modern Agentic Systems: A Survey](https://doi.org/10.48550/arXiv.2607.13104) | arXiv preprint arXiv:2607.13104 | [PDF](https://arxiv.org/pdf/2607.13104) · [Paper](https://doi.org/10.48550/arXiv.2607.13104) · `ren2026selfimprovingagents` |
+| 2023 | [Retrieval-Augmented Generation for Large Language Models: A Survey](https://arxiv.org/abs/2312.10997) | arXiv preprint arXiv:2312.10997 | [PDF](https://arxiv.org/pdf/2312.10997) · [Paper](https://arxiv.org/abs/2312.10997) · `gao2023ragsurvey` |
+| 2025 | [Agentic Retrieval-Augmented Generation: A Survey on Agentic RAG](https://doi.org/10.48550/arXiv.2501.09136) | arXiv preprint arXiv:2501.09136 | [PDF](https://arxiv.org/pdf/2501.09136) · [Paper](https://doi.org/10.48550/arXiv.2501.09136) · `singh2025agenticragsurvey` |
+| 2025 | [A Survey on the Memory Mechanism of Large Language Model-Based Agents](https://arxiv.org/pdf/2404.13501) | ACM Transactions on Information Systems | [PDF](https://arxiv.org/pdf/2404.13501) · `zhang2025memorysurvey` |
+| 2025 | [Tool Learning in the Wild: Empowering Language Models as Automatic Tool Agents](https://dl.acm.org/doi/pdf/10.1145/3696410.3714825) | Proceedings of the ACM Web Conference | [PDF](https://dl.acm.org/doi/pdf/10.1145/3696410.3714825) · `shi2025toollearning` |
+| 2026 | [A Survey on Evaluation of LLM-Based Agents](https://doi.org/10.18653/v1/2026.findings-acl.1330) | Findings of the Association for Computational Linguistics: ACL 2026 | [PDF](https://aclanthology.org/2026.findings-acl.1330.pdf) · [Paper](https://doi.org/10.18653/v1/2026.findings-acl.1330) · `yehudai2026agentsurveyeval` |
 
 ### Classical and language-model foundations
 
 Classical agency, planning, hierarchical control, multi-agent systems, cognitive analogies, transformers, and few-shot language models.
 
-| Year | Work | Venue or source | BibTeX key |
+| Year | Work | Venue or source | Links |
 | --- | --- | --- | --- |
 | 2021 | Artificial Intelligence: A Modern Approach | — | `russell2021aima` |
 | 1995 | BDI Agents: From Theory to Practice | Proceedings of the First International Conference on Multiagent Systems | `rao1995bdi` |
 | 2009 | An Introduction to MultiAgent Systems | — | `wooldridge2009multiagent` |
-| 1998 | Planning and Acting in Partially Observable Stochastic Domains | Artificial Intelligence | `kaelbling1998pomdp` |
-| 1999 | Between MDPs and Semi-MDPs: A Framework for Temporal Abstraction in Reinforcement Learning | Artificial Intelligence | `sutton1999options` |
+| 1998 | [Planning and Acting in Partially Observable Stochastic Domains](https://www.sciencedirect.com/science/article/pii/S000437029800023X/pdf) | Artificial Intelligence | [PDF](https://www.sciencedirect.com/science/article/pii/S000437029800023X/pdf) · `kaelbling1998pomdp` |
+| 1999 | [Between MDPs and Semi-MDPs: A Framework for Temporal Abstraction in Reinforcement Learning](https://www.sciencedirect.com/science/article/pii/S0004370299000521/pdf) | Artificial Intelligence | [PDF](https://www.sciencedirect.com/science/article/pii/S0004370299000521/pdf) · `sutton1999options` |
 | 1971 | STRIPS: A New Approach to the Application of Theorem Proving to Problem Solving | Artificial Intelligence | `fikes1971strips` |
 | 1994 | HTN Planning: Complexity and Expressivity | Proceedings of the National Conference on Artificial Intelligence | `erol1994htn` |
 | 1998 | PDDL: The Planning Domain Definition Language | — | `mcdermott1998pddl` |
 | 2021 | A Thousand Brains: A New Theory of Intelligence | — | `hawkins2021thousandbrains` |
-| 2017 | Attention Is All You Need | Advances in Neural Information Processing Systems | `vaswani2017attention` |
-| 2020 | Language Models Are Few-Shot Learners | Advances in Neural Information Processing Systems | `brown2020language` |
+| 2017 | [Attention Is All You Need](https://arxiv.org/pdf/1706.03762) | Advances in Neural Information Processing Systems | [PDF](https://arxiv.org/pdf/1706.03762) · `vaswani2017attention` |
+| 2020 | [Language Models Are Few-Shot Learners](https://arxiv.org/pdf/2005.14165) | Advances in Neural Information Processing Systems | [PDF](https://arxiv.org/pdf/2005.14165) · `brown2020language` |
 
 
 ## Grounding and action
@@ -56,46 +56,46 @@ Classical agency, planning, hierarchical control, multi-agent systems, cognitive
 
 Canonical, adaptive, corrective, and self-reflective retrieval; query rewriting, pseudo-documents, reranking, context structure, and RAG evaluation.
 
-| Year | Work | Venue or source | BibTeX key |
+| Year | Work | Venue or source | Links |
 | --- | --- | --- | --- |
-| 2020 | Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks | Advances in Neural Information Processing Systems | `lewis2020rag` |
-| 2024 | [Adapting LLMs for Efficient, Personalized Information Retrieval: Methods and Implications](https://doi.org/10.1007/978-981-97-0989-2_2) | Service-Oriented Computing – ICSOC 2023 Workshops | `ghodratnama2024adapting` |
-| 2023 | [Query Rewriting for Retrieval-Augmented Large Language Models](https://arxiv.org/abs/2305.14283) | arXiv preprint arXiv:2305.14283 | `ma2023queryrewriting` |
-| 2023 | Query2doc: Query Expansion with Large Language Models | Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing | `wang2023query2doc` |
-| 2023 | [REPLUG: Retrieval-Augmented Black-Box Language Models](https://arxiv.org/abs/2301.12652) | arXiv preprint arXiv:2301.12652 | `shi2023replug` |
-| 2023 | Active Retrieval Augmented Generation | Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing | `jiang2023flare` |
-| 2024 | Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection | International Conference on Learning Representations | `asai2024selfrag` |
-| 2024 | [RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval](https://arxiv.org/abs/2401.18059) | arXiv preprint arXiv:2401.18059 | `sarthi2024raptor` |
-| 2024 | [Corrective Retrieval Augmented Generation](https://arxiv.org/abs/2401.15884) | arXiv preprint arXiv:2401.15884 | `yan2024crag` |
-| 2024 | RAGAS: Automated Evaluation of Retrieval Augmented Generation | Proceedings of the 18th Conference of the European Chapter of the Association for Computational Linguistics: System Demonstrations | `es2024ragas` |
-| 2024 | Lost in the Middle: How Language Models Use Long Contexts | Transactions of the Association for Computational Linguistics | `liu2024lostinthemiddle` |
+| 2020 | [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/pdf/2005.11401) | Advances in Neural Information Processing Systems | [PDF](https://arxiv.org/pdf/2005.11401) · `lewis2020rag` |
+| 2024 | [Adapting LLMs for Efficient, Personalized Information Retrieval: Methods and Implications](https://doi.org/10.1007/978-981-97-0989-2_2) | Service-Oriented Computing – ICSOC 2023 Workshops | [PDF](https://link.springer.com/content/pdf/10.1007/978-981-97-0989-2_2.pdf) · [Paper](https://doi.org/10.1007/978-981-97-0989-2_2) · `ghodratnama2024adapting` |
+| 2023 | [Query Rewriting for Retrieval-Augmented Large Language Models](https://arxiv.org/abs/2305.14283) | arXiv preprint arXiv:2305.14283 | [PDF](https://arxiv.org/pdf/2305.14283) · [Paper](https://arxiv.org/abs/2305.14283) · `ma2023queryrewriting` |
+| 2023 | [Query2doc: Query Expansion with Large Language Models](https://aclanthology.org/2023.emnlp-main.585.pdf) | Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing | [PDF](https://aclanthology.org/2023.emnlp-main.585.pdf) · `wang2023query2doc` |
+| 2023 | [REPLUG: Retrieval-Augmented Black-Box Language Models](https://arxiv.org/abs/2301.12652) | arXiv preprint arXiv:2301.12652 | [PDF](https://arxiv.org/pdf/2301.12652) · [Paper](https://arxiv.org/abs/2301.12652) · `shi2023replug` |
+| 2023 | [Active Retrieval Augmented Generation](https://aclanthology.org/2023.emnlp-main.495.pdf) | Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing | [PDF](https://aclanthology.org/2023.emnlp-main.495.pdf) · `jiang2023flare` |
+| 2024 | [Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection](https://arxiv.org/pdf/2310.11511) | International Conference on Learning Representations | [PDF](https://arxiv.org/pdf/2310.11511) · `asai2024selfrag` |
+| 2024 | [RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval](https://arxiv.org/abs/2401.18059) | arXiv preprint arXiv:2401.18059 | [PDF](https://arxiv.org/pdf/2401.18059) · [Paper](https://arxiv.org/abs/2401.18059) · `sarthi2024raptor` |
+| 2024 | [Corrective Retrieval Augmented Generation](https://arxiv.org/abs/2401.15884) | arXiv preprint arXiv:2401.15884 | [PDF](https://arxiv.org/pdf/2401.15884) · [Paper](https://arxiv.org/abs/2401.15884) · `yan2024crag` |
+| 2024 | [RAGAS: Automated Evaluation of Retrieval Augmented Generation](https://aclanthology.org/2024.eacl-demo.16.pdf) | Proceedings of the 18th Conference of the European Chapter of the Association for Computational Linguistics: System Demonstrations | [PDF](https://aclanthology.org/2024.eacl-demo.16.pdf) · `es2024ragas` |
+| 2024 | [Lost in the Middle: How Language Models Use Long Contexts](https://direct.mit.edu/tacl/article-pdf/doi/10.1162/tacl_a_00638/2336043/tacl_a_00638.pdf) | Transactions of the Association for Computational Linguistics | [PDF](https://direct.mit.edu/tacl/article-pdf/doi/10.1162/tacl_a_00638/2336043/tacl_a_00638.pdf) · `liu2024lostinthemiddle` |
 
 ### Reasoning and planning
 
 ReAct, branching search, least-to-most decomposition, plan-and-solve, program-of-thought, self-refinement, tool routing, and plan-and-act control.
 
-| Year | Work | Venue or source | BibTeX key |
+| Year | Work | Venue or source | Links |
 | --- | --- | --- | --- |
-| 2023 | ReAct: Synergizing Reasoning and Acting in Language Models | International Conference on Learning Representations | `yao2023react` |
-| 2023 | Tree of Thoughts: Deliberate Problem Solving with Large Language Models | Advances in Neural Information Processing Systems | `yao2023treeofthoughts` |
-| 2023 | Least-to-Most Prompting Enables Complex Reasoning in Large Language Models | International Conference on Learning Representations | `zhou2023leasttomost` |
-| 2023 | Plan-and-Solve Prompting: Improving Zero-Shot Chain-of-Thought Reasoning by Large Language Models | Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics | `wang2023planandsolve` |
-| 2023 | Program of Thoughts Prompting: Disentangling Computation from Reasoning for Numerical Reasoning Tasks | Transactions on Machine Learning Research | `chen2023pot` |
-| 2023 | Self-Refine: Iterative Refinement with Self-Feedback | Advances in Neural Information Processing Systems | `madaan2023selfrefine` |
-| 2022 | [MRKL Systems: A Modular, Neuro-Symbolic Architecture That Combines Large Language Models, External Knowledge Sources and Discrete Reasoning](https://arxiv.org/abs/2205.00445) | arXiv preprint arXiv:2205.00445 | `karpas2022mrkl` |
-| 2025 | Plan-and-Act: Improving Planning of Agents for Long-Horizon Tasks | International Conference on Machine Learning | `erdogan2025planandact` |
+| 2023 | [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/pdf/2210.03629) | International Conference on Learning Representations | [PDF](https://arxiv.org/pdf/2210.03629) · `yao2023react` |
+| 2023 | [Tree of Thoughts: Deliberate Problem Solving with Large Language Models](https://arxiv.org/pdf/2305.10601) | Advances in Neural Information Processing Systems | [PDF](https://arxiv.org/pdf/2305.10601) · `yao2023treeofthoughts` |
+| 2023 | [Least-to-Most Prompting Enables Complex Reasoning in Large Language Models](https://arxiv.org/pdf/2205.10625) | International Conference on Learning Representations | [PDF](https://arxiv.org/pdf/2205.10625) · `zhou2023leasttomost` |
+| 2023 | [Plan-and-Solve Prompting: Improving Zero-Shot Chain-of-Thought Reasoning by Large Language Models](https://aclanthology.org/2023.acl-long.147.pdf) | Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics | [PDF](https://aclanthology.org/2023.acl-long.147.pdf) · `wang2023planandsolve` |
+| 2023 | [Program of Thoughts Prompting: Disentangling Computation from Reasoning for Numerical Reasoning Tasks](https://arxiv.org/pdf/2211.12588) | Transactions on Machine Learning Research | [PDF](https://arxiv.org/pdf/2211.12588) · `chen2023pot` |
+| 2023 | [Self-Refine: Iterative Refinement with Self-Feedback](https://arxiv.org/pdf/2303.17651) | Advances in Neural Information Processing Systems | [PDF](https://arxiv.org/pdf/2303.17651) · `madaan2023selfrefine` |
+| 2022 | [MRKL Systems: A Modular, Neuro-Symbolic Architecture That Combines Large Language Models, External Knowledge Sources and Discrete Reasoning](https://arxiv.org/abs/2205.00445) | arXiv preprint arXiv:2205.00445 | [PDF](https://arxiv.org/pdf/2205.00445) · [Paper](https://arxiv.org/abs/2205.00445) · `karpas2022mrkl` |
+| 2025 | [Plan-and-Act: Improving Planning of Agents for Long-Horizon Tasks](https://arxiv.org/pdf/2503.09572) | International Conference on Machine Learning | [PDF](https://arxiv.org/pdf/2503.09572) · `erdogan2025planandact` |
 
 ### Tools and action runtime
 
 Web interaction, learned tool use, tool-use datasets, function-calling evaluation, and production agent runtimes.
 
-| Year | Work | Venue or source | BibTeX key |
+| Year | Work | Venue or source | Links |
 | --- | --- | --- | --- |
-| 2021 | [WebGPT: Browser-Assisted Question-Answering with Human Feedback](https://arxiv.org/abs/2112.09332) | arXiv preprint arXiv:2112.09332 | `nakano2021webgpt` |
-| 2023 | Toolformer: Language Models Can Teach Themselves to Use Tools | Advances in Neural Information Processing Systems | `schick2023toolformer` |
-| 2024 | ToolLLM: Facilitating Large Language Models to Master 16000+ Real-World APIs | International Conference on Learning Representations | `qin2024toolllm` |
-| 2025 | [New Tools for Building Agents](https://openai.com/index/new-tools-for-building-agents/) | Technical announcement | `openai2025agentssdk` |
-| 2025 | The Berkeley Function Calling Leaderboard (BFCL): From Tool Use to Agentic Evaluation of Large Language Models | International Conference on Machine Learning | `patil2025bfcl` |
+| 2021 | [WebGPT: Browser-Assisted Question-Answering with Human Feedback](https://arxiv.org/abs/2112.09332) | arXiv preprint arXiv:2112.09332 | [PDF](https://arxiv.org/pdf/2112.09332) · [Paper](https://arxiv.org/abs/2112.09332) · `nakano2021webgpt` |
+| 2023 | [Toolformer: Language Models Can Teach Themselves to Use Tools](https://arxiv.org/pdf/2302.04761) | Advances in Neural Information Processing Systems | [PDF](https://arxiv.org/pdf/2302.04761) · `schick2023toolformer` |
+| 2024 | [ToolLLM: Facilitating Large Language Models to Master 16000+ Real-World APIs](https://arxiv.org/pdf/2307.16789) | International Conference on Learning Representations | [PDF](https://arxiv.org/pdf/2307.16789) · `qin2024toolllm` |
+| 2025 | [New Tools for Building Agents](https://openai.com/index/new-tools-for-building-agents/) | Technical announcement | [Paper](https://openai.com/index/new-tools-for-building-agents/) · `openai2025agentssdk` |
+| 2025 | [The Berkeley Function Calling Leaderboard (BFCL): From Tool Use to Agentic Evaluation of Large Language Models](https://raw.githubusercontent.com/mlresearch/v267/main/assets/patil25a/patil25a.pdf) | International Conference on Machine Learning | [PDF](https://raw.githubusercontent.com/mlresearch/v267/main/assets/patil25a/patil25a.pdf) · `patil2025bfcl` |
 
 
 ## State, adaptation, and coordination
@@ -104,46 +104,46 @@ Web interaction, learned tool use, tool-use datasets, function-calling evaluatio
 
 Generative, hierarchical, conversational, experiential, structured, and learned memory policies, together with memory benchmarks.
 
-| Year | Work | Venue or source | BibTeX key |
+| Year | Work | Venue or source | Links |
 | --- | --- | --- | --- |
-| 2023 | [Generative Agents: Interactive Simulacra of Human Behavior](https://doi.org/10.1145/3586183.3606763) | Proceedings of the 36th Annual ACM Symposium on User Interface Software and Technology | `park2023generativeagents` |
-| 2024 | [MemGPT: Towards LLMs as Operating Systems](https://arxiv.org/abs/2310.08560) | arXiv preprint arXiv:2310.08560 | `packer2024memgpt` |
-| 2024 | MemoryBank: Enhancing Large Language Models with Long-Term Memory | Proceedings of the AAAI Conference on Artificial Intelligence | `zhong2024memorybank` |
-| 2024 | [ExpeL: LLM Agents Are Experiential Learners](https://arxiv.org/abs/2308.10144) | arXiv preprint arXiv:2308.10144 | `zhao2024expel` |
-| 2025 | [A-MEM: Agentic Memory for LLM Agents](https://arxiv.org/abs/2502.12110) | arXiv preprint arXiv:2502.12110 | `xu2025amem` |
-| 2025 | [Mem0: Building Production-Ready AI Agents with Scalable Long-Term Memory](https://arxiv.org/abs/2504.19413) | arXiv preprint arXiv:2504.19413 | `chhikara2025mem0` |
-| 2026 | [Agentic Memory: Learning Unified Long-Term and Short-Term Memory Management for Large Language Model Agents](https://doi.org/10.18653/v1/2026.acl-long.981) | Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics | `yu2026agemem` |
-| 2023 | [A Personalized Reinforcement Learning Summarization Service for Learning Structure from Unstructured Data](https://doi.org/10.1109/ICWS60048.2023.00040) | 2023 IEEE International Conference on Web Services (ICWS) | `ghodratnama2023personalized` |
-| 2024 | [SumRecom: A Personalized Summarization Approach by Learning from Users' Feedback](https://doi.org/10.48550/arXiv.2408.07294) | arXiv preprint arXiv:2408.07294 | `ghodratnama2024sumrecom` |
-| 2025 | [MemBench: Towards More Comprehensive Evaluation on the Memory of LLM-Based Agents](https://doi.org/10.18653/v1/2025.findings-acl.989) | Findings of the Association for Computational Linguistics: ACL 2025 | `tan2025membench` |
-| 2026 | [Mem2ActBench: A Benchmark for Evaluating Long-Term Memory Utilization in Task-Oriented Autonomous Agents](https://doi.org/10.18653/v1/2026.acl-long.370) | Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics | `shen2026mem2actbench` |
+| 2023 | [Generative Agents: Interactive Simulacra of Human Behavior](https://doi.org/10.1145/3586183.3606763) | Proceedings of the 36th Annual ACM Symposium on User Interface Software and Technology | [PDF](https://dl.acm.org/doi/pdf/10.1145/3586183.3606763) · [Paper](https://doi.org/10.1145/3586183.3606763) · `park2023generativeagents` |
+| 2024 | [MemGPT: Towards LLMs as Operating Systems](https://arxiv.org/abs/2310.08560) | arXiv preprint arXiv:2310.08560 | [PDF](https://arxiv.org/pdf/2310.08560) · [Paper](https://arxiv.org/abs/2310.08560) · `packer2024memgpt` |
+| 2024 | [MemoryBank: Enhancing Large Language Models with Long-Term Memory](https://ojs.aaai.org/index.php/AAAI/article/download/29946/31654) | Proceedings of the AAAI Conference on Artificial Intelligence | [PDF](https://ojs.aaai.org/index.php/AAAI/article/download/29946/31654) · `zhong2024memorybank` |
+| 2024 | [ExpeL: LLM Agents Are Experiential Learners](https://arxiv.org/abs/2308.10144) | arXiv preprint arXiv:2308.10144 | [PDF](https://arxiv.org/pdf/2308.10144) · [Paper](https://arxiv.org/abs/2308.10144) · `zhao2024expel` |
+| 2025 | [A-MEM: Agentic Memory for LLM Agents](https://arxiv.org/abs/2502.12110) | arXiv preprint arXiv:2502.12110 | [PDF](https://arxiv.org/pdf/2502.12110) · [Paper](https://arxiv.org/abs/2502.12110) · `xu2025amem` |
+| 2025 | [Mem0: Building Production-Ready AI Agents with Scalable Long-Term Memory](https://arxiv.org/abs/2504.19413) | arXiv preprint arXiv:2504.19413 | [PDF](https://arxiv.org/pdf/2504.19413) · [Paper](https://arxiv.org/abs/2504.19413) · `chhikara2025mem0` |
+| 2026 | [Agentic Memory: Learning Unified Long-Term and Short-Term Memory Management for Large Language Model Agents](https://doi.org/10.18653/v1/2026.acl-long.981) | Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics | [PDF](https://aclanthology.org/2026.acl-long.981.pdf) · [Paper](https://doi.org/10.18653/v1/2026.acl-long.981) · `yu2026agemem` |
+| 2023 | [A Personalized Reinforcement Learning Summarization Service for Learning Structure from Unstructured Data](https://doi.org/10.1109/ICWS60048.2023.00040) | 2023 IEEE International Conference on Web Services (ICWS) | [Paper](https://doi.org/10.1109/ICWS60048.2023.00040) · `ghodratnama2023personalized` |
+| 2024 | [SumRecom: A Personalized Summarization Approach by Learning from Users' Feedback](https://doi.org/10.48550/arXiv.2408.07294) | arXiv preprint arXiv:2408.07294 | [PDF](https://arxiv.org/pdf/2408.07294) · [Paper](https://doi.org/10.48550/arXiv.2408.07294) · `ghodratnama2024sumrecom` |
+| 2025 | [MemBench: Towards More Comprehensive Evaluation on the Memory of LLM-Based Agents](https://doi.org/10.18653/v1/2025.findings-acl.989) | Findings of the Association for Computational Linguistics: ACL 2025 | [PDF](https://aclanthology.org/2025.findings-acl.989.pdf) · [Paper](https://doi.org/10.18653/v1/2025.findings-acl.989) · `tan2025membench` |
+| 2026 | [Mem2ActBench: A Benchmark for Evaluating Long-Term Memory Utilization in Task-Oriented Autonomous Agents](https://doi.org/10.18653/v1/2026.acl-long.370) | Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics | [PDF](https://aclanthology.org/2026.acl-long.370.pdf) · [Paper](https://doi.org/10.18653/v1/2026.acl-long.370) · `shen2026mem2actbench` |
 
 ### Self-improvement and long horizons
 
 Verbal reflection, program or library growth, embodied exploration, weak-to-strong feedback, and agentic reinforcement learning.
 
-| Year | Work | Venue or source | BibTeX key |
+| Year | Work | Venue or source | Links |
 | --- | --- | --- | --- |
-| 2023 | Reflexion: Language Agents with Verbal Reinforcement Learning | Advances in Neural Information Processing Systems | `shinn2023reflexion` |
-| 2023 | PAL: Program-Aided Language Models | Proceedings of the 40th International Conference on Machine Learning | `gao2023pal` |
-| 2023 | [Voyager: An Open-Ended Embodied Agent with Large Language Models](https://arxiv.org/abs/2305.16291) | arXiv preprint arXiv:2305.16291 | `wang2023voyager` |
-| 2026 | [SOAR: Supervision from Observation for Agentic Reinforcement Learning](https://doi.org/10.18653/v1/2026.acl-long.1624) | Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics | `li2026soar` |
-| 2026 | [Beyond the Context Window: Scaling Agentic RL via End-to-End Optimized Context Compression](https://doi.org/10.18653/v1/2026.acl-long.966) | Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics | `lu2026supo` |
-| 2024 | [Explanation, Debate, Align: A Weak-to-Strong Framework for Language Model Generalization](https://doi.org/10.48550/arXiv.2409.07335) | arXiv preprint arXiv:2409.07335 | `zakershahrak2024explanation` |
+| 2023 | [Reflexion: Language Agents with Verbal Reinforcement Learning](https://arxiv.org/pdf/2303.11366) | Advances in Neural Information Processing Systems | [PDF](https://arxiv.org/pdf/2303.11366) · `shinn2023reflexion` |
+| 2023 | [PAL: Program-Aided Language Models](https://arxiv.org/pdf/2211.10435) | Proceedings of the 40th International Conference on Machine Learning | [PDF](https://arxiv.org/pdf/2211.10435) · `gao2023pal` |
+| 2023 | [Voyager: An Open-Ended Embodied Agent with Large Language Models](https://arxiv.org/abs/2305.16291) | arXiv preprint arXiv:2305.16291 | [PDF](https://arxiv.org/pdf/2305.16291) · [Paper](https://arxiv.org/abs/2305.16291) · `wang2023voyager` |
+| 2026 | [SOAR: Supervision from Observation for Agentic Reinforcement Learning](https://doi.org/10.18653/v1/2026.acl-long.1624) | Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics | [PDF](https://aclanthology.org/2026.acl-long.1624.pdf) · [Paper](https://doi.org/10.18653/v1/2026.acl-long.1624) · `li2026soar` |
+| 2026 | [Beyond the Context Window: Scaling Agentic RL via End-to-End Optimized Context Compression](https://doi.org/10.18653/v1/2026.acl-long.966) | Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics | [PDF](https://aclanthology.org/2026.acl-long.966.pdf) · [Paper](https://doi.org/10.18653/v1/2026.acl-long.966) · `lu2026supo` |
+| 2024 | [Explanation, Debate, Align: A Weak-to-Strong Framework for Language Model Generalization](https://doi.org/10.48550/arXiv.2409.07335) | arXiv preprint arXiv:2409.07335 | [PDF](https://arxiv.org/pdf/2409.07335) · [Paper](https://doi.org/10.48550/arXiv.2409.07335) · `zakershahrak2024explanation` |
 
 ### Coordination and protocols
 
 Role-play, conversational coordination, software-development teams, multi-agent debate, benchmarked coordination, MCP, and A2A.
 
-| Year | Work | Venue or source | BibTeX key |
+| Year | Work | Venue or source | Links |
 | --- | --- | --- | --- |
-| 2023 | [CAMEL: Communicative Agents for Mind Exploration of Large Scale Language Model Society](https://arxiv.org/abs/2303.17760) | arXiv preprint arXiv:2303.17760 | `li2023camel` |
-| 2023 | [AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation](https://arxiv.org/abs/2308.08155) | arXiv preprint arXiv:2308.08155 | `wu2023autogen` |
-| 2024 | MetaGPT: Meta Programming for a Multi-Agent Collaborative Framework | International Conference on Learning Representations | `hong2024metagpt` |
-| 2024 | Improving Factuality and Reasoning in Language Models through Multiagent Debate | International Conference on Machine Learning | `du2024multiagentdebate` |
-| 2025 | [MultiAgentBench: Evaluating the Collaboration and Competition of LLM Agents](https://doi.org/10.18653/v1/2025.acl-long.421) | Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) | `zhu2025multiagentbench` |
-| 2025 | [Model Context Protocol Specification, Revision 2025-11-25](https://modelcontextprotocol.io/specification/2025-11-25) | Official specification | `mcp2025spec` |
-| 2026 | [Agent2Agent Protocol Specification, Version 1.0.0](https://a2a-protocol.org/latest/specification/) | Official specification | `a2a2026spec` |
+| 2023 | [CAMEL: Communicative Agents for Mind Exploration of Large Scale Language Model Society](https://arxiv.org/abs/2303.17760) | arXiv preprint arXiv:2303.17760 | [PDF](https://arxiv.org/pdf/2303.17760) · [Paper](https://arxiv.org/abs/2303.17760) · `li2023camel` |
+| 2023 | [AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation](https://arxiv.org/abs/2308.08155) | arXiv preprint arXiv:2308.08155 | [PDF](https://arxiv.org/pdf/2308.08155) · [Paper](https://arxiv.org/abs/2308.08155) · `wu2023autogen` |
+| 2024 | [MetaGPT: Meta Programming for a Multi-Agent Collaborative Framework](https://arxiv.org/pdf/2308.00352) | International Conference on Learning Representations | [PDF](https://arxiv.org/pdf/2308.00352) · `hong2024metagpt` |
+| 2024 | [Improving Factuality and Reasoning in Language Models through Multiagent Debate](https://arxiv.org/pdf/2305.14325) | International Conference on Machine Learning | [PDF](https://arxiv.org/pdf/2305.14325) · `du2024multiagentdebate` |
+| 2025 | [MultiAgentBench: Evaluating the Collaboration and Competition of LLM Agents](https://doi.org/10.18653/v1/2025.acl-long.421) | Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) | [PDF](https://aclanthology.org/2025.acl-long.421.pdf) · [Paper](https://doi.org/10.18653/v1/2025.acl-long.421) · `zhu2025multiagentbench` |
+| 2025 | [Model Context Protocol Specification, Revision 2025-11-25](https://modelcontextprotocol.io/specification/2025-11-25) | Official specification | [Paper](https://modelcontextprotocol.io/specification/2025-11-25) · `mcp2025spec` |
+| 2026 | [Agent2Agent Protocol Specification, Version 1.0.0](https://a2a-protocol.org/latest/specification/) | Official specification | [Paper](https://a2a-protocol.org/latest/specification/) · `a2a2026spec` |
 
 
 ## Evaluation and evidence
@@ -152,38 +152,38 @@ Role-play, conversational coordination, software-development teams, multi-agent 
 
 Breadth-oriented agent environments, progress-sensitive boards, and multimodal general-assistant evaluation.
 
-| Year | Work | Venue or source | BibTeX key |
+| Year | Work | Venue or source | Links |
 | --- | --- | --- | --- |
-| 2024 | AgentBench: Evaluating LLMs as Agents | International Conference on Learning Representations | `liu2024agentbench` |
-| 2024 | AgentBoard: An Analytical Evaluation Board of Multi-Turn LLM Agents | International Conference on Learning Representations | `hsieh2024agentboard` |
-| 2024 | GAIA: A Benchmark for General AI Assistants | International Conference on Learning Representations | `mialon2024gaia` |
+| 2024 | [AgentBench: Evaluating LLMs as Agents](https://arxiv.org/pdf/2308.03688) | International Conference on Learning Representations | [PDF](https://arxiv.org/pdf/2308.03688) · `liu2024agentbench` |
+| 2024 | [AgentBoard: An Analytical Evaluation Board of Multi-Turn LLM Agents](https://arxiv.org/pdf/2401.13178) | International Conference on Learning Representations | [PDF](https://arxiv.org/pdf/2401.13178) · `hsieh2024agentboard` |
+| 2024 | [GAIA: A Benchmark for General AI Assistants](https://arxiv.org/pdf/2311.12983) | International Conference on Learning Representations | [PDF](https://arxiv.org/pdf/2311.12983) · `mialon2024gaia` |
 
 ### Interactive environments
 
 Web, desktop, human-executed computer use, long-horizon operating-system tasks, enterprise work, and controllable app worlds.
 
-| Year | Work | Venue or source | BibTeX key |
+| Year | Work | Venue or source | Links |
 | --- | --- | --- | --- |
-| 2024 | WebArena: A Realistic Web Environment for Building Autonomous Agents | International Conference on Learning Representations | `zhou2024webarena` |
-| 2024 | [OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments](https://arxiv.org/abs/2404.07972) | arXiv preprint arXiv:2404.07972 | `xie2024osworld` |
-| 2025 | [OSWorld-Human: Benchmarking the Efficiency of Computer-Use Agents](https://arxiv.org/abs/2506.16042) | arXiv preprint arXiv:2506.16042 | `abhyankar2025osworldhuman` |
-| 2026 | [OSWorld 2.0: Benchmarking Computer-Use Agents on Long-Horizon Real-World Tasks](https://arxiv.org/abs/2606.29537) | arXiv preprint arXiv:2606.29537 | `yuan2026osworld2` |
-| 2024 | WorkArena: How Capable Are Web Agents at Solving Common Knowledge Work Tasks? | International Conference on Machine Learning | `drouin2024workarena` |
-| 2024 | [AppWorld: A Controllable World of Apps and People for Benchmarking Interactive Coding Agents](https://doi.org/10.18653/v1/2024.acl-long.850) | Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics | `trivedi2024appworld` |
+| 2024 | [WebArena: A Realistic Web Environment for Building Autonomous Agents](https://arxiv.org/pdf/2307.13854) | International Conference on Learning Representations | [PDF](https://arxiv.org/pdf/2307.13854) · `zhou2024webarena` |
+| 2024 | [OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments](https://arxiv.org/abs/2404.07972) | arXiv preprint arXiv:2404.07972 | [PDF](https://arxiv.org/pdf/2404.07972) · [Paper](https://arxiv.org/abs/2404.07972) · `xie2024osworld` |
+| 2025 | [OSWorld-Human: Benchmarking the Efficiency of Computer-Use Agents](https://arxiv.org/abs/2506.16042) | arXiv preprint arXiv:2506.16042 | [PDF](https://arxiv.org/pdf/2506.16042) · [Paper](https://arxiv.org/abs/2506.16042) · `abhyankar2025osworldhuman` |
+| 2026 | [OSWorld 2.0: Benchmarking Computer-Use Agents on Long-Horizon Real-World Tasks](https://arxiv.org/abs/2606.29537) | arXiv preprint arXiv:2606.29537 | [PDF](https://arxiv.org/pdf/2606.29537) · [Paper](https://arxiv.org/abs/2606.29537) · `yuan2026osworld2` |
+| 2024 | [WorkArena: How Capable Are Web Agents at Solving Common Knowledge Work Tasks?](https://arxiv.org/pdf/2403.07718) | International Conference on Machine Learning | [PDF](https://arxiv.org/pdf/2403.07718) · `drouin2024workarena` |
+| 2024 | [AppWorld: A Controllable World of Apps and People for Benchmarking Interactive Coding Agents](https://doi.org/10.18653/v1/2024.acl-long.850) | Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics | [PDF](https://aclanthology.org/2024.acl-long.850.pdf) · [Paper](https://doi.org/10.18653/v1/2024.acl-long.850) · `trivedi2024appworld` |
 
 ### Code, tool, science, and long-horizon tests
 
 Repository repair, software agents, tool-agent-user interaction, scientific discovery, data-driven science, full-agency episodes, and benchmark auditing.
 
-| Year | Work | Venue or source | BibTeX key |
+| Year | Work | Venue or source | Links |
 | --- | --- | --- | --- |
-| 2024 | SWE-bench: Can Language Models Resolve Real-World GitHub Issues? | International Conference on Learning Representations | `jimenez2024swebench` |
-| 2024 | SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering | Advances in Neural Information Processing Systems | `yang2024sweagent` |
-| 2025 | $\tau$-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains | International Conference on Learning Representations | `yao2024taubench` |
-| 2024 | [DiscoveryWorld: A Virtual Environment for Developing and Evaluating Automated Scientific Discovery Agents](https://proceedings.neurips.cc/paper_files/paper/2024/hash/13836f251823945316ae067350a5c366-Abstract-Datasets_and_Benchmarks_Track.html) | NeurIPS Datasets and Benchmarks Track | `jansen2024discoveryworld` |
-| 2025 | [ScienceAgentBench: Toward Rigorous Assessment of Language Agents for Data-Driven Scientific Discovery](https://proceedings.iclr.cc/paper_files/paper/2025/hash/f12b4df26344f3be803c06b555252efe-Abstract-Conference.html) | International Conference on Learning Representations | `chen2025scienceagentbench` |
-| 2026 | [AgencyBench: Benchmarking the Frontiers of Autonomous Agents in 1M-Token Real-World Contexts](https://doi.org/10.18653/v1/2026.acl-long.337) | Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics | `li2026agencybench` |
-| 2026 | [Why SWE-bench Verified No Longer Measures Frontier Coding Capabilities](https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/) | Technical report | `openai2026swebenchaudit` |
+| 2024 | [SWE-bench: Can Language Models Resolve Real-World GitHub Issues?](https://arxiv.org/pdf/2310.06770) | International Conference on Learning Representations | [PDF](https://arxiv.org/pdf/2310.06770) · `jimenez2024swebench` |
+| 2024 | [SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering](https://arxiv.org/pdf/2405.15793) | Advances in Neural Information Processing Systems | [PDF](https://arxiv.org/pdf/2405.15793) · `yang2024sweagent` |
+| 2025 | [τ-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains](https://arxiv.org/pdf/2406.12045) | International Conference on Learning Representations | [PDF](https://arxiv.org/pdf/2406.12045) · `yao2024taubench` |
+| 2024 | [DiscoveryWorld: A Virtual Environment for Developing and Evaluating Automated Scientific Discovery Agents](https://proceedings.neurips.cc/paper_files/paper/2024/hash/13836f251823945316ae067350a5c366-Abstract-Datasets_and_Benchmarks_Track.html) | NeurIPS Datasets and Benchmarks Track | [PDF](https://proceedings.neurips.cc/paper_files/paper/2024/hash/13836f251823945316ae067350a5c366-Paper-Datasets_and_Benchmarks_Track.pdf) · [Paper](https://proceedings.neurips.cc/paper_files/paper/2024/hash/13836f251823945316ae067350a5c366-Abstract-Datasets_and_Benchmarks_Track.html) · `jansen2024discoveryworld` |
+| 2025 | [ScienceAgentBench: Toward Rigorous Assessment of Language Agents for Data-Driven Scientific Discovery](https://proceedings.iclr.cc/paper_files/paper/2025/hash/f12b4df26344f3be803c06b555252efe-Abstract-Conference.html) | International Conference on Learning Representations | [PDF](https://proceedings.iclr.cc/paper_files/paper/2025/hash/f12b4df26344f3be803c06b555252efe-Paper-Conference.pdf) · [Paper](https://proceedings.iclr.cc/paper_files/paper/2025/hash/f12b4df26344f3be803c06b555252efe-Abstract-Conference.html) · `chen2025scienceagentbench` |
+| 2026 | [AgencyBench: Benchmarking the Frontiers of Autonomous Agents in 1M-Token Real-World Contexts](https://doi.org/10.18653/v1/2026.acl-long.337) | Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics | [PDF](https://aclanthology.org/2026.acl-long.337.pdf) · [Paper](https://doi.org/10.18653/v1/2026.acl-long.337) · `li2026agencybench` |
+| 2026 | [Why SWE-bench Verified No Longer Measures Frontier Coding Capabilities](https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/) | Technical report | [Paper](https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/) · `openai2026swebenchaudit` |
 
 
 ## Assurance and deployment
@@ -192,29 +192,29 @@ Repository repair, software agents, tool-agent-user interaction, scientific disc
 
 Prompt injection, controlled attack benchmarks, agent-security evaluation, trustworthy web interaction, NIST guidance, OWASP, and MITRE ATLAS.
 
-| Year | Work | Venue or source | BibTeX key |
+| Year | Work | Venue or source | Links |
 | --- | --- | --- | --- |
-| 2023 | [Not What You've Signed Up For: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection](https://arxiv.org/abs/2302.12173) | arXiv preprint arXiv:2302.12173 | `greshake2023promptinjection` |
-| 2024 | [InjecAgent: Benchmarking Indirect Prompt Injections in Tool-Integrated Large Language Model Agents](https://doi.org/10.18653/v1/2024.findings-acl.624) | Findings of the Association for Computational Linguistics: ACL 2024 | `zhan2024injecagent` |
-| 2025 | Agent Security Bench (ASB): Formalizing and Benchmarking Attacks and Defenses in LLM-Based Agents | International Conference on Learning Representations | `zhang2024agentsecuritybench` |
-| 2026 | ST-WebAgentBench: A Benchmark for Evaluating Safety and Trustworthiness in Web Agents | International Conference on Learning Representations | `levy2026stwebagentbench` |
-| 2023 | [Artificial Intelligence Risk Management Framework (AI RMF 1.0)](https://doi.org/10.6028/NIST.AI.100-1) | — | `nist2023airmf` |
-| 2024 | [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1) | — | `nist2024genaiprofile` |
-| 2025 | OWASP Top 10 for Large Language Model Applications 2025 | \urlhttps://genai.owasp.org/llm-top-10/ | `owasp2025llmtop10` |
-| 2026 | ATLAS: Adversarial Threat Landscape for Artificial-Intelligence Systems | \urlhttps://atlas.mitre.org/ | `mitre2026atlas` |
+| 2023 | [Not What You've Signed Up For: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection](https://arxiv.org/abs/2302.12173) | arXiv preprint arXiv:2302.12173 | [PDF](https://arxiv.org/pdf/2302.12173) · [Paper](https://arxiv.org/abs/2302.12173) · `greshake2023promptinjection` |
+| 2024 | [InjecAgent: Benchmarking Indirect Prompt Injections in Tool-Integrated Large Language Model Agents](https://doi.org/10.18653/v1/2024.findings-acl.624) | Findings of the Association for Computational Linguistics: ACL 2024 | [PDF](https://aclanthology.org/2024.findings-acl.624.pdf) · [Paper](https://doi.org/10.18653/v1/2024.findings-acl.624) · `zhan2024injecagent` |
+| 2025 | [Agent Security Bench (ASB): Formalizing and Benchmarking Attacks and Defenses in LLM-Based Agents](https://arxiv.org/pdf/2410.02644) | International Conference on Learning Representations | [PDF](https://arxiv.org/pdf/2410.02644) · `zhang2024agentsecuritybench` |
+| 2026 | [ST-WebAgentBench: A Benchmark for Evaluating Safety and Trustworthiness in Web Agents](https://arxiv.org/pdf/2410.06703) | International Conference on Learning Representations | [PDF](https://arxiv.org/pdf/2410.06703) · `levy2026stwebagentbench` |
+| 2023 | [Artificial Intelligence Risk Management Framework (AI RMF 1.0)](https://doi.org/10.6028/NIST.AI.100-1) | — | [Paper](https://doi.org/10.6028/NIST.AI.100-1) · `nist2023airmf` |
+| 2024 | [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://doi.org/10.6028/NIST.AI.600-1) | — | [Paper](https://doi.org/10.6028/NIST.AI.600-1) · `nist2024genaiprofile` |
+| 2025 | [OWASP Top 10 for Large Language Model Applications 2025](https://genai.owasp.org/download/43299/?tmstv=1731900559) | \urlhttps://genai.owasp.org/llm-top-10/ | [PDF](https://genai.owasp.org/download/43299/?tmstv=1731900559) · `owasp2025llmtop10` |
+| 2026 | [ATLAS: Adversarial Threat Landscape for Artificial-Intelligence Systems](https://atlas.mitre.org/pdf-files/MITRE_ATLAS_Fact_Sheet.pdf) | \urlhttps://atlas.mitre.org/ | [PDF](https://atlas.mitre.org/pdf-files/MITRE_ATLAS_Fact_Sheet.pdf) · `mitre2026atlas` |
 
 ### Application evidence
 
 Verified mathematical search, autonomous materials synthesis, chemistry tooling, automated research, multi-agent scientific work, and consequential office workflows.
 
-| Year | Work | Venue or source | BibTeX key |
+| Year | Work | Venue or source | Links |
 | --- | --- | --- | --- |
-| 2024 | [Mathematical Discoveries from Program Search with Large Language Models](https://doi.org/10.1038/s41586-023-06924-6) | Nature | `romeraparedes2024funsearch` |
-| 2023 | [An Autonomous Laboratory for the Accelerated Synthesis of Inorganic Materials](https://doi.org/10.1038/s41586-023-06734-w) | Nature | `szymanski2023alab` |
-| 2024 | [Augmenting Large Language Models with Chemistry Tools](https://doi.org/10.1038/s42256-024-00832-8) | Nature Machine Intelligence | `bran2024chemcrow` |
-| 2024 | [The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery](https://arxiv.org/abs/2408.06292) | arXiv preprint arXiv:2408.06292 | `lu2024aiscientist` |
-| 2024 | [SciAgents: Automating Scientific Discovery through Multi-Agent Intelligent Graph Reasoning](https://arxiv.org/abs/2409.05556) | arXiv preprint arXiv:2409.05556 | `ghafarollahi2024sciagents` |
-| 2025 | [TheAgentCompany: Benchmarking LLM Agents on Consequential Real-World Tasks](https://papers.nips.cc/paper_files/paper/2025/hash/0d744742f6fac4d1134c019b7cef3c8a-Abstract-Datasets_and_Benchmarks_Track.html) | Advances in Neural Information Processing Systems: Datasets and Benchmarks Track | `xu2025agentcompany` |
+| 2024 | [Mathematical Discoveries from Program Search with Large Language Models](https://doi.org/10.1038/s41586-023-06924-6) | Nature | [PDF](https://www.nature.com/articles/s41586-023-06924-6.pdf) · [Paper](https://doi.org/10.1038/s41586-023-06924-6) · `romeraparedes2024funsearch` |
+| 2023 | [An Autonomous Laboratory for the Accelerated Synthesis of Inorganic Materials](https://doi.org/10.1038/s41586-023-06734-w) | Nature | [PDF](https://www.nature.com/articles/s41586-023-06734-w.pdf) · [Paper](https://doi.org/10.1038/s41586-023-06734-w) · `szymanski2023alab` |
+| 2024 | [Augmenting Large Language Models with Chemistry Tools](https://doi.org/10.1038/s42256-024-00832-8) | Nature Machine Intelligence | [PDF](https://www.nature.com/articles/s42256-024-00832-8.pdf) · [Paper](https://doi.org/10.1038/s42256-024-00832-8) · `bran2024chemcrow` |
+| 2024 | [The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery](https://arxiv.org/abs/2408.06292) | arXiv preprint arXiv:2408.06292 | [PDF](https://arxiv.org/pdf/2408.06292) · [Paper](https://arxiv.org/abs/2408.06292) · `lu2024aiscientist` |
+| 2024 | [SciAgents: Automating Scientific Discovery through Multi-Agent Intelligent Graph Reasoning](https://arxiv.org/abs/2409.05556) | arXiv preprint arXiv:2409.05556 | [PDF](https://arxiv.org/pdf/2409.05556) · [Paper](https://arxiv.org/abs/2409.05556) · `ghafarollahi2024sciagents` |
+| 2025 | [TheAgentCompany: Benchmarking LLM Agents on Consequential Real-World Tasks](https://papers.nips.cc/paper_files/paper/2025/hash/0d744742f6fac4d1134c019b7cef3c8a-Abstract-Datasets_and_Benchmarks_Track.html) | Advances in Neural Information Processing Systems: Datasets and Benchmarks Track | [Paper](https://papers.nips.cc/paper_files/paper/2025/hash/0d744742f6fac4d1134c019b7cef3c8a-Abstract-Datasets_and_Benchmarks_Track.html) · `xu2025agentcompany` |
 
 ## Corrections and additions
 

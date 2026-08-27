@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="The project hub for LLMs in Modern Agentic Systems: a 104-page systems survey with 222 cited sources, an operational taxonomy, and a literature atlas.">
+    <meta name="description" content="The project hub for LLMs in Modern Agentic Systems: a 104-page systems survey with an operational taxonomy and a searchable library of 222 cited sources, including 169 direct PDF links.">
     <meta property="og:title" content="LLMs in Modern Agentic Systems: A Systems Survey">
     <meta property="og:description" content="A systems view of how language models become evidence-aware, bounded, and governable actors in the world.">
     <meta property="og:type" content="website">
@@ -20,12 +20,14 @@
         <a class="wordmark" href="./">LLMs in Modern Agentic Systems</a>
         <button class="nav-toggle" type="button" data-nav-toggle aria-controls="site-nav" aria-expanded="false">Menu</button>
         <nav class="site-nav" id="site-nav" data-site-nav data-open="false" aria-label="Primary navigation">
+          <a href="llms-in-modern-agentic-systems.pdf">Paper</a>
           <a href="#abstract">Abstract</a>
           <a href="#taxonomy">Taxonomy</a>
+          <a href="#library">Paper library</a>
           <a href="#reading-guide">Reading guide</a>
           <a href="#materials">Materials</a>
+          <a href="#community">Community</a>
           <a href="#citation">Citation</a>
-          <a href="llms-in-modern-agentic-systems.pdf">Paper</a>
           <a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems">GitHub</a>
         </nav>
       </div>
@@ -40,8 +42,8 @@
             <div class="stats-grid">
               <div class="stat"><strong>222</strong><span>Cited sources</span></div>
               <div class="stat"><strong>98</strong><span>Atlas entries</span></div>
-              <div class="stat"><strong>5</strong><span>System forms</span></div>
-              <div class="stat"><strong>6</strong><span>System layers</span></div>
+              <div class="stat"><strong>169</strong><span>Direct PDFs</span></div>
+              <div class="stat"><strong>13</strong><span>Atlas loci</span></div>
             </div>
           </section>
 
@@ -51,15 +53,19 @@
             <a href="#overview">Systems argument</a>
             <a href="#taxonomy">Operational taxonomy</a>
             <a href="#atlas">Literature atlas</a>
+            <a href="#quick-start">Representative papers</a>
+            <a href="#library">Curated paper library</a>
             <a href="#reading-guide">How to read the survey</a>
             <a href="#materials">Project materials</a>
             <a href="#community">Community &amp; feedback</a>
+            <a href="#authors">Authors</a>
             <a href="#citation">Citation</a>
           </nav>
 
           <section class="sidebar-card project-links">
             <p class="section-kicker">Project links</p>
             <a href="llms-in-modern-agentic-systems.pdf"><span>Paper PDF</span><span aria-hidden="true">↗</span></a>
+            <a href="#library"><span>Paper library</span><span aria-hidden="true">↓</span></a>
             <a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems"><span>GitHub repository</span><span aria-hidden="true">↗</span></a>
             <a href="narrative/"><span>Narrative guide</span><span aria-hidden="true">→</span></a>
           </section>
@@ -71,7 +77,8 @@
             <h1>LLMs in Modern<br>Agentic Systems</h1>
             <p class="lede">A systems view of how language models become evidence-aware, bounded, and governable actors in the world.</p>
             <div class="actions">
-              <a class="button" href="llms-in-modern-agentic-systems.pdf">Read the paper</a>
+              <a class="button" href="#library">Browse 222 sources</a>
+              <a class="button secondary" href="llms-in-modern-agentic-systems.pdf">Read the paper</a>
               <a class="button secondary" href="#taxonomy">View taxonomy</a>
               <a class="button secondary" href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems">GitHub repository</a>
             </div>
@@ -139,10 +146,10 @@
               </div>
               <p>The full bibliography contains 222 sources. Figure 2 maps 98 representative works to a primary contribution while acknowledging that many methods span several layers.</p>
             </div>
-            <a class="figure-frame" href="assets/literature-atlas.png" target="_blank" rel="noopener" aria-label="Open the literature taxonomy figure at full size">
+            <button class="figure-frame" type="button" data-figure-open aria-label="Open the literature taxonomy figure at full size">
               <img src="assets/literature-atlas.png" alt="Comprehensive literature taxonomy for LLM-centered agentic systems, organized into foundations, grounding and action, state and coordination, evaluation, and assurance">
               <span>Open Figure 2 at full size ↗</span>
-            </a>
+            </button>
             <div class="atlas-key">
               <span style="--key-color: var(--blue)">Foundations &amp; scope</span>
               <span style="--key-color: var(--green)">Grounding &amp; action</span>
@@ -151,6 +158,109 @@
               <span style="--key-color: #c8d4e1">Assurance &amp; deployment</span>
             </div>
             <p class="panel-note">Browse the <a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems/blob/main/LITERATURE.md">taxonomy-aligned literature index</a> or inspect the complete <a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems/blob/main/refs.bib">bibliography sources</a>.</p>
+          </section>
+
+          <section class="panel" id="quick-start">
+            <div class="section-head compact">
+              <div>
+                <p class="section-kicker">Quick start: representative papers</p>
+                <h2>Eight papers for a first pass through the landscape</h2>
+              </div>
+              <p>These works are not a ranking. Together they expose the survey’s main transitions: retrieval becomes adaptive, reasoning becomes action, state persists, agents coordinate, and evaluation expands from answers to trajectories and side effects.</p>
+            </div>
+            <div class="paper-path">
+              <article style="--paper-color: var(--green)">
+                <span>2024 · Retrieval &amp; grounding</span>
+                <h3><a href="https://arxiv.org/pdf/2310.11511">Self-RAG</a></h3>
+                <p>Shows how retrieval, generation, and critique can become one adaptive evidence loop.</p>
+                <a class="paper-link" href="https://arxiv.org/pdf/2310.11511">Open PDF ↗</a>
+              </article>
+              <article style="--paper-color: var(--green)">
+                <span>2023 · Reasoning &amp; planning</span>
+                <h3><a href="https://arxiv.org/pdf/2210.03629">ReAct</a></h3>
+                <p>A foundational pattern for interleaving reasoning traces with grounded actions and observations.</p>
+                <a class="paper-link" href="https://arxiv.org/pdf/2210.03629">Open PDF ↗</a>
+              </article>
+              <article style="--paper-color: var(--green)">
+                <span>2023 · Tools &amp; action</span>
+                <h3><a href="https://arxiv.org/pdf/2302.04761">Toolformer</a></h3>
+                <p>Frames tool use as a learned capability rather than a hand-authored prompt convention.</p>
+                <a class="paper-link" href="https://arxiv.org/pdf/2302.04761">Open PDF ↗</a>
+              </article>
+              <article style="--paper-color: var(--purple)">
+                <span>2024 · Memory &amp; state</span>
+                <h3><a href="https://arxiv.org/pdf/2310.08560">MemGPT</a></h3>
+                <p>Treats memory management as an explicit systems problem with multiple storage tiers.</p>
+                <a class="paper-link" href="https://arxiv.org/pdf/2310.08560">Open PDF ↗</a>
+              </article>
+              <article style="--paper-color: var(--purple)">
+                <span>2023 · Adaptation</span>
+                <h3><a href="https://arxiv.org/pdf/2303.11366">Reflexion</a></h3>
+                <p>Uses verbal feedback and remembered experience to improve later trajectories without weight updates.</p>
+                <a class="paper-link" href="https://arxiv.org/pdf/2303.11366">Open PDF ↗</a>
+              </article>
+              <article style="--paper-color: var(--purple)">
+                <span>2023 · Coordination</span>
+                <h3><a href="https://arxiv.org/pdf/2308.08155">AutoGen</a></h3>
+                <p>Demonstrates multi-agent conversation as a programmable coordination substrate.</p>
+                <a class="paper-link" href="https://arxiv.org/pdf/2308.08155">Open PDF ↗</a>
+              </article>
+              <article style="--paper-color: #efbc95">
+                <span>2024 · Evaluation</span>
+                <h3><a href="https://arxiv.org/pdf/2308.03688">AgentBench</a></h3>
+                <p>Broadens evaluation across interactive environments instead of isolated answer quality.</p>
+                <a class="paper-link" href="https://arxiv.org/pdf/2308.03688">Open PDF ↗</a>
+              </article>
+              <article style="--paper-color: #c8d4e1">
+                <span>2025 · Security &amp; governance</span>
+                <h3><a href="https://arxiv.org/pdf/2410.02644">Agent Security Bench</a></h3>
+                <p>Formalizes attacks and defenses around agents with tools, state, and external authority.</p>
+                <a class="paper-link" href="https://arxiv.org/pdf/2410.02644">Open PDF ↗</a>
+              </article>
+            </div>
+          </section>
+
+          <section class="panel library-panel" id="library">
+            <div class="section-head compact">
+              <div>
+                <p class="section-kicker">Curated paper library</p>
+                <h2>Move from the taxonomy directly into the evidence</h2>
+              </div>
+              <p>The 98 Figure 2 works keep their primary taxonomy locus. The remaining 124 cited sources form an extended evidence base. Direct PDF links are used when a stable open or publisher PDF is available; otherwise the canonical paper or resource page is shown.</p>
+            </div>
+
+            <div class="library-overview" aria-label="Paper library coverage">
+              <div><strong>222</strong><span>Total cited sources</span></div>
+              <div><strong>98</strong><span>Figure 2 atlas entries</span></div>
+              <div><strong>124</strong><span>Extended evidence sources</span></div>
+              <div><strong>169</strong><span>Direct PDF links</span></div>
+            </div>
+
+            <div class="library-controls" data-library-controls>
+              <label class="library-search">
+                <span>Search the literature</span>
+                <input type="search" data-library-search placeholder="Search by title, venue, year, or BibTeX key…" autocomplete="off">
+              </label>
+              <div class="filter-row" aria-label="Filter literature library">
+                <button type="button" class="filter-chip active" data-library-filter="all" aria-pressed="true">All</button>
+                <button type="button" class="filter-chip" data-library-filter="atlas" aria-pressed="false">Atlas 98</button>
+                <button type="button" class="filter-chip" data-library-filter="extended" aria-pressed="false">Extended 124</button>
+                <button type="button" class="filter-chip" data-library-filter="pdf" aria-pressed="false">Has PDF</button>
+                <button type="button" class="filter-chip" data-library-filter="recent" aria-pressed="false">2025+</button>
+                <button type="button" class="filter-chip" data-library-filter="Foundations and scope" aria-pressed="false">Foundations</button>
+                <button type="button" class="filter-chip" data-library-filter="Grounding and action" aria-pressed="false">Grounding &amp; action</button>
+                <button type="button" class="filter-chip" data-library-filter="State, adaptation, and coordination" aria-pressed="false">State &amp; coordination</button>
+                <button type="button" class="filter-chip" data-library-filter="Evaluation and evidence" aria-pressed="false">Evaluation</button>
+                <button type="button" class="filter-chip" data-library-filter="Assurance and deployment" aria-pressed="false">Assurance</button>
+              </div>
+              <div class="library-status" aria-live="polite">
+                <strong data-library-count>222</strong> visible entries
+                <button type="button" data-library-expand>Expand all sections</button>
+              </div>
+            </div>
+
+            <div class="library-results" data-library-results></div>
+            <noscript><p class="panel-note">JavaScript powers search and filters. The complete taxonomy-aligned list remains available in <a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems/blob/main/LITERATURE.md">LITERATURE.md</a>.</p></noscript>
           </section>
 
           <section class="panel" id="reading-guide">
@@ -188,15 +298,36 @@
           </section>
 
           <section class="panel community-panel" id="community">
-            <div>
+            <div class="community-copy">
               <p class="section-kicker">Open research map</p>
               <h2>Community &amp; feedback</h2>
               <p>Missing work, citation corrections, taxonomy disagreements, and broken links are best handled as traceable GitHub contributions.</p>
+              <div class="project-pulse" aria-label="Live GitHub project activity">
+                <article><strong data-github-stars>—</strong><span>Stars</span></article>
+                <article><strong data-github-forks>—</strong><span>Forks</span></article>
+                <article><strong data-github-issues>—</strong><span>Open issues</span></article>
+              </div>
             </div>
             <div class="community-actions">
               <a class="button" href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems/issues/new?template=literature-suggestion.yml">Suggest a paper</a>
               <a class="button secondary light" href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems/issues/new?template=correction.yml">Report a correction</a>
               <a class="button secondary light" href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems/pulls">Submit a pull request</a>
+              <a class="button secondary light" href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems/issues">Join the discussion</a>
+            </div>
+          </section>
+
+          <section class="panel" id="authors">
+            <div class="section-head compact">
+              <div>
+                <p class="section-kicker">Authors</p>
+                <h2>An anonymized review manuscript</h2>
+              </div>
+              <p>The current public manuscript intentionally identifies its authors as Anonymous Author(s). Names, affiliations, contact information, and archival identifiers will be added here when the review process permits disclosure.</p>
+            </div>
+            <div class="author-placeholder">
+              <span aria-hidden="true">A</span>
+              <div><strong>Anonymous Author(s)</strong><p>Current review-version attribution</p></div>
+              <a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems">Project repository ↗</a>
             </div>
           </section>
 
@@ -223,7 +354,13 @@
       </div>
     </div>
 
-    <footer class="site-footer"><div class="container"><span>LLMs in Modern Agentic Systems</span><span>Research cutoff July 2026 • 222 cited sources</span></div></footer>
+    <dialog class="figure-dialog" data-figure-dialog aria-label="Figure 2: literature taxonomy">
+      <button type="button" data-figure-close aria-label="Close enlarged figure">Close ×</button>
+      <img src="assets/literature-atlas.png" alt="Enlarged comprehensive literature taxonomy for LLM-centered agentic systems">
+    </dialog>
+
+    <footer class="site-footer"><div class="container"><span>LLMs in Modern Agentic Systems</span><span>Research cutoff July 2026 • 222 cited sources • 169 direct PDFs</span></div></footer>
+    <script src="assets/literature-data.js"></script>
     <script src="assets/site.js"></script>
   </body>
 </html>
