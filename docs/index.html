@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="A systems survey of LLM-centered agentic systems: retrieval, workflows, bounded agents, evaluation, and governance.">
+    <meta name="description" content="The project hub for LLMs in Modern Agentic Systems: a 104-page systems survey with 222 cited sources, an operational taxonomy, and a literature atlas.">
     <meta property="og:title" content="LLMs in Modern Agentic Systems: A Systems Survey">
     <meta property="og:description" content="A systems view of how language models become evidence-aware, bounded, and governable actors in the world.">
     <meta property="og:type" content="website">
@@ -14,130 +14,215 @@
   </head>
   <body>
     <div class="top-rule"></div>
-    <div class="page-shell">
-      <header class="container site-header">
+    <header class="site-header-wrap">
+      <div class="container site-header">
         <a class="wordmark" href="./">LLMs in Modern Agentic Systems</a>
         <button class="nav-toggle" type="button" data-nav-toggle aria-controls="site-nav" aria-expanded="false">Menu</button>
         <nav class="site-nav" id="site-nav" data-site-nav data-open="false" aria-label="Primary navigation">
-          <a href="./" aria-current="page">Overview</a>
-          <a href="narrative/">Narrative</a>
-          <a href="llms-in-modern-agentic-systems.pdf">Read paper</a>
+          <a href="#abstract">Abstract</a>
+          <a href="#taxonomy">Taxonomy</a>
+          <a href="#reading-guide">Reading guide</a>
+          <a href="#materials">Materials</a>
+          <a href="#citation">Citation</a>
+          <a href="llms-in-modern-agentic-systems.pdf">Paper</a>
           <a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems">GitHub</a>
         </nav>
-      </header>
+      </div>
+    </header>
 
-      <main>
-        <section class="container hero">
-          <div>
-            <p class="eyebrow">Comprehensive systems survey • July 2026</p>
-            <h1>LLM-centered<br>agentic systems</h1>
+    <div class="page-shell">
+      <div class="container hub-layout">
+        <aside class="survey-sidebar" aria-label="Survey navigation and statistics">
+          <section class="sidebar-card">
+            <p class="section-kicker">Survey statistics</p>
+            <p class="sidebar-summary">A systems map of the structures, control loops, evidence, and safeguards that turn LLM outputs into bounded action.</p>
+            <div class="stats-grid">
+              <div class="stat"><strong>222</strong><span>Cited sources</span></div>
+              <div class="stat"><strong>98</strong><span>Atlas entries</span></div>
+              <div class="stat"><strong>5</strong><span>System forms</span></div>
+              <div class="stat"><strong>6</strong><span>System layers</span></div>
+            </div>
+          </section>
+
+          <nav class="sidebar-card contents" aria-label="Page contents">
+            <p class="section-kicker">Contents</p>
+            <a href="#abstract">Abstract</a>
+            <a href="#overview">Systems argument</a>
+            <a href="#taxonomy">Operational taxonomy</a>
+            <a href="#atlas">Literature atlas</a>
+            <a href="#reading-guide">How to read the survey</a>
+            <a href="#materials">Project materials</a>
+            <a href="#community">Community &amp; feedback</a>
+            <a href="#citation">Citation</a>
+          </nav>
+
+          <section class="sidebar-card project-links">
+            <p class="section-kicker">Project links</p>
+            <a href="llms-in-modern-agentic-systems.pdf"><span>Paper PDF</span><span aria-hidden="true">↗</span></a>
+            <a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems"><span>GitHub repository</span><span aria-hidden="true">↗</span></a>
+            <a href="narrative/"><span>Narrative guide</span><span aria-hidden="true">→</span></a>
+          </section>
+        </aside>
+
+        <main class="survey-main">
+          <section class="hero panel" id="top">
+            <p class="eyebrow">2026 comprehensive systems survey</p>
+            <h1>LLMs in Modern<br>Agentic Systems</h1>
             <p class="lede">A systems view of how language models become evidence-aware, bounded, and governable actors in the world.</p>
             <div class="actions">
               <a class="button" href="llms-in-modern-agentic-systems.pdf">Read the paper</a>
-              <a class="button secondary" href="narrative/">Follow the argument</a>
+              <a class="button secondary" href="#taxonomy">View taxonomy</a>
+              <a class="button secondary" href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems">GitHub repository</a>
             </div>
-          </div>
-          <aside class="hero-aside" aria-label="Central claim">
-            <p class="section-kicker">Central claim</p>
-            <p><strong>Fluent generation is not dependable autonomy.</strong><br>Reliability emerges from explicit state, evidence, action contracts, verification, and proportionate governance.</p>
-          </aside>
-        </section>
-
-        <div class="intro-band">
-          <div class="container statement">The paper asks one question across the whole stack: <strong>what must surround a language model</strong> before it can move from producing a response to choosing and verifying actions over time?</div>
-        </div>
-
-        <section class="container" id="taxonomy">
-          <div class="section-head">
-            <div>
-              <p class="section-kicker">The systems lens</p>
-              <h2>Four ways to locate a contribution</h2>
+            <div class="hero-claim">
+              <span>Central claim</span>
+              <p><strong>Fluent generation is not dependable autonomy.</strong> Reliability emerges from explicit state, evidence, action contracts, verification, and proportionate governance.</p>
             </div>
-            <p>The survey does not put RAG, workflows, and agents on one maturity ladder. It compares them along independent dimensions that affect capability and risk.</p>
-          </div>
-          <div class="card-grid">
-            <article class="system-card" style="--card-color: var(--blue)">
-              <span class="card-number">01</span>
-              <h3>Execution form</h3>
-              <p>LLM application, RAG, workflow, bounded agent, or multi-agent system.</p>
-            </article>
-            <article class="system-card" style="--card-color: var(--green)">
-              <span class="card-number">02</span>
-              <h3>Functional layer</h3>
-              <p>Grounding, memory, planning, action, coordination, and governance.</p>
-            </article>
-            <article class="system-card" style="--card-color: var(--purple)">
-              <span class="card-number">03</span>
-              <h3>Adaptation locus</h3>
-              <p>Context, prompt, memory, tools, scaffold, or model parameters.</p>
-            </article>
-            <article class="system-card" style="--card-color: var(--orange)">
-              <span class="card-number">04</span>
-              <h3>Evidence lens</h3>
-              <p>Component tests, trajectories, benchmarks, deployments, and incidents.</p>
-            </article>
-          </div>
-        </section>
+          </section>
 
-        <section class="mist">
-          <div class="container">
-            <div class="section-head">
+          <section class="panel prose" id="abstract">
+            <p class="section-kicker">Abstract</p>
+            <h2>From model output to accountable action</h2>
+            <p>Large language models are increasingly embedded in systems that retrieve evidence, maintain state, invoke tools, coordinate specialized components, and act over extended horizons. We use <em>LLM-centered agentic systems</em> as the umbrella term for this systems family while distinguishing fixed language model applications and retrieval pipelines from workflows, bounded agents, and multi-agent systems by adaptive control, persistent state, and action authority.</p>
+            <p>Our central argument is that dependable agency is a representation and transition-control problem as much as a model-capability problem: heterogeneous evidence must be transformed into bounded, reviewable, and verifiably completed effects through explicit, typed, persistent data structures. The survey develops that argument across six interacting layers: grounding and perception; memory and state; reasoning and planning; action and tool interfaces; coordination and interoperability; and safety, governance, and observability.</p>
+            <p>Across this literature, retrieved content is not automatically admissible evidence, model output is not authorization, a successful tool response is not proof of the intended effect, and a benchmark score is not a transferable guarantee about an unrecorded system. Reliable agency instead requires a persistent case linking evidence, state, proposals, permissions, execution receipts, verified effects, resources, and responsibility.</p>
+          </section>
+
+          <section class="panel" id="overview">
+            <div class="section-head compact">
               <div>
-                <p class="section-kicker">Reader map</p>
-                <h2>From source to accountable action</h2>
+                <p class="section-kicker">Systems argument</p>
+                <h2>One question across the stack</h2>
               </div>
-              <p>The paper follows a progression from grounding information to acting under authority, then asks what evidence and safeguards make that action credible.</p>
+              <p>What must surround a language model before it can move from producing a response to choosing and verifying actions over time?</p>
             </div>
-            <div class="decision-rail">
-              <div class="decision-step"><span class="step-tag">01 • Ground</span><p><strong>Retrieve and attribute evidence.</strong> RAG lets a system work over current, scoped, and attributable information, but does not guarantee factuality by itself.</p></div>
-              <div class="decision-step"><span class="step-tag">02 • Decide</span><p><strong>Represent state and choose the next step.</strong> Planning, memory, and tools turn a language model into a component of a control loop.</p></div>
-              <div class="decision-step"><span class="step-tag">03 • Act</span><p><strong>Constrain external authority.</strong> Tool contracts, permissions, budgets, and validators determine whether a proposed action can happen.</p></div>
-              <div class="decision-step"><span class="step-tag">04 • Account</span><p><strong>Measure outcomes and side effects.</strong> Evaluation must cover success, recovery, cost, traceability, and safety together.</p></div>
+            <div class="control-loop" aria-label="Progression from evidence to accountable action">
+              <article><span>01</span><h3>Ground</h3><p>Retrieve scoped evidence and preserve provenance.</p></article>
+              <article><span>02</span><h3>Represent</h3><p>Maintain typed state, constraints, plans, and memory.</p></article>
+              <article><span>03</span><h3>Act</h3><p>Use bounded tools, permissions, budgets, and approvals.</p></article>
+              <article><span>04</span><h3>Verify</h3><p>Check effects, recovery, cost, safety, and accountability.</p></article>
             </div>
-          </div>
-        </section>
+            <p class="panel-note"><strong>Practical rule.</strong> Use the least autonomy that solves the task: RAG for attributable evidence, workflows for predictable control, bounded agents for uncertain but verifiable work, and multi-agent systems only when distinct roles create a measurable advantage.</p>
+          </section>
 
-        <section class="container">
-          <div class="section-head">
+          <section class="panel" id="taxonomy">
+            <div class="section-head compact">
+              <div>
+                <p class="section-kicker">Operational taxonomy</p>
+                <h2>Separate system form from capability</h2>
+              </div>
+              <p>The survey does not place RAG, workflows, and agents on a single maturity ladder. It compares them through control flow, state, and action authority.</p>
+            </div>
+
+            <div class="system-ladder" aria-label="Five operational system forms">
+              <article><span>1</span><div><h3>LLM application</h3><p>One invocation or a fixed sequence; control remains outside the model.</p></div></article>
+              <article><span>2</span><div><h3>RAG application</h3><p>A fixed retrieve, construct-context, and generate pipeline.</p></div></article>
+              <article><span>3</span><div><h3>LLM workflow</h3><p>A developer-authored graph or process with mostly explicit branching.</p></div></article>
+              <article><span>4</span><div><h3>Bounded agent</h3><p>The model selects permitted actions and revises plans from observations.</p></div></article>
+              <article><span>5</span><div><h3>Multi-agent system</h3><p>Multiple bounded agents exchange tasks, evidence, or control.</p></div></article>
+            </div>
+
+            <div class="dimension-grid">
+              <article><span>01</span><h3>Execution form</h3><p>Where control decisions are made.</p></article>
+              <article><span>02</span><h3>Functional layer</h3><p>What part of the system is changed.</p></article>
+              <article><span>03</span><h3>Adaptation locus</h3><p>What persists across interactions.</p></article>
+              <article><span>04</span><h3>Evidence lens</h3><p>What a reported result can establish.</p></article>
+            </div>
+          </section>
+
+          <section class="panel" id="atlas">
+            <div class="section-head compact">
+              <div>
+                <p class="section-kicker">Literature atlas</p>
+                <h2>98 representative works, one primary locus each</h2>
+              </div>
+              <p>The full bibliography contains 222 sources. Figure 2 maps 98 representative works to a primary contribution while acknowledging that many methods span several layers.</p>
+            </div>
+            <a class="figure-frame" href="assets/literature-atlas.png" target="_blank" rel="noopener" aria-label="Open the literature taxonomy figure at full size">
+              <img src="assets/literature-atlas.png" alt="Comprehensive literature taxonomy for LLM-centered agentic systems, organized into foundations, grounding and action, state and coordination, evaluation, and assurance">
+              <span>Open Figure 2 at full size ↗</span>
+            </a>
+            <div class="atlas-key">
+              <span style="--key-color: var(--blue)">Foundations &amp; scope</span>
+              <span style="--key-color: var(--green)">Grounding &amp; action</span>
+              <span style="--key-color: var(--purple)">State, adaptation &amp; coordination</span>
+              <span style="--key-color: #efbc95">Evaluation &amp; evidence</span>
+              <span style="--key-color: #c8d4e1">Assurance &amp; deployment</span>
+            </div>
+            <p class="panel-note">Browse the <a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems/blob/main/LITERATURE.md">taxonomy-aligned literature index</a> or inspect the complete <a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems/blob/main/refs.bib">bibliography sources</a>.</p>
+          </section>
+
+          <section class="panel" id="reading-guide">
+            <div class="section-head compact">
+              <div>
+                <p class="section-kicker">How to read this survey</p>
+                <h2>Choose a path through the evidence</h2>
+              </div>
+              <p>The paper is comprehensive by design. These routes give different readers a defensible starting point without reducing the survey to a list of definitions.</p>
+            </div>
+            <div class="reading-grid">
+              <article><span>5-minute orientation</span><h3>Follow the core argument</h3><p>Move from the system boundary through grounding, action, evidence, and proportional autonomy.</p><a href="narrative/">Open the narrative guide →</a></article>
+              <article><span>System builders</span><h3>Start with architecture</h3><p>Read control topologies, memory, planning, tools, interoperability, and reference design principles.</p><a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems/blob/main/4-architecture.tex">Architecture source →</a></article>
+              <article><span>Evaluators &amp; reviewers</span><h3>Start with claims and proof</h3><p>Compare outcome quality, trajectories, recovery, cost, side effects, benchmarks, and deployment evidence.</p><a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems/blob/main/5-evaluating.tex">Evaluation source →</a></article>
+              <article><span>Governance &amp; safety</span><h3>Start with authority</h3><p>Trace prompt injection, tool misuse, memory poisoning, transactional safety, oversight, and incident response.</p><a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems/blob/main/6-safety-governance.tex">Governance source →</a></article>
+            </div>
+          </section>
+
+          <section class="panel" id="materials">
+            <div class="section-head compact">
+              <div>
+                <p class="section-kicker">Project materials</p>
+                <h2>Paper, map, source, and reading aids</h2>
+              </div>
+              <p>The repository is organized as a companion resource hub, not only as a LaTeX archive.</p>
+            </div>
+            <div class="materials-grid">
+              <a href="llms-in-modern-agentic-systems.pdf"><span>Paper</span><strong>Full survey PDF</strong><small>104-page current manuscript</small></a>
+              <a href="narrative/"><span>Guide</span><strong>Narrative walkthrough</strong><small>The argument in five acts</small></a>
+              <a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems/blob/main/LITERATURE.md"><span>Literature</span><strong>Representative index</strong><small>98 works aligned to Figure 2</small></a>
+              <a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems"><span>Source</span><strong>LaTeX repository</strong><small>Paper, bibliography, and website</small></a>
+              <a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems/blob/main/5-evaluating.tex"><span>Evidence</span><strong>Evaluation map</strong><small>Benchmarks, metrics, and validity</small></a>
+              <a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems/blob/main/CONTRIBUTING.md"><span>Contribute</span><strong>Correction guide</strong><small>Suggest work or report an issue</small></a>
+            </div>
+          </section>
+
+          <section class="panel community-panel" id="community">
             <div>
-              <p class="section-kicker">Literature atlas</p>
-              <h2>A taxonomy for 222 cited sources</h2>
+              <p class="section-kicker">Open research map</p>
+              <h2>Community &amp; feedback</h2>
+              <p>Missing work, citation corrections, taxonomy disagreements, and broken links are best handled as traceable GitHub contributions.</p>
             </div>
-            <p>Every cited work receives one primary location in the full atlas. The placement identifies its main contribution, without denying that many systems cross layers.</p>
-          </div>
-          <div class="atlas" aria-label="High-level literature taxonomy">
-            <div class="atlas-header"><span>Branch</span><span>Primary locus</span><span>Research contribution</span></div>
-            <div class="atlas-row"><div class="atlas-branch" style="--branch-color: color-mix(in srgb, var(--blue) 32%, white)">Foundations<br>and scope</div><div class="atlas-locus">Survey roots and classical foundations</div><div class="atlas-work" style="--work-color: color-mix(in srgb, var(--blue) 16%, white)"><strong>What the system is.</strong> Agent, LLM, planning, and survey foundations establish the unit of analysis.</div></div>
-            <div class="atlas-row"><div class="atlas-branch" style="--branch-color: color-mix(in srgb, var(--green) 32%, white)">Grounding<br>and action</div><div class="atlas-locus">Retrieval, reasoning, and tools</div><div class="atlas-work" style="--work-color: color-mix(in srgb, var(--green) 16%, white)"><strong>What the system can do.</strong> Evidence retrieval, planning, tool selection, and execution interfaces enlarge the action loop.</div></div>
-            <div class="atlas-row"><div class="atlas-branch" style="--branch-color: color-mix(in srgb, var(--purple) 28%, white)">State, adaptation,<br>and coordination</div><div class="atlas-locus">Memory, learning, and protocols</div><div class="atlas-work" style="--work-color: color-mix(in srgb, var(--purple) 15%, white)"><strong>What changes across time.</strong> Persistent state, self-improvement, and coordination alter system behavior across episodes.</div></div>
-            <div class="atlas-row"><div class="atlas-branch" style="--branch-color: color-mix(in srgb, var(--orange) 24%, white)">Evaluation<br>and evidence</div><div class="atlas-locus">Benchmarks and interactive environments</div><div class="atlas-work" style="--work-color: color-mix(in srgb, var(--orange) 14%, white)"><strong>What a claim can support.</strong> Episodes, executable checks, and long-horizon environments expose different gaps.</div></div>
-            <div class="atlas-row"><div class="atlas-branch">Assurance<br>and deployment</div><div class="atlas-locus">Security, governance, and applications</div><div class="atlas-work" style="--work-color: var(--mist)"><strong>What authority is justified.</strong> Security controls, deployment evidence, and human accountability set the boundary for autonomy.</div></div>
-          </div>
-        </section>
-
-        <section class="container">
-          <div class="callout">
-            <div>
-              <p class="section-kicker" style="color: var(--blue)">The practical rule</p>
-              <h2>Use the least autonomy that solves the task.</h2>
-              <p>Use RAG for attributable evidence, workflows for predictable control, bounded agents for uncertain but verifiable work, and multi-agent systems only when distinct roles create a measurable advantage.</p>
+            <div class="community-actions">
+              <a class="button" href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems/issues/new?template=literature-suggestion.yml">Suggest a paper</a>
+              <a class="button secondary light" href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems/issues/new?template=correction.yml">Report a correction</a>
+              <a class="button secondary light" href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems/pulls">Submit a pull request</a>
             </div>
-            <a class="button" href="narrative/">Explore the narrative</a>
-          </div>
-        </section>
+          </section>
 
-        <section class="container">
-          <p class="section-kicker">Project materials</p>
-          <div class="source-list">
-            <div class="source-item"><span>Survey</span><a href="llms-in-modern-agentic-systems.pdf">Full paper (PDF)</a></div>
-            <div class="source-item"><span>Taxonomy</span><a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems/blob/main/1-intro.tex">Introduction and literature atlas</a></div>
-            <div class="source-item"><span>Evidence</span><a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems/blob/main/5-evaluating.tex">Evaluation and benchmark analysis</a></div>
-          </div>
-        </section>
-      </main>
-
-      <footer class="site-footer"><div class="container"><span>LLMs in Modern Agentic Systems</span><span>A systems survey • research cutoff July 2026</span></div></footer>
+          <section class="panel" id="citation">
+            <div class="section-head compact">
+              <div>
+                <p class="section-kicker">Citation</p>
+                <h2>Cite the current anonymized manuscript</h2>
+              </div>
+              <p>Author and archival metadata should be updated when the public preprint is released. The entry below matches the manuscript’s current public state.</p>
+            </div>
+            <div class="citation-box">
+              <button type="button" class="copy-button" data-copy-target="citation-code">Copy BibTeX</button>
+              <pre id="citation-code"><code>@misc{anonymous2026llmsmodernagenticsystems,
+  title  = {LLMs in Modern Agentic Systems: A Systems Survey},
+  author = {Anonymous Author(s)},
+  year   = {2026},
+  note   = {Anonymized survey manuscript},
+  url    = {https://xpounder-com.github.io/llms-in-modern-agentic-systems/}
+}</code></pre>
+            </div>
+          </section>
+        </main>
+      </div>
     </div>
+
+    <footer class="site-footer"><div class="container"><span>LLMs in Modern Agentic Systems</span><span>Research cutoff July 2026 • 222 cited sources</span></div></footer>
     <script src="assets/site.js"></script>
   </body>
 </html>

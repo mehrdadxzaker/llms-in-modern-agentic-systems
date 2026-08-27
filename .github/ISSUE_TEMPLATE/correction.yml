@@ -1,0 +1,53 @@
+name: Correction
+description: Report a manuscript, figure, table, citation, literature-index, or website correction.
+title: "[Correction] "
+labels:
+  - correction
+body:
+  - type: dropdown
+    id: artifact
+    attributes:
+      label: Affected artifact
+      options:
+        - Manuscript text
+        - Figure or table
+        - Bibliography metadata
+        - Literature index
+        - Project website
+        - Broken link
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: Exact location
+      description: Give a page, section, figure, table, BibTeX key, file, or URL.
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current content or behavior
+    validations:
+      required: true
+  - type: textarea
+    id: proposed
+    attributes:
+      label: Proposed correction
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Supporting source
+      description: Add a stable source URL when the correction concerns an external fact.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Submission checks
+      options:
+        - label: I checked that this correction is not already open.
+          required: true
+        - label: I am not inferring or disclosing the identities of anonymous authors.
+          required: true

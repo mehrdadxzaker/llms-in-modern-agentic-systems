@@ -1,0 +1,70 @@
+name: Literature suggestion
+description: Suggest a paper, benchmark, standard, or deployment study for the survey map.
+title: "[Literature] "
+labels:
+  - literature
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for helping improve the literature map. Please provide enough evidence to evaluate both inclusion and taxonomy placement.
+  - type: input
+    id: title
+    attributes:
+      label: Work title
+      placeholder: Full title of the paper or resource
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Stable URL
+      placeholder: https://arxiv.org/abs/...
+    validations:
+      required: true
+  - type: input
+    id: metadata
+    attributes:
+      label: Authors, year, and venue
+    validations:
+      required: true
+  - type: dropdown
+    id: locus
+    attributes:
+      label: Proposed primary locus
+      options:
+        - Cross-cutting surveys
+        - Classical and language-model foundations
+        - Retrieval and grounding
+        - Reasoning and planning
+        - Tools and action runtime
+        - Memory and persistent state
+        - Self-improvement and long horizons
+        - Coordination and protocols
+        - Benchmark frameworks
+        - Interactive environments
+        - Code, tool, science, and long-horizon tests
+        - Security and governance
+        - Application evidence
+    validations:
+      required: true
+  - type: textarea
+    id: contribution
+    attributes:
+      label: Primary contribution and relevance
+      description: Explain why this work belongs in the survey and why the selected locus is its best primary location.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Comparative or empirical evidence
+      description: Summarize the evidence the work adds, if applicable.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Submission checks
+      options:
+        - label: I searched the repository and literature index for an existing entry.
+          required: true
+        - label: I am not inferring or disclosing the identities of anonymous authors.
+          required: true
