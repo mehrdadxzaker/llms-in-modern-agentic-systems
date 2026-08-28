@@ -109,7 +109,7 @@ Figure 2 assigns **98 representative works** to one primary locus. This identifi
 - [`paper/`](paper/) — current compiled survey PDF
 - [`docs/`](docs/) — deployed GitHub Pages project hub
 
-The checked-in PDF is the current **105-page, Overleaf-verified manuscript**. Temporary LaTeX build products are excluded from the public release workflow.
+The checked-in PDF is the current **105-page compiled manuscript**; the same source, author block, and Figure 1 have also been verified in Overleaf. Temporary LaTeX build products are excluded from the public release workflow.
 
 ## Contributing
 
