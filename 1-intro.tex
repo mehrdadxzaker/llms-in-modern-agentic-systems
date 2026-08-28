@@ -41,13 +41,6 @@ The practical story is an escalation of responsibility. A model first assists wi
 
 Modern agents combine several research lines: classical beliefs, goals, planning, and coordination~\cite{rao1995bdi,wooldridge2009multiagent}; transformer-based language-conditioned policies~\cite{vaswani2017attention,brown2020language}; non-parametric knowledge through RAG~\cite{lewis2020rag}; and tool-augmented reasoning and interaction~\cite{nakano2021webgpt,yao2023react,schick2023toolformer}. Orchestration frameworks now expose state, retries, branches, and approval, while MCP and A2A seek to standardize tool and agent communication~\cite{mcp2025spec,a2a2026spec}.
 
-\begin{figure*}[t]
-\centering
-\includegraphics[width=\textwidth]{figures/systems-overview.png}
-\caption{Systems overview used in this survey. An agentic core transforms grounded state into typed proposals through reasoning, memory, and coordination. An assurance scaffold then constrains permissions, executes typed tool contracts, verifies effects, and records recovery evidence in a persistent case. The same control structure specializes across application domains without treating greater autonomy as a maturity ladder.}
-\label{fig:systems-progression}
-\end{figure*}
-
 These components are compositional rather than chronological. Reliable systems are usually hybrid. A bounded agent may use a deterministic workflow for high-risk steps, a symbolic planner for constrained subproblems, RAG for evidence, and a human approval gate before committing an irreversible action. The appropriate architecture depends on task uncertainty, the cost of errors, environmental dynamics, and the availability of objective verification.
 
 \subsection{Positioning relative to related surveys}

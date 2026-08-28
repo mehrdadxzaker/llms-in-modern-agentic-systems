@@ -158,7 +158,7 @@ Samira Ghodratnama\textsuperscript{2}
 Ali Karfarma\textsuperscript{3}
 \\[3pt]
 \small
-\href{mailto:mehrdadz@neuralint.io}{mehrdadz@neuralint.io}
+\href{mailto:mehrdad.zakershahrak@mq.edu.au}{mehrdad.zakershahrak@mq.edu.au}
 \quad
 \href{mailto:samira.ghodratnama@mq.edu.au}{samira.ghodratnama@mq.edu.au}
 \quad
@@ -170,6 +170,15 @@ Ali Karfarma\textsuperscript{3}
 \href{\projectpageurl}{\textcolor{surveyNavy}{\projectpageicon\enspace Project Page}}}
 \date{}
 \maketitle
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/systems-overview.png}
+\caption{Systems overview used in this survey. An agentic core transforms grounded state into typed proposals through reasoning, memory, and coordination. An assurance scaffold then constrains permissions, executes typed tool contracts, verifies effects, and records recovery evidence in a persistent case. The same control structure specializes across application domains without treating greater autonomy as a maturity ladder.}
+\label{fig:systems-progression}
+\end{figure}
+
+\clearpage
 
 \begin{abstract}
 Large language models are increasingly embedded in systems that retrieve evidence, maintain state, invoke tools, coordinate specialized components, and act over extended horizons. We use \emph{LLM-centered agentic systems} as the umbrella term for this systems family while distinguishing fixed language model applications and retrieval pipelines from workflows, bounded agents, and multi-agent systems by adaptive control, persistent state, and action authority. Our central argument is that dependable agency is a representation and transition control problem as much as a model capability problem: heterogeneous evidence must be transformed into bounded, reviewable, and verifiably completed effects through explicit, typed, persistent data structures. This comprehensive survey develops that argument through \reviewcutoff{} across six interacting layers: grounding and perception; memory and state; reasoning and planning; action and tool interfaces; coordination and interoperability; and safety, governance, and observability. We connect classical agent foundations to work on agentic retrieval, memory, tool use learning, graph-based orchestration, self-improvement, multi-agent coordination, interoperability protocols, and long-horizon reinforcement learning. Comparative tables and evidence maps distinguish what component a method changes, what feedback it consumes, what authority it receives, and what its evaluation can actually establish. We synthesize benchmarks and deployment evidence across verified outcome quality, trajectory efficiency, recovery, memory-mediated action, cost, side effects, and human accountability. Across this literature, retrieved content is not automatically admissible evidence, model output is not authorization, a successful tool response is not proof of the intended effect, and a benchmark score is not a transferable guarantee about an unrecorded system. Reliable agency instead requires a persistent case that links evidence, state, proposals, permissions, execution receipts, verified effects, resources, and responsibility. We conclude with lifecycle invariants and a research agenda for grounded, governable, interoperable, and resource-bounded agency.
