@@ -2,7 +2,7 @@
 
 **A Systems Survey**
 
-**Mehrdad Zakershahrak · Samira Ghodratnama · Ali Karfarma**
+**Mehrdad Zakershahrak · Samira Ghodratnama · Mohammadali Karfarma**
 
 **Mehrdad Zakershahrak** · Honorary Research Fellow, School of Computing, Macquarie University ([mehrdad.zakershahrak@mq.edu.au](mailto:mehrdad.zakershahrak@mq.edu.au))
 
@@ -129,7 +129,7 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
 ```bibtex
 @misc{zakershahrak2026llmsmodernagenticsystems,
   title  = {LLMs in Modern Agentic Systems: A Systems Survey},
-  author = {Zakershahrak, Mehrdad and Ghodratnama, Samira and Karfarma, Ali},
+  author = {Zakershahrak, Mehrdad and Ghodratnama, Samira and Karfarma, Mohammadali},
   year   = {2026},
   note   = {Survey manuscript},
   url    = {https://xpounder-com.github.io/llms-in-modern-agentic-systems/}
