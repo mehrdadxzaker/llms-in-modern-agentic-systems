@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1050" viewBox="0 0 1800 1050" role="img" aria-labelledby="title desc">
+  <title id="title">Overview of dependable LLM centered agentic systems</title>
+  <desc id="desc">A two panel systems overview inspired by academic survey figures. The left panel describes the agentic core through state, reasoning, memory, and coordination. The right panel describes the assurance scaffold through permission, execution, verification, recovery, and a persistent case. Equations, concise prose, diagrams, and application scenes are combined.</desc>
+  <defs>
+    <symbol id="icon-Bot" viewBox="0 0 24 24"><path d="M12 8V4H8" /><rect width="16" height="12" x="4" y="8" rx="2" /><path d="M2 14h2" /><path d="M20 14h2" /><path d="M15 13v2" /><path d="M9 13v2" /></symbol>
+<symbol id="icon-UserRound" viewBox="0 0 24 24"><circle cx="12" cy="8" r="5" /><path d="M20 21a8 8 0 0 0-16 0" /></symbol>
+<symbol id="icon-FileText" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /><path d="M14 2v5a1 1 0 0 0 1 1h5" /><path d="M10 9H8" /><path d="M16 13H8" /><path d="M16 17H8" /></symbol>
+<symbol id="icon-Files" viewBox="0 0 24 24"><path d="M15 2h-4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /><path d="M16.706 2.706A2.4 2.4 0 0 0 15 2v5a1 1 0 0 0 1 1h5a2.4 2.4 0 0 0-.706-1.706z" /><path d="M5 7a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h8a2 2 0 0 0 1.732-1" /></symbol>
+<symbol id="icon-Database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3" /><path d="M3 5V19A9 3 0 0 0 21 19V5" /><path d="M3 12A9 3 0 0 0 21 12" /></symbol>
+<symbol id="icon-ClipboardCheck" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1" ry="1" /><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /><path d="m9 14 2 2 4-4" /></symbol>
+<symbol id="icon-BrainCircuit" viewBox="0 0 24 24"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z" /><path d="M9 13a4.5 4.5 0 0 0 3-4" /><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5" /><path d="M3.477 10.896a4 4 0 0 1 .585-.396" /><path d="M6 18a4 4 0 0 1-1.967-.516" /><path d="M12 13h4" /><path d="M12 18h6a2 2 0 0 1 2 2v1" /><path d="M12 8h8" /><path d="M16 8V5a2 2 0 0 1 2-2" /><circle cx="16" cy="13" r=".5" /><circle cx="18" cy="3" r=".5" /><circle cx="20" cy="21" r=".5" /><circle cx="20" cy="8" r=".5" /></symbol>
+<symbol id="icon-Route" viewBox="0 0 24 24"><circle cx="6" cy="19" r="3" /><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15" /><circle cx="18" cy="5" r="3" /></symbol>
+<symbol id="icon-Network" viewBox="0 0 24 24"><rect x="16" y="16" width="6" height="6" rx="1" /><rect x="2" y="16" width="6" height="6" rx="1" /><rect x="9" y="2" width="6" height="6" rx="1" /><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /><path d="M12 12V8" /></symbol>
+<symbol id="icon-MessageSquare" viewBox="0 0 24 24"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z" /></symbol>
+<symbol id="icon-Lightbulb" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /><path d="M9 18h6" /><path d="M10 22h4" /></symbol>
+<symbol id="icon-LockKeyhole" viewBox="0 0 24 24"><circle cx="12" cy="16" r="1" /><rect x="3" y="10" width="18" height="12" rx="2" /><path d="M7 10V7a5 5 0 0 1 10 0v3" /></symbol>
+<symbol id="icon-MonitorCog" viewBox="0 0 24 24"><path d="M12 17v4" /><path d="m14.305 7.53.923-.382" /><path d="m15.228 4.852-.923-.383" /><path d="m16.852 3.228-.383-.924" /><path d="m16.852 8.772-.383.923" /><path d="m19.148 3.228.383-.924" /><path d="m19.53 9.696-.382-.924" /><path d="m20.772 4.852.924-.383" /><path d="m20.772 7.148.924.383" /><path d="M22 13v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7" /><path d="M8 21h8" /><circle cx="18" cy="6" r="3" /></symbol>
+<symbol id="icon-Factory" viewBox="0 0 24 24"><path d="M12 16h.01" /><path d="M16 16h.01" /><path d="M3 19a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.5a.5.5 0 0 0-.769-.422l-4.462 2.844A.5.5 0 0 1 15 10.5v-2a.5.5 0 0 0-.769-.422L9.77 10.922A.5.5 0 0 1 9 10.5V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z" /><path d="M8 16h.01" /></symbol>
+<symbol id="icon-CloudCog" viewBox="0 0 24 24"><path d="m10.852 19.772-.383.924" /><path d="m13.148 14.228.383-.923" /><path d="M13.148 19.772a3 3 0 1 0-2.296-5.544l-.383-.923" /><path d="m13.53 20.696-.382-.924a3 3 0 1 1-2.296-5.544" /><path d="m14.772 15.852.923-.383" /><path d="m14.772 18.148.923.383" /><path d="M4.2 15.1a7 7 0 1 1 9.93-9.858A7 7 0 0 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.2" /><path d="m9.228 15.852-.923-.383" /><path d="m9.228 18.148-.923.383" /></symbol>
+<symbol id="icon-ReceiptText" viewBox="0 0 24 24"><path d="M13 16H8" /><path d="M14 8H8" /><path d="M16 12H8" /><path d="M4 3a1 1 0 0 1 1-1 1.3 1.3 0 0 1 .7.2l.933.6a1.3 1.3 0 0 0 1.4 0l.934-.6a1.3 1.3 0 0 1 1.4 0l.933.6a1.3 1.3 0 0 0 1.4 0l.933-.6a1.3 1.3 0 0 1 1.4 0l.934.6a1.3 1.3 0 0 0 1.4 0l.933-.6A1.3 1.3 0 0 1 19 2a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1 1.3 1.3 0 0 1-.7-.2l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.934.6a1.3 1.3 0 0 1-1.4 0l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-1.4 0l-.934-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-.7.2 1 1 0 0 1-1-1z" /></symbol>
+<symbol id="icon-BadgeCheck" viewBox="0 0 24 24"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" /><path d="m9 12 2 2 4-4" /></symbol>
+<symbol id="icon-ScrollText" viewBox="0 0 24 24"><path d="M15 12h-5" /><path d="M15 8h-5" /><path d="M19 17V5a2 2 0 0 0-2-2H4" /><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3" /></symbol>
+<symbol id="icon-RotateCcw" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /></symbol>
+<symbol id="icon-SearchCheck" viewBox="0 0 24 24"><path d="m8 11 2 2 4-4" /><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></symbol>
+<symbol id="icon-MessagesSquare" viewBox="0 0 24 24"><path d="M16 10a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 14.286V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /><path d="M20 9a2 2 0 0 1 2 2v10.286a.71.71 0 0 1-1.212.502l-2.202-2.202A2 2 0 0 0 17.172 19H10a2 2 0 0 1-2-2v-1" /></symbol>
+<symbol id="icon-Code2" viewBox="0 0 24 24"><path d="m18 16 4-4-4-4" /><path d="m6 8-4 4 4 4" /><path d="m14.5 4-5 16" /></symbol>
+<symbol id="icon-MousePointer2" viewBox="0 0 24 24"><path d="M4.037 4.688a.495.495 0 0 1 .651-.651l16 6.5a.5.5 0 0 1-.063.947l-6.124 1.58a2 2 0 0 0-1.438 1.435l-1.579 6.126a.5.5 0 0 1-.947.063z" /></symbol>
+<symbol id="icon-ShieldAlert" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /><path d="M12 8v4" /><path d="M12 16h.01" /></symbol>
+<symbol id="icon-FlaskConical" viewBox="0 0 24 24"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /><path d="M6.453 15h11.094" /><path d="M8.5 2h7" /></symbol>
+<symbol id="icon-Stethoscope" viewBox="0 0 24 24"><path d="M11 2v2" /><path d="M5 2v2" /><path d="M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1" /><path d="M8 15a6 6 0 0 0 12 0v-3" /><circle cx="20" cy="10" r="2" /></symbol>
+<symbol id="icon-CreditCard" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2" /><line x1="2" x2="22" y1="10" y2="10" /></symbol>
+<symbol id="icon-Bug" viewBox="0 0 24 24"><path d="M12 20v-9" /><path d="M14 7a4 4 0 0 1 4 4v3a6 6 0 0 1-12 0v-3a4 4 0 0 1 4-4z" /><path d="M14.12 3.88 16 2" /><path d="M21 21a4 4 0 0 0-3.81-4" /><path d="M21 5a4 4 0 0 1-3.55 3.97" /><path d="M22 13h-4" /><path d="M3 21a4 4 0 0 1 3.81-4" /><path d="M3 5a4 4 0 0 0 3.55 3.97" /><path d="M6 13H2" /><path d="m8 2 1.88 1.88" /><path d="M9 7.13V6a3 3 0 1 1 6 0v1.13" /></symbol>
+<symbol id="icon-Server" viewBox="0 0 24 24"><rect width="20" height="8" x="2" y="2" rx="2" ry="2" /><rect width="20" height="8" x="2" y="14" rx="2" ry="2" /><line x1="6" x2="6.01" y1="6" y2="6" /><line x1="6" x2="6.01" y1="18" y2="18" /></symbol>
+<symbol id="icon-Microscope" viewBox="0 0 24 24"><path d="M6 18h8" /><path d="M3 22h18" /><path d="M14 22a7 7 0 1 0 0-14h-1" /><path d="M9 14h2" /><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z" /><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3" /></symbol>
+<symbol id="icon-Globe2" viewBox="0 0 24 24"><path d="M21.54 15H17a2 2 0 0 0-2 2v4.54" /><path d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17" /><path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05" /><circle cx="12" cy="12" r="10" /></symbol>
+    <marker id="arrow-navy" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#002060" />
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#ED7D31" />
+    </marker>
+    <linearGradient id="app-fill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#EDF3F8" />
+    </linearGradient>
+    <style>
+      .paper-title { font-family: Palatino, "Palatino Linotype", Georgia, serif; font-size: 38px; font-weight: 700; fill: #002060; }
+      .kicker { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; font-size: 17px; font-weight: 800; fill: #002060; letter-spacing: 1.1px; }
+      .math-main { font-family: "Times New Roman", "STIX Two Math", Georgia, serif; font-size: 29px; font-style: italic; fill: #002060; }
+      .math-sub { font-family: "Times New Roman", "STIX Two Math", Georgia, serif; font-size: 22px; font-style: italic; fill: #002060; }
+      .math-pill { font-family: "Times New Roman", "STIX Two Math", Georgia, serif; font-size: 19px; font-style: italic; font-weight: 600; fill: #002060; }
+      .panel-title { font-family: Palatino, "Palatino Linotype", Georgia, serif; font-size: 31px; font-weight: 700; fill: #002060; }
+      .panel-note { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; font-size: 15px; font-weight: 700; fill: #25324A; }
+      .row-title { font-family: Palatino, "Palatino Linotype", Georgia, serif; font-size: 25px; font-weight: 700; fill: #002060; }
+      .bullet { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; font-size: 16.5px; font-weight: 600; fill: #25324A; }
+      .scene-caption { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; font-size: 14px; font-weight: 600; fill: #62738A; }
+      .small-card-title { font-family: Palatino, "Palatino Linotype", Georgia, serif; font-size: 26px; font-weight: 700; fill: #002060; }
+      .small-card-copy { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; font-size: 15px; font-weight: 600; fill: #25324A; }
+      .band-title { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; font-size: 44px; font-weight: 800; fill: #002060; letter-spacing: .4px; }
+      .band-sub { font-family: Palatino, "Palatino Linotype", Georgia, serif; font-size: 21px; font-weight: 700; fill: #002060; }
+      .app-label { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; font-size: 15px; font-weight: 800; fill: #002060; }
+      .thin-arrow { fill: none; stroke: #002060; stroke-width: 2.5; marker-end: url(#arrow-navy); }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1800" height="1050" fill="#FFFFFF" />
+
+  <!-- Header: one formal system definition, supported by plain English. -->
+  <rect x="52" y="36" width="1696" height="145" rx="20" fill="#FFFFFF" stroke="#002060" stroke-width="3" />
+  <g>
+    <circle cx="104" cy="92" r="45" fill="#DCEAF5" stroke="#62738A" stroke-width="2.1" />
+    <g style="color:#002060"><use href="#icon-Bot" x="79" y="67" width="50" height="50" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round" /></g>
+  </g>
+  <text x="161" y="80" class="paper-title">LLM Centered Agency</text>
+  <text x="162" y="112" class="kicker">A MODEL INSIDE A CONTROLLED SYSTEM</text>
+  <text x="1080" y="86" class="math-main" text-anchor="middle">SYSTEM(t) = (πθ, s(t), 𝒯, Π, V)</text>
+  <text x="1080" y="128" class="math-sub" text-anchor="middle">proposal → authorization → execution → verification → state update</text>
+  <text x="1080" y="159" class="panel-note" text-anchor="middle">model • persistent state • tools • policy • verifier</text>
+
+  <!-- Main split: agentic core versus assurance scaffold. -->
+  <rect x="50" y="220" width="840" height="520" rx="22" fill="#DCEAF5" stroke="#002060" stroke-width="3" />
+  <rect x="910" y="220" width="840" height="520" rx="22" fill="#E2F0D8" stroke="#002060" stroke-width="3" />
+
+  <rect x="165" y="171" width="610" height="102" rx="12" fill="#FFFFFF" stroke="#002060" stroke-width="2.5" stroke-dasharray="8 6" />
+  <text x="470" y="207" class="panel-title" text-anchor="middle">(1) Agentic Core</text>
+  <text x="470" y="243" class="math-sub" text-anchor="middle">â(t) = πθ(· | s(t)),  s(t) = (g, e, m, p, b)</text>
+  <text x="470" y="267" class="panel-note" text-anchor="middle">Key change: state → typed proposal</text>
+
+  <rect x="1025" y="171" width="610" height="102" rx="12" fill="#FFFFFF" stroke="#002060" stroke-width="2.5" stroke-dasharray="8 6" />
+  <text x="1330" y="207" class="panel-title" text-anchor="middle">(2) Assurance Scaffold</text>
+  <text x="1330" y="243" class="math-sub" text-anchor="middle">a(t) = Π(â(t)),  o(t+1) = 𝒯(a(t)),  v(t+1) = V(o(t+1))</text>
+  <text x="1330" y="267" class="panel-note" text-anchor="middle">Key change: proposal → authorized, verified effect</text>
+
+  <g>
+    <rect x="66" y="298" width="808" height="126" rx="12" fill="rgba(255,255,255,.18)" stroke="#002060" stroke-width="2.2" stroke-dasharray="8 6" />
+    <text x="88" y="329" class="row-title">Grounded state</text>
+    <text x="92" y="359" class="bullet">› Goal + constraints</text>
+<text x="92" y="381" class="bullet">› Attributable evidence + persistent state</text>
+    <g>
+    <rect x="86" y="390" width="280" height="32" rx="16" fill="#9CC3E6" />
+    <text x="226" y="412" class="math-pill" text-anchor="middle">s(t) = (g, e, m, p, b)</text>
+  </g>
+    <g>
+  <g>
+    <circle cx="470" cy="360" r="31" fill="#DCEAF5" stroke="#62738A" stroke-width="2.1" />
+    <g style="color:#002060"><use href="#icon-UserRound" x="453.725" y="343.725" width="32.550000000000004" height="32.550000000000004" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round" /></g>
+  </g>
+  <g>
+    <circle cx="565" cy="334" r="29" fill="#EADDF0" stroke="#62738A" stroke-width="2.1" />
+    <g style="color:#002060"><use href="#icon-Files" x="549.775" y="318.775" width="30.450000000000003" height="30.450000000000003" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round" /></g>
+  </g>
+  <g>
+    <circle cx="565" cy="393" r="29" fill="#FBE0CA" stroke="#62738A" stroke-width="2.1" />
+    <g style="color:#002060"><use href="#icon-Database" x="549.775" y="377.775" width="30.450000000000003" height="30.450000000000003" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round" /></g>
+  </g>
+  <path d="M 505 360 L 525 360" class="thin-arrow" />
+  <path d="M 596 334 C 640 340, 665 353, 695 365" class="thin-arrow" />
+  <path d="M 596 393 C 640 390, 665 382, 695 374" class="thin-arrow" />
+  <rect x="705" y="321" width="125" height="92" rx="12" fill="#FFFFFF" stroke="#002060" stroke-width="2" />
+  <g style="color:#002060"><use href="#icon-ClipboardCheck" x="722.5" y="334.5" width="31" height="31" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></g>
+  <line x1="765" y1="343" x2="810" y2="343" stroke="#62738A" stroke-width="3" />
+  <line x1="765" y1="360" x2="810" y2="360" stroke="#62738A" stroke-width="3" />
+  <line x1="725" y1="385" x2="810" y2="385" stroke="#62738A" stroke-width="3" />
+</g>
+  </g>
+  <g>
+    <rect x="66" y="432" width="808" height="126" rx="12" fill="rgba(255,255,255,.18)" stroke="#002060" stroke-width="2.2" stroke-dasharray="8 6" />
+    <text x="88" y="463" class="row-title">Reason, plan, remember</text>
+    <text x="92" y="493" class="bullet">› Decompose, retrieve, and revise</text>
+<text x="92" y="515" class="bullet">› Stop on sufficient support</text>
+    <g>
+    <rect x="86" y="524" width="280" height="32" rx="16" fill="#9CC3E6" />
+    <text x="226" y="546" class="math-pill" text-anchor="middle">â(t) = πθ(· | s(t))</text>
+  </g>
+    <g>
+  <g>
+    <circle cx="592" cy="493" r="47" fill="#FFFFFF" stroke="#62738A" stroke-width="2.1" />
+    <g style="color:#002060"><use href="#icon-BrainCircuit" x="565" y="466" width="54" height="54" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round" /></g>
+  </g>
+  <g>
+    <circle cx="735" cy="460" r="29" fill="#EADDF0" stroke="#62738A" stroke-width="2.1" />
+    <g style="color:#002060"><use href="#icon-Database" x="719.775" y="444.775" width="30.450000000000003" height="30.450000000000003" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round" /></g>
+  </g>
+  <g>
+    <circle cx="735" cy="526" r="29" fill="#FBE0CA" stroke="#62738A" stroke-width="2.1" />
+    <g style="color:#002060"><use href="#icon-Route" x="719.775" y="510.775" width="30.450000000000003" height="30.450000000000003" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round" /></g>
+  </g>
+  <path d="M 642 480 C 675 468, 685 462, 702 460" class="thin-arrow" />
+  <path d="M 642 506 C 675 517, 685 524, 702 526" class="thin-arrow" />
+  <path d="M 545 493 C 520 493, 500 493, 470 493" fill="none" stroke="#ED7D31" stroke-width="3" stroke-dasharray="7 6" marker-end="url(#arrow-orange)" />
+</g>
+  </g>
+  <g>
+    <rect x="66" y="566" width="808" height="126" rx="12" fill="rgba(255,255,255,.18)" stroke="#002060" stroke-width="2.2" stroke-dasharray="8 6" />
+    <text x="88" y="597" class="row-title">Coordinate</text>
+    <text x="92" y="627" class="bullet">› Task contracts + provenance</text>
+<text x="92" y="649" class="bullet">› Aggregate + resolve conflicts</text>
+
+    <g>
+  <rect x="643" y="595" width="138" height="78" rx="10" fill="#FFFFFF" stroke="#002060" stroke-width="2" />
+  <line x1="661" y1="620" x2="763" y2="620" stroke="#62738A" stroke-width="3" />
+  <line x1="661" y1="640" x2="735" y2="640" stroke="#62738A" stroke-width="3" />
+  <g>
+    <circle cx="520" cy="605" r="25" fill="#DCEAF5" stroke="#62738A" stroke-width="2.1" />
+    <g style="color:#002060"><use href="#icon-Bot" x="506.875" y="591.875" width="26.25" height="26.25" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round" /></g>
+  </g>
+  <g>
+    <circle cx="520" cy="657" r="25" fill="#EADDF0" stroke="#62738A" stroke-width="2.1" />
+    <g style="color:#002060"><use href="#icon-Bot" x="506.875" y="643.875" width="26.25" height="26.25" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round" /></g>
+  </g>
+  <g>
+    <circle cx="828" cy="644" r="30" fill="#E2F0D8" stroke="#62738A" stroke-width="2.1" />
+    <g style="color:#002060"><use href="#icon-Bot" x="812.25" y="628.25" width="31.5" height="31.5" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round" /></g>
+  </g>
+  <path d="M 547 605 L 636 627" class="thin-arrow" />
+  <path d="M 547 657 L 636 648" class="thin-arrow" />
+  <path d="M 790 644 L 796 644" class="thin-arrow" />
+  <g style="color:#002060"><use href="#icon-Network" x="699.5" y="637.5" width="27" height="27" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></g>
+</g>
+  </g>
+
+  <!-- Three assurance components combine a visual, prose, and one equation each. -->
+  <rect x="927" y="298" width="252" height="238" rx="12" fill="rgba(255,255,255,.22)" stroke="#002060" stroke-width="2.2" stroke-dasharray="8 6" />
+  <text x="1053" y="330" class="small-card-title" text-anchor="middle">Permission</text>
+  <g>
+    <circle cx="989" cy="391" r="34" fill="#EADDF0" stroke="#62738A" stroke-width="2.1" />
+    <g style="color:#002060"><use href="#icon-Lightbulb" x="971.15" y="373.15" width="35.7" height="35.7" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round" /></g>
+  </g>
+  <path d="M 1025 391 L 1060 391" class="thin-arrow" />
+  <g>
+    <circle cx="1110" cy="391" r="42" fill="#FBE0CA" stroke="#62738A" stroke-width="2.1" />
+    <g style="color:#002060"><use href="#icon-LockKeyhole" x="1088" y="369" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round" /></g>
+  </g>
+  <text x="1053" y="459" class="small-card-copy" text-anchor="middle">deny • approve • escalate</text>
+  <g>
+    <rect x="940" y="480" width="226" height="32" rx="16" fill="#A9D18E" />
+    <text x="1053" y="502" class="math-pill" text-anchor="middle">a(t) = Π(â(t); policy, budget)</text>
+  </g>
+
+  <rect x="1192" y="298" width="252" height="238" rx="12" fill="rgba(255,255,255,.22)" stroke="#002060" stroke-width="2.2" stroke-dasharray="8 6" />
+  <text x="1318" y="330" class="small-card-title" text-anchor="middle">Execute</text>
+  <g>
+    <circle cx="1282" cy="395" r="47" fill="#FFFFFF" stroke="#62738A" stroke-width="2.1" />
+    <g style="color:#002060"><use href="#icon-MonitorCog" x="1256.5" y="369.5" width="51" height="51" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round" /></g>
+  </g>
+  <g>
+    <circle cx="1378" cy="365" r="27" fill="#DCEAF5" stroke="#62738A" stroke-width="2.1" />
+    <g style="color:#002060"><use href="#icon-CloudCog" x="1363.825" y="350.825" width="28.35" height="28.35" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round" /></g>
+  </g>
+  <g>
+    <circle cx="1378" cy="420" r="27" fill="#FBE0CA" stroke="#62738A" stroke-width="2.1" />
+    <g style="color:#002060"><use href="#icon-Factory" x="1363.825" y="405.825" width="28.35" height="28.35" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round" /></g>
+  </g>
+  <text x="1318" y="459" class="small-card-copy" text-anchor="middle">typed tool contract → receipt</text>
+  <g>
+    <rect x="1205" y="480" width="226" height="32" rx="16" fill="#A9D18E" />
+    <text x="1318" y="502" class="math-pill" text-anchor="middle">o(t+1) = 𝒯(a(t))</text>
+  </g>
+
+  <rect x="1457" y="298" width="276" height="238" rx="12" fill="rgba(255,255,255,.22)" stroke="#002060" stroke-width="2.2" stroke-dasharray="8 6" />
+  <text x="1595" y="330" class="small-card-title" text-anchor="middle">Verify</text>
+  <g>
+    <circle cx="1535" cy="393" r="34" fill="#E8EDF3" stroke="#62738A" stroke-width="2.1" />
+    <g style="color:#002060"><use href="#icon-ReceiptText" x="1517.15" y="375.15" width="35.7" height="35.7" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round" /></g>
+  </g>
+  <path d="M 1572 393 L 1598 393" class="thin-arrow" />
+  <g>
+    <circle cx="1650" cy="393" r="42" fill="#A9D18E" stroke="#62738A" stroke-width="2.1" />
+    <g style="color:#002060"><use href="#icon-BadgeCheck" x="1628" y="371" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round" /></g>
+  </g>
+  <text x="1595" y="459" class="small-card-copy" text-anchor="middle">predicate • support • side effects</text>
+  <g>
+    <rect x="1470" y="480" width="250" height="32" rx="16" fill="#A9D18E" />
+    <text x="1595" y="502" class="math-pill" text-anchor="middle">v(t+1) = V(o(t+1), g)</text>
+  </g>
+
+  <!-- Recovery block uses a compact trajectory plot plus operational English. -->
+  <rect x="927" y="548" width="806" height="166" rx="12" fill="rgba(255,255,255,.22)" stroke="#002060" stroke-width="2.2" stroke-dasharray="8 6" />
+  <text x="1330" y="579" class="small-card-title" text-anchor="middle">Recovery + Persistent Case</text>
+  <line x1="965" y1="681" x2="1255" y2="681" stroke="#002060" stroke-width="2.3" marker-end="url(#arrow-navy)" />
+  <line x1="965" y1="681" x2="965" y2="603" stroke="#002060" stroke-width="2.3" marker-end="url(#arrow-navy)" />
+  <polyline points="972,672 1030,647 1090,624 1148,648 1205,615 1243,605" fill="none" stroke="#002060" stroke-width="3.4" />
+  <polyline points="1090,624 1148,648 1205,615" fill="none" stroke="#ED7D31" stroke-width="4" />
+  <circle cx="972" cy="672" r="5" fill="#002060" />
+  <circle cx="1090" cy="624" r="5" fill="#002060" />
+  <circle cx="1148" cy="648" r="6" fill="#ED7D31" />
+  <circle cx="1243" cy="605" r="7" fill="#4B8A50" />
+  <text x="1110" y="705" class="scene-caption" text-anchor="middle">episode steps</text>
+  <text x="947" y="635" class="scene-caption" text-anchor="middle" transform="rotate(-90 947 635)">verified progress</text>
+  <g style="color:#002060"><use href="#icon-ScrollText" x="1303" y="597" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></g>
+  <text x="1365" y="615" class="small-card-copy">Retry • replan • stop • escalate</text>
+  <text x="1365" y="640" class="small-card-copy">Record evidence, decisions, receipts, owners</text>
+  <g>
+    <rect x="1320" y="661" width="375" height="32" rx="16" fill="#A9D18E" />
+    <text x="1507.5" y="683" class="math-pill" text-anchor="middle">s(t+1) = U(s(t), o(t+1), v(t+1))</text>
+  </g>
+
+  <!-- Central survey identity band. -->
+  <rect x="52" y="731" width="1696" height="105" rx="0" fill="#E8EDF3" stroke="#002060" stroke-width="3" />
+  <text x="900" y="784" class="band-title" text-anchor="middle">DEPENDABLE LLM CENTERED AGENTIC SYSTEM</text>
+  <text x="900" y="816" class="band-sub" text-anchor="middle">A Systems Survey: From evidence and state to authorized, verified effects</text>
+
+  <!-- Larger illustrated application scenes, not a row of tiny icon tokens. -->
+  <g>
+    <rect x="50" y="846" width="236" height="170" rx="12" fill="#FFFFFF" stroke="#002060" stroke-width="2.1" stroke-dasharray="8 5" />
+    <rect x="58" y="854" width="220" height="112" rx="8" fill="url(#app-fill)" />
+    <g>
+    <rect x="76" y="876" width="78" height="66" rx="7" fill="#DCEAF5" stroke="#62738A" stroke-width="2" />
+    <g style="color:#002060"><use href="#icon-Files" x="93.5" y="885.5" width="43" height="43" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></g>
+    <g style="color:#002060"><use href="#icon-SearchCheck" x="181" y="880" width="60" height="60" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" /></g>
+    <line x1="148" y1="902" x2="170" y2="902" stroke="#002060" stroke-width="2.5" marker-end="url(#arrow-navy)" />
+  </g>
+    <line x1="58" y1="970" x2="278" y2="970" stroke="#62738A" stroke-width="1.4" />
+    <text x="168" y="986" class="app-label" text-anchor="middle">Knowledge</text>
+    <text x="168" y="1007" class="app-label" text-anchor="middle">and research</text>
+  </g>
+  <g>
+    <rect x="292" y="846" width="236" height="170" rx="12" fill="#FFFFFF" stroke="#002060" stroke-width="2.1" stroke-dasharray="8 5" />
+    <rect x="300" y="854" width="220" height="112" rx="8" fill="url(#app-fill)" />
+    <g>
+    <g style="color:#002060"><use href="#icon-MessagesSquare" x="320.5" y="868.5" width="63" height="63" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" /></g>
+    <g style="color:#002060"><use href="#icon-CreditCard" x="425" y="891" width="54" height="54" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" /></g>
+    <path d="M 389 903 L 420 911" class="thin-arrow" />
+  </g>
+    <line x1="300" y1="970" x2="520" y2="970" stroke="#62738A" stroke-width="1.4" />
+    <text x="410" y="986" class="app-label" text-anchor="middle">Support</text>
+    <text x="410" y="1007" class="app-label" text-anchor="middle">and transactions</text>
+  </g>
+  <g>
+    <rect x="534" y="846" width="236" height="170" rx="12" fill="#FFFFFF" stroke="#002060" stroke-width="2.1" stroke-dasharray="8 5" />
+    <rect x="542" y="854" width="220" height="112" rx="8" fill="url(#app-fill)" />
+    <g>
+    <rect x="559" y="873" width="132" height="76" rx="8" fill="#DCEAF5" stroke="#62738A" stroke-width="2" />
+    <circle cx="573" cy="885" r="3.5" fill="#ED7D31" />
+    <circle cx="586" cy="885" r="3.5" fill="#A9D18E" />
+    <g style="color:#002060"><use href="#icon-Code2" x="600" y="891" width="50" height="50" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></g>
+    <g style="color:#002060"><use href="#icon-Bug" x="706.5" y="888.5" width="45" height="45" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></g>
+  </g>
+    <line x1="542" y1="970" x2="762" y2="970" stroke="#62738A" stroke-width="1.4" />
+    <text x="652" y="986" class="app-label" text-anchor="middle">Software</text>
+    <text x="652" y="1007" class="app-label" text-anchor="middle">engineering</text>
+  </g>
+  <g>
+    <rect x="776" y="846" width="236" height="170" rx="12" fill="#FFFFFF" stroke="#002060" stroke-width="2.1" stroke-dasharray="8 5" />
+    <rect x="784" y="854" width="220" height="112" rx="8" fill="url(#app-fill)" />
+    <g>
+    <rect x="801" y="871" width="151" height="79" rx="8" fill="#FFFFFF" stroke="#62738A" stroke-width="2" />
+    <rect x="801" y="871" width="151" height="18" rx="8" fill="#DCEAF5" />
+    <line x1="819" y1="909" x2="898" y2="909" stroke="#62738A" stroke-width="4" />
+    <line x1="819" y1="927" x2="880" y2="927" stroke="#62738A" stroke-width="4" />
+    <g style="color:#002060"><use href="#icon-MousePointer2" x="933.5" y="896.5" width="49" height="49" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></g>
+  </g>
+    <line x1="784" y1="970" x2="1004" y2="970" stroke="#62738A" stroke-width="1.4" />
+    <text x="894" y="986" class="app-label" text-anchor="middle">Computer use</text>
+    <text x="894" y="1007" class="app-label" text-anchor="middle">and automation</text>
+  </g>
+  <g>
+    <rect x="1018" y="846" width="236" height="170" rx="12" fill="#FFFFFF" stroke="#002060" stroke-width="2.1" stroke-dasharray="8 5" />
+    <rect x="1026" y="854" width="220" height="112" rx="8" fill="url(#app-fill)" />
+    <g>
+    <g style="color:#002060"><use href="#icon-Server" x="1052.5" y="879.5" width="63" height="63" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" /></g>
+    <g style="color:#002060"><use href="#icon-ShieldAlert" x="1149.5" y="878.5" width="65" height="65" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" /></g>
+    <path d="M 1121 911 L 1138 911" class="thin-arrow" />
+  </g>
+    <line x1="1026" y1="970" x2="1246" y2="970" stroke="#62738A" stroke-width="1.4" />
+    <text x="1136" y="986" class="app-label" text-anchor="middle">IT operations</text>
+    <text x="1136" y="1007" class="app-label" text-anchor="middle">and security</text>
+  </g>
+  <g>
+    <rect x="1260" y="846" width="236" height="170" rx="12" fill="#FFFFFF" stroke="#002060" stroke-width="2.1" stroke-dasharray="8 5" />
+    <rect x="1268" y="854" width="220" height="112" rx="8" fill="url(#app-fill)" />
+    <g>
+    <g style="color:#002060"><use href="#icon-FlaskConical" x="1290" y="885" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" /></g>
+    <g style="color:#002060"><use href="#icon-Microscope" x="1394" y="874" width="72" height="72" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></g>
+    <circle cx="1372" cy="880" r="7" fill="#ED7D31" opacity=".8" />
+    <circle cx="1392" cy="894" r="5" fill="#A9D18E" />
+  </g>
+    <line x1="1268" y1="970" x2="1488" y2="970" stroke="#62738A" stroke-width="1.4" />
+    <text x="1378" y="986" class="app-label" text-anchor="middle">Scientific</text>
+    <text x="1378" y="1007" class="app-label" text-anchor="middle">discovery</text>
+  </g>
+  <g>
+    <rect x="1502" y="846" width="236" height="170" rx="12" fill="#FFFFFF" stroke="#002060" stroke-width="2.1" stroke-dasharray="8 5" />
+    <rect x="1510" y="854" width="220" height="112" rx="8" fill="url(#app-fill)" />
+    <g>
+    <g style="color:#002060"><use href="#icon-UserRound" x="1532.5" y="881.5" width="61" height="61" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" /></g>
+    <rect x="1624" y="872" width="73" height="79" rx="8" fill="#E8EDF3" stroke="#62738A" stroke-width="2" />
+    <g style="color:#002060"><use href="#icon-Stethoscope" x="1640" y="889" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></g>
+    <g style="color:#4B8A50"><use href="#icon-BadgeCheck" x="1689" y="864" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></g>
+  </g>
+    <line x1="1510" y1="970" x2="1730" y2="970" stroke="#62738A" stroke-width="1.4" />
+    <text x="1620" y="986" class="app-label" text-anchor="middle">Professional</text>
+    <text x="1620" y="1007" class="app-label" text-anchor="middle">support</text>
+  </g>
+</svg>

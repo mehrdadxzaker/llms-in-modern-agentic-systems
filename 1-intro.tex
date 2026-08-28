@@ -43,101 +43,12 @@ Modern agents combine several research lines: classical beliefs, goals, planning
 
 \begin{figure*}[t]
 \centering
-\begin{tikzpicture}[
-  font=\small,
-  line cap=round,
-  line join=round,
-  card/.style={
-    rounded corners=1.5mm,
-    draw=surveyLine,
-    line width=0.65pt,
-    align=left,
-    minimum height=2.05cm,
-    text width=3.25cm,
-    inner xsep=7pt,
-    inner ysep=7pt,
-    text=surveyInk,
-    font=\footnotesize
-  },
-  root/.style={
-    rounded corners=1.7mm,
-    draw=surveyNavy,
-    fill=surveyNavy,
-    text=white,
-    line width=0.75pt,
-    align=center,
-    minimum height=1.10cm,
-    text width=5.35cm,
-    inner sep=6pt,
-    font=\small\bfseries
-  },
-  connector/.style={
-    -{Latex[length=2.0mm,width=1.25mm]},
-    line width=0.75pt,
-    draw=surveyNavy
-  },
-  eyebrow/.style={font=\scriptsize\bfseries,text=surveyNavy,align=left}
-]
-
-\node[font=\scriptsize\bfseries,text=surveyLine] at (0,0.82)
-  {SYSTEMS-LEVEL UNIT OF ANALYSIS};
-\node[root] (umbrella) at (0,0) {LLM-centered agentic systems};
-
-\node[card, fill=surveyBlue!16] (forms) at (-5.7,-2.45) {
-  {\color{surveyNavy}\scriptsize\bfseries 01}\\[-1pt]
-  {\color{surveyNavy}\scriptsize\bfseries EXECUTION FORM}\\[5pt]
-  LLM application \textbullet{} RAG\\
-  workflow\\
-  bounded agent\\
-  multi-agent system
-};
-
-\node[card, fill=surveyGreen!16] (layers) at (-1.9,-2.45) {
-  {\color{surveyNavy}\scriptsize\bfseries 02}\\[-1pt]
-  {\color{surveyNavy}\scriptsize\bfseries FUNCTIONAL LAYER}\\[5pt]
-  Grounding \textbullet{} memory\\
-  planning \textbullet{} action\\
-  coordination\\
-  governance
-};
-
-\node[card, fill=surveyPurple!16] (change) at (1.9,-2.45) {
-  {\color{surveyNavy}\scriptsize\bfseries 03}\\[-1pt]
-  {\color{surveyNavy}\scriptsize\bfseries LOCUS OF\\[-1pt] ADAPTATION}\\[5pt]
-  Context \textbullet{} prompt\\
-  memory \textbullet{} tools\\
-  scaffold\\
-  model parameters
-};
-
-\node[card, fill=surveyOrange!13] (evidence) at (5.7,-2.45) {
-  {\color{surveyNavy}\scriptsize\bfseries 04}\\[-1pt]
-  {\color{surveyNavy}\scriptsize\bfseries EVIDENCE LENS}\\[5pt]
-  Component tests\\
-  episodes \textbullet{} benchmarks\\
-  deployments\\
-  incidents
-};
-
-% Four explicit ports make each dimension a direct child of the umbrella term.
-% The distinct curves preserve hierarchy without a visually ambiguous bus.
-\path (umbrella.south west) -- (umbrella.south east)
-  coordinate[pos=.14] (portforms)
-  coordinate[pos=.38] (portlayers)
-  coordinate[pos=.62] (portchange)
-  coordinate[pos=.86] (portevidence);
-\draw[connector] (portforms) to[out=-112,in=90] (forms.north);
-\draw[connector] (portlayers) to[out=-100,in=90] (layers.north);
-\draw[connector] (portchange) to[out=-80,in=90] (change.north);
-\draw[connector] (portevidence) to[out=-68,in=90] (evidence.north);
-
-\end{tikzpicture}
-
-\caption{Umbrella taxonomy used in this survey. Following the umbrella-first organizing logic used to map self-improving agents by update substrate and evaluation target~\cite{ren2026selfimprovingagents}, we place the broader literature under \emph{LLM-centered agentic systems} and compare work along four independent dimensions. The dimensions avoid treating RAG, workflows, and agents as a single maturity ladder.}
+\includegraphics[width=\textwidth]{figures/systems-overview.png}
+\caption{Systems overview used in this survey. An agentic core transforms grounded state into typed proposals through reasoning, memory, and coordination. An assurance scaffold then constrains permissions, executes typed tool contracts, verifies effects, and records recovery evidence in a persistent case. The same control structure specializes across application domains without treating greater autonomy as a maturity ladder.}
 \label{fig:systems-progression}
 \end{figure*}
 
-These dimensions are compositional rather than chronological. Reliable systems are usually hybrid. A bounded agent may use a deterministic workflow for high-risk steps, a symbolic planner for constrained subproblems, RAG for evidence, and a human approval gate before committing an irreversible action. The appropriate architecture depends on task uncertainty, the cost of errors, environmental dynamics, and the availability of objective verification.
+These components are compositional rather than chronological. Reliable systems are usually hybrid. A bounded agent may use a deterministic workflow for high-risk steps, a symbolic planner for constrained subproblems, RAG for evidence, and a human approval gate before committing an irreversible action. The appropriate architecture depends on task uncertainty, the cost of errors, environmental dynamics, and the availability of objective verification.
 
 \subsection{Positioning relative to related surveys}
 \label{sec:related-surveys}

@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="The project hub for LLMs in Modern Agentic Systems: a 104-page systems survey with an operational taxonomy and a searchable library of 222 cited sources, including 169 direct PDF links.">
+    <meta name="description" content="The project hub for LLMs in Modern Agentic Systems: a 105-page systems survey with an operational taxonomy and a searchable library of 222 cited sources, including 169 direct PDF links.">
+    <meta name="author" content="Mehrdad Zakershahrak, Samira Ghodratnama, Ali Karfarma">
     <meta property="og:title" content="LLMs in Modern Agentic Systems: A Systems Survey">
     <meta property="og:description" content="A systems view of how language models become evidence-aware, bounded, and governable actors in the world.">
     <meta property="og:type" content="website">
@@ -75,6 +76,7 @@
           <section class="hero panel" id="top">
             <p class="eyebrow">2026 comprehensive systems survey</p>
             <h1>LLMs in Modern<br>Agentic Systems</h1>
+            <p class="paper-authors">Mehrdad Zakershahrak · Samira Ghodratnama · Ali Karfarma</p>
             <p class="lede">A systems view of how language models become evidence-aware, bounded, and governable actors in the world.</p>
             <div class="actions">
               <a class="button" href="#library">Browse 222 sources</a>
@@ -104,12 +106,10 @@
               </div>
               <p>What must surround a language model before it can move from producing a response to choosing and verifying actions over time?</p>
             </div>
-            <div class="control-loop" aria-label="Progression from evidence to accountable action">
-              <article><span>01</span><h3>Ground</h3><p>Retrieve scoped evidence and preserve provenance.</p></article>
-              <article><span>02</span><h3>Represent</h3><p>Maintain typed state, constraints, plans, and memory.</p></article>
-              <article><span>03</span><h3>Act</h3><p>Use bounded tools, permissions, budgets, and approvals.</p></article>
-              <article><span>04</span><h3>Verify</h3><p>Check effects, recovery, cost, safety, and accountability.</p></article>
-            </div>
+            <a class="figure-frame overview-figure" href="assets/systems-overview.svg" target="_blank" rel="noopener" aria-label="Open Figure 1, the dependable agentic systems overview, at full size">
+              <img src="assets/systems-overview.png" alt="Figure 1 showing an agentic core and assurance scaffold that turn evidence and state into authorized, verified effects across application domains">
+              <span>Open Figure 1 at full size ↗</span>
+            </a>
             <p class="panel-note"><strong>Practical rule.</strong> Use the least autonomy that solves the task: RAG for attributable evidence, workflows for predictable control, bounded agents for uncertain but verifiable work, and multi-agent systems only when distinct roles create a measurable advantage.</p>
           </section>
 
@@ -288,8 +288,9 @@
               <p>The repository is organized as a companion resource hub, not only as a LaTeX archive.</p>
             </div>
             <div class="materials-grid">
-              <a href="llms-in-modern-agentic-systems.pdf"><span>Paper</span><strong>Full survey PDF</strong><small>104-page current manuscript</small></a>
+              <a href="llms-in-modern-agentic-systems.pdf"><span>Paper</span><strong>Full survey PDF</strong><small>105-page current manuscript</small></a>
               <a href="narrative/"><span>Guide</span><strong>Narrative walkthrough</strong><small>The argument in five acts</small></a>
+              <a href="assets/systems-overview.svg"><span>Figure 1</span><strong>Systems overview</strong><small>Editable vector figure</small></a>
               <a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems/blob/main/LITERATURE.md"><span>Literature</span><strong>Representative index</strong><small>98 works aligned to Figure 2</small></a>
               <a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems"><span>Source</span><strong>LaTeX repository</strong><small>Paper, bibliography, and website</small></a>
               <a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems/blob/main/5-evaluating.tex"><span>Evidence</span><strong>Evaluation map</strong><small>Benchmarks, metrics, and validity</small></a>
@@ -320,14 +321,14 @@
             <div class="section-head compact">
               <div>
                 <p class="section-kicker">Authors</p>
-                <h2>An anonymized review manuscript</h2>
+                <h2>Survey authors</h2>
               </div>
-              <p>The current public manuscript intentionally identifies its authors as Anonymous Author(s). Names, affiliations, contact information, and archival identifiers will be added here when the review process permits disclosure.</p>
+              <p>The manuscript and public project resources use the same author order.</p>
             </div>
-            <div class="author-placeholder">
-              <span aria-hidden="true">A</span>
-              <div><strong>Anonymous Author(s)</strong><p>Current review-version attribution</p></div>
-              <a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems">Project repository ↗</a>
+            <div class="author-grid">
+              <article class="author-card"><span aria-hidden="true">M</span><div><strong>Mehrdad Zakershahrak</strong><p>Author</p></div></article>
+              <article class="author-card"><span aria-hidden="true">S</span><div><strong>Samira Ghodratnama</strong><p>Author</p></div></article>
+              <article class="author-card"><span aria-hidden="true">A</span><div><strong>Ali Karfarma</strong><p>Author</p></div></article>
             </div>
           </section>
 
@@ -335,17 +336,17 @@
             <div class="section-head compact">
               <div>
                 <p class="section-kicker">Citation</p>
-                <h2>Cite the current anonymized manuscript</h2>
+                <h2>Cite the survey</h2>
               </div>
-              <p>Author and archival metadata should be updated when the public preprint is released. The entry below matches the manuscript’s current public state.</p>
+              <p>This entry matches the author order and title in the current manuscript.</p>
             </div>
             <div class="citation-box">
               <button type="button" class="copy-button" data-copy-target="citation-code">Copy BibTeX</button>
-              <pre id="citation-code"><code>@misc{anonymous2026llmsmodernagenticsystems,
+              <pre id="citation-code"><code>@misc{zakershahrak2026llmsmodernagenticsystems,
   title  = {LLMs in Modern Agentic Systems: A Systems Survey},
-  author = {Anonymous Author(s)},
+  author = {Zakershahrak, Mehrdad and Ghodratnama, Samira and Karfarma, Ali},
   year   = {2026},
-  note   = {Anonymized survey manuscript},
+  note   = {Survey manuscript},
   url    = {https://xpounder-com.github.io/llms-in-modern-agentic-systems/}
 }</code></pre>
             </div>

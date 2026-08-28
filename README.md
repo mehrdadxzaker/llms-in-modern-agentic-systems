@@ -2,6 +2,8 @@
 
 **A Systems Survey**
 
+**Mehrdad Zakershahrak · Samira Ghodratnama · Ali Karfarma**
+
 <p align="center">
   <a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems"><img src="docs/assets/github-link-icon.png" width="20" alt="GitHub"> <strong>LLMs in Modern Agentic Systems</strong></a>
   &nbsp;&nbsp;&nbsp;&nbsp;
@@ -34,6 +36,10 @@ The paper uses **LLM-centered agentic systems** as an umbrella term while keepin
 ## Central argument
 
 Fluent generation is not dependable autonomy. Reliable agency is a systems problem: heterogeneous evidence must be transformed into bounded, reviewable, and verifiably completed effects through explicit state, typed data structures, action contracts, permissions, verification, and traceability.
+
+[![Figure 1: dependable LLM centered agentic systems](docs/assets/systems-overview.png)](docs/assets/systems-overview.svg)
+
+**Figure 1.** The agentic core turns grounded state into typed proposals; the assurance scaffold constrains, executes, verifies, and records their effects. Select the figure to open the editable SVG.
 
 The survey develops this argument across six interacting layers:
 
@@ -97,12 +103,13 @@ Figure 2 assigns **98 representative works** to one primary locus. This identifi
 - [`6-applications.tex`](6-applications.tex) — application and deployment evidence
 - [`7-conclusion.tex`](7-conclusion.tex) — open problems and conclusion
 - [`LITERATURE.md`](LITERATURE.md) — 98 representative works aligned to Figure 2
-- [`CITATION.bib`](CITATION.bib) — citation metadata for the current anonymized manuscript
+- [`CITATION.bib`](CITATION.bib) — citation metadata for the current manuscript
+- [`figures/systems-overview.png`](figures/systems-overview.png) and [`figures/systems-overview.svg`](figures/systems-overview.svg) — publication and editable versions of Figure 1
 - [`refs.bib`](refs.bib) and [`expanded-refs.bib`](expanded-refs.bib) — 222 bibliography records
 - [`paper/`](paper/) — current compiled survey PDF
 - [`docs/`](docs/) — deployed GitHub Pages project hub
 
-The checked-in PDF is the current **104-page, Overleaf-verified manuscript**. Temporary LaTeX build products are excluded from the public release workflow.
+The checked-in PDF is the current **105-page, Overleaf-verified manuscript**. Temporary LaTeX build products are excluded from the public release workflow.
 
 ## Contributing
 
@@ -117,18 +124,16 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
 
 ## Citation
 
-The current public manuscript is anonymized. Update the author and archival fields when the public preprint is released.
-
 ```bibtex
-@misc{anonymous2026llmsmodernagenticsystems,
+@misc{zakershahrak2026llmsmodernagenticsystems,
   title  = {LLMs in Modern Agentic Systems: A Systems Survey},
-  author = {Anonymous Author(s)},
+  author = {Zakershahrak, Mehrdad and Ghodratnama, Samira and Karfarma, Ali},
   year   = {2026},
-  note   = {Anonymized survey manuscript},
+  note   = {Survey manuscript},
   url    = {https://xpounder-com.github.io/llms-in-modern-agentic-systems/}
 }
 ```
 
 ## Status
 
-Research cutoff: **July 2026**. Current public artifact: **anonymized 104-page survey manuscript with 222 cited sources**.
+Research cutoff: **July 2026**. Current public artifact: **105-page survey manuscript with 222 cited sources**.
