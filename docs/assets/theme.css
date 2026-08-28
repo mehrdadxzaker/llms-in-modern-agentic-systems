@@ -402,6 +402,7 @@ section.mist { background: var(--canvas); }
 }
 
 .paper-authors { margin: -6px 0 22px; color: var(--navy); font: 800 0.8rem/1.5 var(--sans); letter-spacing: 0.02em; }
+.paper-affiliation { max-width: 760px; margin: -14px 0 22px; color: #5d6d82; font: 650 0.72rem/1.5 var(--sans); }
 
 .survey-main .hero .lede { max-width: 780px; }
 
@@ -933,6 +934,7 @@ section.mist { background: var(--canvas); }
 .author-card > span { display: grid; flex: 0 0 auto; width: 46px; height: 46px; place-items: center; border-radius: 50%; background: var(--navy); color: white; font: 700 1.2rem var(--serif); }
 .author-card strong { display: block; color: var(--navy); line-height: 1.25; }
 .author-card p { margin: 4px 0 0; color: #69768a; font: 0.7rem var(--sans); }
+.author-card a { display: inline-block; margin-top: 7px; overflow-wrap: anywhere; font: 700 0.66rem/1.35 var(--sans); }
 
 .figure-dialog {
   width: min(96vw, 1500px);

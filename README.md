@@ -4,6 +4,8 @@
 
 **Mehrdad Zakershahrak · Samira Ghodratnama · Ali Karfarma**
 
+**Mehrdad Zakershahrak** · Honorary Research Fellow, School of Computing, Macquarie University ([mehrdad.zakershahrak@mq.edu.au](mailto:mehrdad.zakershahrak@mq.edu.au))
+
 <p align="center">
   <a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems"><img src="docs/assets/github-link-icon.png" width="20" alt="GitHub"> <strong>LLMs in Modern Agentic Systems</strong></a>
   &nbsp;&nbsp;&nbsp;&nbsp;
