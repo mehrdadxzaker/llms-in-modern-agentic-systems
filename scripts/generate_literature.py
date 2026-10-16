@@ -291,7 +291,7 @@ def main() -> None:
         "",
         "This index accompanies **LLMs in Modern Agentic Systems: A Systems Survey**. It follows Figure 2 and assigns **98 representative works** to one primary locus. The full survey cites **222 sources**; placement here identifies a work’s principal contribution, not an exclusive category.",
         "",
-        "[Project page](https://xpounder-com.github.io/llms-in-modern-agentic-systems/) · [Paper PDF](https://xpounder-com.github.io/llms-in-modern-agentic-systems/llms-in-modern-agentic-systems.pdf) · [Complete bibliography](refs.bib) · [Additional bibliography](expanded-refs.bib)",
+        "[Project page](https://mehrdadxzaker.github.io/llms-in-modern-agentic-systems/) · [Paper PDF](https://mehrdadxzaker.github.io/llms-in-modern-agentic-systems/llms-in-modern-agentic-systems.pdf) · [Complete bibliography](refs.bib) · [Additional bibliography](expanded-refs.bib)",
         "",
         "## Contents",
         "",
