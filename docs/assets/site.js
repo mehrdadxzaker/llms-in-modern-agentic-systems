@@ -113,7 +113,7 @@ const entryLinks = (entry) => {
     links.push(`<a class="library-link" href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noopener">Paper <span aria-hidden="true">↗</span></a>`);
   }
   if (!links.length) {
-    links.push(`<a class="library-link" href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems/search?q=${encodeURIComponent(entry.key)}" target="_blank" rel="noopener">Bibliography <span aria-hidden="true">↗</span></a>`);
+    links.push(`<a class="library-link" href="https://github.com/mehrdadxzaker/llms-in-modern-agentic-systems/search?q=${encodeURIComponent(entry.key)}" target="_blank" rel="noopener">Bibliography <span aria-hidden="true">↗</span></a>`);
   }
   return links.join('');
 };
@@ -226,7 +226,7 @@ figureDialog?.addEventListener('click', (event) => {
 
 const updateProjectPulse = async () => {
   try {
-    const response = await fetch('https://api.github.com/repos/Xpounder-com/llms-in-modern-agentic-systems', {
+    const response = await fetch('https://api.github.com/repos/mehrdadxzaker/llms-in-modern-agentic-systems', {
       headers: { Accept: 'application/vnd.github+json' },
     });
     if (!response.ok) throw new Error('GitHub project data unavailable');

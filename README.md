@@ -7,22 +7,22 @@
 **Mehrdad Zakershahrak** · Honorary Research Fellow, School of Computing, Macquarie University ([mehrdad.zakershahrak@mq.edu.au](mailto:mehrdad.zakershahrak@mq.edu.au))
 
 <p align="center">
-  <a href="https://github.com/Xpounder-com/llms-in-modern-agentic-systems"><img src="docs/assets/github-link-icon.png" width="20" alt="GitHub"> <strong>LLMs in Modern Agentic Systems</strong></a>
+  <a href="https://github.com/mehrdadxzaker/llms-in-modern-agentic-systems"><img src="docs/assets/github-link-icon.png" width="20" alt="GitHub"> <strong>LLMs in Modern Agentic Systems</strong></a>
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://xpounder-com.github.io/llms-in-modern-agentic-systems/"><img src="docs/assets/project-link-icon.png" width="20" alt="Project page"> <strong>Project Page</strong></a>
+  <a href="https://mehrdadxzaker.github.io/llms-in-modern-agentic-systems/"><img src="docs/assets/project-link-icon.png" width="20" alt="Project page"> <strong>Project Page</strong></a>
 </p>
 
-[![Project page](https://img.shields.io/badge/Project-page-002060)](https://xpounder-com.github.io/llms-in-modern-agentic-systems/)
-[![Paper PDF](https://img.shields.io/badge/Paper-PDF-ed7d31)](https://xpounder-com.github.io/llms-in-modern-agentic-systems/llms-in-modern-agentic-systems.pdf)
+[![Project page](https://img.shields.io/badge/Project-page-002060)](https://mehrdadxzaker.github.io/llms-in-modern-agentic-systems/)
+[![Paper PDF](https://img.shields.io/badge/Paper-PDF-ed7d31)](https://mehrdadxzaker.github.io/llms-in-modern-agentic-systems/llms-in-modern-agentic-systems.pdf)
 [![Cited sources](https://img.shields.io/badge/Cited_sources-222-55718f)](#literature-atlas)
 [![Literature atlas](https://img.shields.io/badge/Literature_atlas-98_works-6b5b95)](LITERATURE.md)
-[![Pages deployment](https://github.com/Xpounder-com/llms-in-modern-agentic-systems/actions/workflows/pages.yml/badge.svg)](https://github.com/Xpounder-com/llms-in-modern-agentic-systems/actions/workflows/pages.yml)
+[![Pages deployment](https://github.com/mehrdadxzaker/llms-in-modern-agentic-systems/actions/workflows/pages.yml/badge.svg)](https://github.com/mehrdadxzaker/llms-in-modern-agentic-systems/actions/workflows/pages.yml)
 
 This repository accompanies **LLMs in Modern Agentic Systems: A Systems Survey**, a comprehensive account of how language models become components of systems that retrieve evidence, maintain state, invoke tools, coordinate specialized components, and act over extended horizons.
 
 The paper uses **LLM-centered agentic systems** as an umbrella term while keeping five operational forms distinct: LLM applications, retrieval-augmented generation, developer-authored workflows, bounded agents, and multi-agent systems.
 
-[Read the paper](https://xpounder-com.github.io/llms-in-modern-agentic-systems/llms-in-modern-agentic-systems.pdf) · [Narrative guide](https://xpounder-com.github.io/llms-in-modern-agentic-systems/narrative/) · [Literature index](LITERATURE.md)
+[Read the paper](https://mehrdadxzaker.github.io/llms-in-modern-agentic-systems/llms-in-modern-agentic-systems.pdf) · [Narrative guide](https://mehrdadxzaker.github.io/llms-in-modern-agentic-systems/narrative/) · [Literature index](LITERATURE.md)
 
 ## Contents
 
@@ -86,7 +86,7 @@ Figure 2 assigns **98 representative works** to one primary locus. This identifi
 
 | Reader | Suggested route |
 | --- | --- |
-| **Five-minute orientation** | Follow the [narrative guide](https://xpounder-com.github.io/llms-in-modern-agentic-systems/narrative/) from system boundary to accountable action |
+| **Five-minute orientation** | Follow the [narrative guide](https://mehrdadxzaker.github.io/llms-in-modern-agentic-systems/narrative/) from system boundary to accountable action |
 | **System builder** | Start with [architectures, state, planning, tools, and interoperability](4-architecture.tex) |
 | **RAG researcher** | Start with [retrieval, evidence control, and the transition to agentic retrieval](2-rag.tex) |
 | **Evaluator or reviewer** | Start with [metrics, benchmarks, protocols, and validity](5-evaluating.tex) |
@@ -132,10 +132,12 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
   author = {Zakershahrak, Mehrdad and Ghodratnama, Samira and Karfarma, Mohammadali},
   year   = {2026},
   note   = {Survey manuscript},
-  url    = {https://xpounder-com.github.io/llms-in-modern-agentic-systems/}
+  url    = {https://mehrdadxzaker.github.io/llms-in-modern-agentic-systems/}
 }
 ```
 
 ## Status
 
 Research cutoff: **July 2026**. Current public artifact: **105-page survey manuscript with 222 cited sources**.
+
+Planned GitHub ownership change: see [transfer preparation](docs/PERSONAL_TRANSFER.md).

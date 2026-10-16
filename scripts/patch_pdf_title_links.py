@@ -9,8 +9,8 @@ from pathlib import Path
 import fitz
 
 
-GITHUB_URL = "https://github.com/Xpounder-com/llms-in-modern-agentic-systems"
-PROJECT_URL = "https://xpounder-com.github.io/llms-in-modern-agentic-systems/"
+GITHUB_URL = "https://github.com/mehrdadxzaker/llms-in-modern-agentic-systems"
+PROJECT_URL = "https://mehrdadxzaker.github.io/llms-in-modern-agentic-systems/"
 
 # PyMuPDF coordinates use a top-left origin. This band contains only the
 # title-page links in both the pdfLaTeX base and the verified LuaLaTeX proof.
