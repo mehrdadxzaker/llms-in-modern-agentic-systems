@@ -24,6 +24,8 @@ The paper uses **LLM-centered agentic systems** as an umbrella term while keepin
 
 [Read the paper](https://mehrdadxzaker.github.io/llms-in-modern-agentic-systems/llms-in-modern-agentic-systems.pdf) · [Narrative guide](https://mehrdadxzaker.github.io/llms-in-modern-agentic-systems/narrative/) · [Literature index](LITERATURE.md)
 
+Paper records: [LLMs in Modern Agentic Systems: A Systems Survey](https://mehrdadxzaker.github.io/llms-in-modern-agentic-systems/survey/) · [Can Structured State Unify Agentic Execution?](https://mehrdadxzaker.github.io/llms-in-modern-agentic-systems/structured-state/).
+
 ## Contents
 
 - [Central argument](#central-argument)
@@ -111,7 +113,7 @@ Figure 2 assigns **98 representative works** to one primary locus. This identifi
 - [`paper/`](paper/) — current compiled survey PDF
 - [`docs/`](docs/) — deployed GitHub Pages project hub
 
-The checked-in PDF is the current **105-page compiled manuscript**; the same source, author block, and Figure 1 have also been verified in Overleaf. Temporary LaTeX build products are excluded from the public release workflow.
+The checked-in survey PDF is the **104-page manuscript exported from Overleaf on October 29, 2026**. The paper records provide full abstracts and citation metadata for the survey and the related structured-state preprint. Temporary LaTeX build products are excluded from the public release workflow.
 
 ## Contributing
 
@@ -138,6 +140,6 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
 
 ## Status
 
-Research cutoff: **July 2026**. Current public artifact: **105-page survey manuscript with 222 cited sources**.
+Research cutoff: **July 2026**. Current public artifact: **104-page survey manuscript with 222 cited sources**.
 
 Planned GitHub ownership change: see [transfer preparation](docs/PERSONAL_TRANSFER.md).

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Can Structured State Unify Agentic Execution?</title>
+    <meta name="description" content="Research preprint by Mehrdad Zakershahrak, Samira Ghodratnama, and Mohammadali Karfarma on typed execution cases and structural operations for agentic systems.">
+    <meta name="citation_title" content="Can Structured State Unify Agentic Execution?">
+    <meta name="citation_author" content="Mehrdad Zakershahrak">
+    <meta name="citation_author" content="Samira Ghodratnama">
+    <meta name="citation_author" content="Mohammadali Karfarma">
+    <meta name="citation_publication_date" content="2026">
+    <meta name="citation_pdf_url" content="https://mehrdadxzaker.github.io/llms-in-modern-agentic-systems/structured-state/can-structured-state-unify-agentic-execution.pdf">
+    <link rel="canonical" href="https://mehrdadxzaker.github.io/llms-in-modern-agentic-systems/structured-state/">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <style>
+      :root { color-scheme: light; font-family: Georgia, "Times New Roman", serif; color: #20252d; background: #fff; }
+      body { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; line-height: 1.6; }
+      nav, .authors, .date, .paper-link { font-family: system-ui, sans-serif; }
+      nav { font-size: .9rem; margin-bottom: 2rem; }
+      h1 { font-size: clamp(1.8rem, 4vw, 2.7rem); line-height: 1.18; margin: 0 0 1rem; }
+      h2 { font-size: 1.35rem; margin-top: 2rem; }
+      .authors { font-size: 1rem; margin-bottom: .5rem; }
+      .date { color: #4d535d; font-size: .95rem; }
+      a { color: #293c6c; text-underline-offset: .18em; }
+      .paper-link { display: inline-block; padding: .65rem 1rem; border: 1px solid #293c6c; border-radius: .25rem; margin: .4rem 0; }
+      footer { border-top: 1px solid #dadde1; margin-top: 2.5rem; padding-top: 1rem; }
+    </style>
+  </head>
+  <body>
+    <nav aria-label="Related research"><a href="../">LLMs in Modern Agentic Systems: A Systems Survey</a></nav>
+    <main>
+      <header>
+        <h1>Can Structured State Unify Agentic Execution?</h1>
+        <p class="authors">Mehrdad Zakershahrak, Samira Ghodratnama, Mohammadali Karfarma</p>
+        <p class="date"><time datetime="2026-09">September 2026</time> · Research preprint · 36 pages</p>
+        <a class="paper-link" href="can-structured-state-unify-agentic-execution.pdf">Read the full paper (PDF)</a>
+      </header>
+      <section aria-labelledby="abstract">
+        <h2 id="abstract">Abstract</h2>
+        <p>Context management, coordination, recovery, and verification are often treated as separate problems in agentic systems, although each depends on goals, evidence, authority, effects, and unresolved work. We ask whether a common representation of these distinctions can unify agentic execution. We introduce the <em>typed execution case</em>, a persistent, versioned state model with explicit execution relationships, and characterize nineteen structural operation families over it. A common contract framework distinguishes information preservation from authorized state change and yields conditional properties for dependency-closed views, authority non-amplification, and composition. An executable reference model provides 55 passing contract tests, including 6 composed scenarios. A controlled study spanning all nineteen families and seven operation pairs records 3,168 executions satisfying their specified outcome checks. In stress workloads, compaction, projection, and retrieval reduce delivered context by 86.3%, 88.0%, and 77.7%, respectively; caching reduces compute calls by 72.5%, and selective invalidation and merge reduce their respective computation and worker calls by 45.0%. Authorization and completion checks retain correct decisions in all tested cases. Gains vary by workload, and some operations incur additional cost. A separate storage study recovers correctly across 192 trials, including 144 abrupt interruptions. These results establish benefits of individual operations and preservation properties within the tested implementations. A pilot using a model on four tasks yields no fully successful tasks in either arm, leaving improvements in completion by interactive agents and advantages over matched alternative state representations open. The framework thus provides a common, executable basis for studying both the benefits and the limits of structural operations.</p>
+      </section>
+      <section aria-labelledby="citation">
+        <h2 id="citation">Citation</h2>
+        <p>Mehrdad Zakershahrak, Samira Ghodratnama, and Mohammadali Karfarma. 2026. <cite>Can Structured State Unify Agentic Execution?</cite> Research preprint.</p>
+      </section>
+    </main>
+    <footer><p>Related work: <a href="../">LLMs in Modern Agentic Systems: A Systems Survey</a>.</p></footer>
+  </body>
+</html>

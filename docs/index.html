@@ -3,8 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="The project hub for LLMs in Modern Agentic Systems: a 105-page systems survey with an operational taxonomy and a searchable library of 222 cited sources, including 169 direct PDF links.">
+    <meta name="description" content="The project hub for LLMs in Modern Agentic Systems: a 104-page systems survey with an operational taxonomy and a searchable library of 222 cited sources, including 169 direct PDF links.">
     <meta name="author" content="Mehrdad Zakershahrak, Samira Ghodratnama, Mohammadali Karfarma">
+    <meta name="citation_title" content="LLMs in Modern Agentic Systems: A Systems Survey">
+    <meta name="citation_author" content="Mehrdad Zakershahrak">
+    <meta name="citation_author" content="Samira Ghodratnama">
+    <meta name="citation_author" content="Mohammadali Karfarma">
+    <meta name="citation_publication_date" content="2026">
+    <meta name="citation_pdf_url" content="https://mehrdadxzaker.github.io/llms-in-modern-agentic-systems/llms-in-modern-agentic-systems.pdf">
     <meta property="og:title" content="LLMs in Modern Agentic Systems: A Systems Survey">
     <meta property="og:description" content="A systems view of how language models become evidence-aware, bounded, and governable actors in the world.">
     <meta property="og:type" content="website">
@@ -66,9 +72,11 @@
           <section class="sidebar-card project-links">
             <p class="section-kicker">Project links</p>
             <a href="llms-in-modern-agentic-systems.pdf"><span>Paper PDF</span><span aria-hidden="true">↗</span></a>
+            <a href="survey/"><span>Survey paper record</span><span aria-hidden="true">→</span></a>
             <a href="#library"><span>Paper library</span><span aria-hidden="true">↓</span></a>
             <a href="https://github.com/mehrdadxzaker/llms-in-modern-agentic-systems"><span>GitHub repository</span><span aria-hidden="true">↗</span></a>
             <a href="narrative/"><span>Narrative guide</span><span aria-hidden="true">→</span></a>
+            <a href="structured-state/"><span>Structured-state paper</span><span aria-hidden="true">→</span></a>
           </section>
         </aside>
 
@@ -95,8 +103,9 @@
             <p class="section-kicker">Abstract</p>
             <h2>From model output to accountable action</h2>
             <p>Large language models are increasingly embedded in systems that retrieve evidence, maintain state, invoke tools, coordinate specialized components, and act over extended horizons. We use <em>LLM-centered agentic systems</em> as the umbrella term for this systems family while distinguishing fixed language model applications and retrieval pipelines from workflows, bounded agents, and multi-agent systems by adaptive control, persistent state, and action authority.</p>
-            <p>Our central argument is that dependable agency is a representation and transition-control problem as much as a model-capability problem: heterogeneous evidence must be transformed into bounded, reviewable, and verifiably completed effects through explicit, typed, persistent data structures. The survey develops that argument across six interacting layers: grounding and perception; memory and state; reasoning and planning; action and tool interfaces; coordination and interoperability; and safety, governance, and observability.</p>
-            <p>Across this literature, retrieved content is not automatically admissible evidence, model output is not authorization, a successful tool response is not proof of the intended effect, and a benchmark score is not a transferable guarantee about an unrecorded system. Reliable agency instead requires a persistent case linking evidence, state, proposals, permissions, execution receipts, verified effects, resources, and responsibility.</p>
+            <p>Our central argument is that dependable agency is a representation and transition control problem as much as a model capability problem: heterogeneous evidence must be transformed into bounded, reviewable, and verifiably completed effects through explicit, typed, persistent data structures. This comprehensive survey develops that argument through July 2026 across six interacting layers: grounding and perception; memory and state; reasoning and planning; action and tool interfaces; coordination and interoperability; and safety, governance, and observability.</p>
+            <p>We connect classical agent foundations to work on agentic retrieval, memory, tool use learning, graph-based orchestration, self-improvement, multi-agent coordination, interoperability protocols, and long-horizon reinforcement learning. Comparative tables and evidence maps distinguish what component a method changes, what feedback it consumes, what authority it receives, and what its evaluation can actually establish. We synthesize benchmarks and deployment evidence across verified outcome quality, trajectory efficiency, recovery, memory-mediated action, cost, side effects, and human accountability.</p>
+            <p>Across this literature, retrieved content is not automatically admissible evidence, model output is not authorization, a successful tool response is not proof of the intended effect, and a benchmark score is not a transferable guarantee about an unrecorded system. Reliable agency instead requires a persistent case that links evidence, state, proposals, permissions, execution receipts, verified effects, resources, and responsibility. We conclude with lifecycle invariants and a research agenda for grounded, governable, interoperable, and resource-bounded agency.</p>
           </section>
 
           <section class="panel" id="overview">
@@ -289,7 +298,7 @@
               <p>The repository is organized as a companion resource hub, not only as a LaTeX archive.</p>
             </div>
             <div class="materials-grid">
-              <a href="llms-in-modern-agentic-systems.pdf"><span>Paper</span><strong>Full survey PDF</strong><small>105-page current manuscript</small></a>
+              <a href="llms-in-modern-agentic-systems.pdf"><span>Paper</span><strong>Full survey PDF</strong><small>104-page current manuscript</small></a>
               <a href="narrative/"><span>Guide</span><strong>Narrative walkthrough</strong><small>The argument in five acts</small></a>
               <a href="assets/systems-overview.svg"><span>Figure 1</span><strong>Systems overview</strong><small>Editable vector figure</small></a>
               <a href="https://github.com/mehrdadxzaker/llms-in-modern-agentic-systems/blob/main/LITERATURE.md"><span>Literature</span><strong>Representative index</strong><small>98 works aligned to Figure 2</small></a>
